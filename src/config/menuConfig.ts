@@ -110,6 +110,19 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/cameraView/CameraLimit.vue"),
             },
         ]
+    },
+    {
+        label: "数据可视化",
+        name: "dataVisualization",
+        components: [
+            {
+                label: "蜂巢图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "beehiveData",
+                component: () => import("@/components/example/dataVisualization/BeehiveData.vue"),
+            },
+        ]
     }
 ];
 

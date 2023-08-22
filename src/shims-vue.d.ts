@@ -4,3 +4,6 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+// mapv图层
+declare module "@/secdev/dataVisualization/lib/mapv/MapVLayer.js"
