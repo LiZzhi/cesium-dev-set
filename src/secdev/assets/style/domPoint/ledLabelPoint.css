@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: "LED";
+    src: url("@/secdev/assets/font/ledLabelPoint/LED.woff2") format("woff2"), url("@/secdev/assets/font/ledLabelPoint/LED.woff") format("woff"),
+        url("@/secdev/assets/font/ledLabelPoint/LED.ttf") format("truetype"),
+        url("@/secdev/assets/font/ledLabelPoint/LED.eot") format("embedded-opentype"), url("@/secdev/assets/font/ledLabelPoint/LED.svg") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.led-label-point-container {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    pointer-events: none;
+    cursor: pointer;
+    display: block;
+    user-select:none;
+}
+
+.label-led-container {
+    position: relative;
+    left: 0px;
+    bottom: 0px;
+    text-align: center;
+    font-family: "LED";
+    font-size: 24px;
+    font-weight: 100;
+    white-space: nowrap;
+    margin: 0px;
+    pointer-events: none;
+    background-image: -webkit-linear-gradient(bottom, red, #fd8403, yellow);
+    /* background-image: -webkit-linear-gradient(bottom, yellow, #ffeb3b, #fdfdfc); */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

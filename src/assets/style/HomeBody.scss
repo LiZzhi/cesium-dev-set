@@ -1,0 +1,14 @@
+.container-body-side {
+    position: relative;
+    width: 10%;
+    height: 100%;
+    color: var(--el-text-color-primary);
+    background: var(--el-color-primary-light-8);
+}
+.container-body-main {
+    position: relative;
+    width: 90%;
+    height: 100%;
+    padding: 0;
+    background-color: rgb(242, 242, 242);
+}

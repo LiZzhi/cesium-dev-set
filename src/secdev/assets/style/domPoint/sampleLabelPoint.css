@@ -1,0 +1,79 @@
+.sample-label-point-container{
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    display: block;
+    user-select:none;
+}
+.sample-label-point{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-size: 100% 100%;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-5px) translateY(5px);
+    cursor: pointer;
+}
+
+.sample-label-board{
+    position: relative;
+    width: 250px;
+    height: 150px;
+    left: 0;
+    bottom: 0;
+}
+
+.sample-label-board-container{
+    position: relative;
+    width: 91%;
+    height: 80%;
+    left: 9%;
+    top: 0;
+    background: linear-gradient(0deg, #1e202a 0%, #0d1013 100%);
+    border: 1px solid #14171c;
+    opacity: 0.96;
+    box-shadow: 0px 2px 21px 0px rgba(33, 34, 39, 0.55);
+    box-sizing: border-box;
+}
+
+.sample-label-board-text {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    text-align: center;
+    padding: 1px;
+    font-size: 14px;
+    font-family: 'MicrosoftYaHei';
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 33px;
+    border: 1px solid #ffffff4f;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.sample-label-board-line {
+    position: relative;
+    width: 100%;
+    height: 20%;
+    bottom: 0;
+    left: 0;
+    background-size: 100% 100%;
+}
+
+.sample-label-board-closeBtn{
+    position: absolute;
+    right: 0;
+    padding: 0 5px;
+    text-align: center;
+    color: white;
+    background-color: rgba(122, 123, 124, 0.7);
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.sample-label-board-closeBtn:hover{
+    background: coral;
+}

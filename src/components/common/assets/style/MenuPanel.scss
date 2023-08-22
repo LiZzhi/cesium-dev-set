@@ -1,0 +1,42 @@
+.menu-panel {
+    box-shadow: 0 1px 1px rgba(97, 108, 121, 0.1),
+        0 7px 18px 0 rgba(97, 108, 121, 0.13);
+    background-color: white;
+    margin-bottom: 20px;
+    border-radius: 2px;
+    .panel-main {
+        padding: 0px;
+        cursor: pointer;
+        .cover-img {
+            position: relative;
+            border-radius: 2px 2px 0 0;
+            background-size: 100% 100%;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .panel-fotter {
+        height: 60%;
+        padding: 0;
+        border-top: 2px #dcdfe6 solid;
+        .caption {
+            border-radius: 0 0 2px 2px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            .caption-label {
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+        }
+    }
+}
+.menu-panel:hover {
+    box-shadow: 0 1px 1px rgba(97, 108, 121, 0.1),
+        0 7px 18px 0 rgba(21, 111, 170, 0.21);
+}
