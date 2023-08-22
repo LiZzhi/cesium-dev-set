@@ -82,6 +82,13 @@ const menu:menuConfigType[] = [
                 route: "drawShape",
                 component: () => import("@/components/example/specialEffectPlot/DrawShape.vue"),
             },
+            {
+                label: "聚合标绘",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "primitiveCluster",
+                component: () => import("@/components/example/specialEffectPlot/PrimitiveCluster.vue"),
+            },
         ],
     },
     {
