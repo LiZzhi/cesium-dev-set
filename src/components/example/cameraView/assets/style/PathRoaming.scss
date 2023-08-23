@@ -1,7 +1,7 @@
 .roam-panel{
     position: relative;
     width: 100%;
-    padding: 5% 0;
+    padding-top: 5%;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -30,7 +30,7 @@
             flex:0.6;
         }
     }
-    .roam-btn-group{
+    ::v-deep .roam-btn-group{
         position: relative;
         display: flex;
         width: 100%;
@@ -39,17 +39,19 @@
         .fir-row{
             position: relative;
             display: flex;
+            justify-content: space-between;
             width: 100%;
-            button{
+            .comm-button{
                 width: calc(50% - 5px);
             }
         }
         .sec-row{
             position: relative;
             display: flex;
+            justify-content: space-between;
             width: 100%;
-            button{
-                width: calc(25% - 8.5px);
+            .comm-button{
+                width: calc(25% - 3px);
             }
         }
     }

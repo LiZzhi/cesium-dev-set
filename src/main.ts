@@ -6,6 +6,7 @@ import { createPinia } from "pinia";
 // 模板组件
 import CommPanel from "@/components/common/CommPanel.vue";
 import CommButton from "@/components/common/CommButton.vue";
+import CommInput from "@/components/common/CommInput.vue";
 
 // element
 import ElementPlus from "element-plus";
@@ -30,6 +31,7 @@ app.use(createPinia());
 
 app.component("CommPanel", CommPanel); // 样式模板
 app.component("CommButton", CommButton); // 按钮模板
+app.component("CommInput", CommInput); // 输入框模板
 
 app.use(ElementPlus);
 

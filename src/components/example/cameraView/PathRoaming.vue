@@ -3,8 +3,9 @@
     <CommPanel
         title="路径漫游"
         :style="{
-            width: '19%',
-            left: '10%',
+            width: '15%',
+            left: '2%',
+            top: '8%',
         }"
     >
         <div class="roam-panel">
@@ -21,7 +22,7 @@
                 <span style="color: white" class="height-label"
                     >离地高度：</span
                 >
-                <el-input
+                <CommInput
                     v-model.number="height"
                     placeholder="请输入离地高度"
                     clearable
@@ -29,18 +30,18 @@
             </div>
             <div class="roam-btn-group">
                 <div class="fir-row">
-                    <el-button @click="start(viewEnum.TPP, roamingModel)"
-                        >开始(视角1)</el-button
+                    <CommButton @click="start(viewEnum.TPP, roamingModel)"
+                        >开始(视角1)</CommButton
                     >
-                    <el-button @click="start(viewEnum.FPP, roamingModel)"
-                        >开始(视角2)</el-button
+                    <CommButton @click="start(viewEnum.FPP, roamingModel)"
+                        >开始(视角2)</CommButton
                     >
                 </div>
                 <div class="sec-row">
-                    <el-button @click="changeSpeed(1)">加速</el-button>
-                    <el-button @click="changeSpeed(-1)">减速</el-button>
-                    <el-button @click="stop">暂停</el-button>
-                    <el-button @click="destroy">销毁</el-button>
+                    <CommButton @click="changeSpeed(1)">加速</CommButton>
+                    <CommButton @click="changeSpeed(-1)">减速</CommButton>
+                    <CommButton @click="stop">暂停</CommButton>
+                    <CommButton @click="destroy">销毁</CommButton>
                 </div>
             </div>
         </div>

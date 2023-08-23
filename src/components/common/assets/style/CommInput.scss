@@ -1,0 +1,31 @@
+.comm-input-box {
+    box-sizing: border-box;
+    border: 1px solid #3b618f;
+    border-radius: 4px;
+    padding: 1px 3px;
+    background-color: rgba(18, 28, 41, 0.6);
+    height: 32px;
+    width: 100%;
+    // background-image: url("@/components/common/assets/img/commButton/background.png");
+    // background-size: 100% 100%;
+    .comm-input {
+        position: relative;
+        font-weight: 500;
+        color: white;
+        background-color: rgba(18, 28, 41, 0.6);
+        outline: none;
+        border: none;
+        width: calc(100% - 6px);
+        height: calc(100% - 2px);
+    }
+    .comm-input::placeholder{
+        color: #a8abb2;
+    }
+    .comm-input:focus {
+        outline: none;
+        border: none;
+    }
+}
+.comm-input-focus {
+    border-color: linear-gradient(#47E0FF, #48FFFF00);
+}
