@@ -1,0 +1,21 @@
+.comm-button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid #3b618f;
+    border-radius: 4px;
+    padding: 8px 15px;
+    background-color: rgba(18, 28, 41, 0.6);
+    // background-image: url("@/components/common/assets/img/commButton/background.png");
+    // background-size: 100% 100%;
+    .comm-button-context {
+        position: relative;
+        font-weight: 500;
+        color: white;
+    }
+}
+.comm-button:hover {
+    background: linear-gradient(#04090CB0, #1190D0C2);
+}

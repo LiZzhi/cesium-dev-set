@@ -1,4 +1,4 @@
-import { viewerConfig, initViewConfig, cesiumToken } from "@/config/earthConfig";
+import { viewerConfig, initViewConfig } from "@/config/earthConfig";
 import { Viewer } from "cesium";
 
 /**
