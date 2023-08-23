@@ -1,4 +1,4 @@
-const mapv = require("../mapvAPI/mapv.js");
+const mapv = require("../lib/mapv/mapv.js");
 
 export default function heatMapData() {
     let randomCount = 1000;

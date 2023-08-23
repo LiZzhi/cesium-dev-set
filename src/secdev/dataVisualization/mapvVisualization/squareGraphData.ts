@@ -1,4 +1,4 @@
-const mapv = require("../mapvAPI/mapv.js");
+const mapv = require("../lib/mapv/mapv.js");
 
 export default function squareGraphData() {
     // 构造数据

@@ -122,6 +122,41 @@ const menu:menuConfigType[] = [
                 route: "beehiveData",
                 component: () => import("@/components/example/dataVisualization/BeehiveData.vue"),
             },
+            {
+                label: "方格图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "squareGraphData",
+                component: () => import("@/components/example/dataVisualization/SquareGraphData.vue"),
+            },
+            {
+                label: "迁徙图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "migrateData",
+                component: () => import("@/components/example/dataVisualization/MigrateData.vue"),
+            },
+            {
+                label: "大迁徙图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "bigMigrateData",
+                component: () => import("@/components/example/dataVisualization/BigMigrateData.vue"),
+            },
+            {
+                label: "热力图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "heatMapData",
+                component: () => import("@/components/example/dataVisualization/HeatMapData.vue"),
+            },
+            {
+                label: "强力边界图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "strongBoundaryData",
+                component: () => import("@/components/example/dataVisualization/StrongBoundaryData.vue"),
+            },
         ]
     }
 ];

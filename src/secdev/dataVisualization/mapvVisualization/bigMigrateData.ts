@@ -1,4 +1,4 @@
-const mapv = require("../mapvAPI/mapv.js");
+const mapv = require("../lib/mapv/mapv.js");
 
 // let timeData = []
 
@@ -27,7 +27,7 @@ export default function bigMigrateData() {
                     let cityCenter2 = mapv.utilCityCenter.getCenterByCityName(cityBegin!.replace(/市|省/, ''));
                     if (cityCenter1) {
                         if (Math.random() > 0.7) {
-                            curive(cityCenter2, cityCenter1, 50);
+                            curive(cityCenter2, cityCenter1, 50, timeData);
                         }
                         data.push({
                             geometry: {
@@ -85,8 +85,7 @@ type degreesType = {
     lat: number;
 }
 
-function curive(fromPoint: degreesType, endPoint: degreesType, n: number) {
-    let timeData = []
+function curive(fromPoint: degreesType, endPoint: degreesType, n: number, timeData: any[]) {
     let delLng = (endPoint.lng - fromPoint.lng) / n;
     let delLat = (endPoint.lat - fromPoint.lat) / n;
 
