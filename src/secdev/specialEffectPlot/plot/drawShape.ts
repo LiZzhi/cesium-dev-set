@@ -62,8 +62,10 @@ export default class drawShape {
                     id: "point-" + uuid(),
                     position: position,
                     point: {
-                        color: Cesium.Color.BLUE,
-                        pixelSize: 8,
+                        color: Cesium.Color.fromCssColorString('rgb(0,67,72)'),
+                        pixelSize: 6,
+                        outlineWidth: 3,
+                        outlineColor: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
                         heightReference:
                             Cesium.HeightReference.CLAMP_TO_GROUND ,
                         disableDepthTestDistance: Number.POSITIVE_INFINITY,
@@ -103,7 +105,10 @@ export default class drawShape {
                             positions: new Cesium.CallbackProperty(() => {
                                 return this.#pointNodePosiArr;
                             }, false),
-                            width: 5,
+                            width: 3,
+                            material: new Cesium.PolylineDashMaterialProperty({
+                                color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
+                            }),
                             clampToGround: true,
                             arcType: Cesium.ArcType.RHUMB,
                         },
@@ -135,7 +140,8 @@ export default class drawShape {
                 id: "ployline-" + uuid(),
                 polyline: {
                     positions: p,
-                    width: 5,
+                    width: 3,
+                    material: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
                     clampToGround: true,
                     arcType: Cesium.ArcType.RHUMB,
                 },
@@ -171,9 +177,11 @@ export default class drawShape {
                             positions: new Cesium.CallbackProperty(() => {
                                 return this.#pointNodePosiArr;
                             }, false),
-                            width: 2,
+                            width: 3,
+                            material: new Cesium.PolylineDashMaterialProperty({
+                                color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
+                            }),
                             clampToGround: true,
-                            material: Cesium.Color.YELLOW,
                             arcType: Cesium.ArcType.RHUMB,
                         },
                         polygon: {
@@ -220,9 +228,9 @@ export default class drawShape {
                 id: "ployline-" + uuid(),
                 polyline: {
                     positions: polylineP,
-                    width: 2,
+                    width: 3,
+                    material: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
                     clampToGround: true,
-                    material: Cesium.Color.YELLOW,
                     arcType: Cesium.ArcType.RHUMB,
                 },
                 polygon: {
@@ -300,7 +308,9 @@ export default class drawShape {
                                 return distance;
                             }, false),
                             fill: true,
-                            material: Cesium.Color.YELLOW.withAlpha(0.5),
+                            material: new Cesium.ColorMaterialProperty(
+                                Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
+                            ),
                             heightReference:
                                 Cesium.HeightReference.CLAMP_TO_GROUND ,
                         },
@@ -319,7 +329,9 @@ export default class drawShape {
                         semiMinorAxis: distance,
                         semiMajorAxis: distance,
                         fill: true,
-                        material: Cesium.Color.YELLOW.withAlpha(0.5),
+                        material: new Cesium.ColorMaterialProperty(
+                            Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
+                        ),
                         heightReference:
                             Cesium.HeightReference.CLAMP_TO_GROUND ,
                     },
@@ -369,9 +381,11 @@ export default class drawShape {
                                         this.#pointNodePosiArr[0]
                                     );
                             }, false),
-                            width: 2,
+                            width: 3,
+                            material: new Cesium.PolylineDashMaterialProperty({
+                                color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
+                            }),
                             clampToGround: true,
-                            material: Cesium.Color.YELLOW,
                             arcType: Cesium.ArcType.RHUMB,
                         },
                         polygon: {
@@ -427,9 +441,9 @@ export default class drawShape {
                         id: "rectangle-" + uuid(),
                         polyline: {
                             positions: polylineP,
-                            width: 2,
+                            width: 3,
+                            material: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
                             clampToGround: true,
-                            material: Cesium.Color.YELLOW,
                             arcType: Cesium.ArcType.RHUMB,
                         },
                         polygon: {
@@ -554,8 +568,10 @@ export default class drawShape {
         let pointEntity = this.#drawShapeSource.entities.add({
             position: position,
             point: {
-                color: Cesium.Color.RED,
-                pixelSize: 8,
+                color: Cesium.Color.fromCssColorString('rgb(0,67,72)'),
+                pixelSize: 6,
+                outlineWidth: 3,
+                outlineColor: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
                 heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                 disableDepthTestDistance: Number.POSITIVE_INFINITY,
             },
