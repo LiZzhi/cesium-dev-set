@@ -1,46 +1,59 @@
 <template>
-    <div ref="$comm-input-box" class="comm-input-box" :class="props.class">
+    <div class="comm-input-box" :class="props.class">
         <input
             v-model="value"
             :placeholder="props.placeholder"
             type="text"
             class="comm-input"
-            @focus="onFocus"
-            @blur="onBlue"
         />
+        <span
+            v-if="props.clearable"
+            class="comm-input-clear"
+            @click="clearInput"
+        ></span>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, getCurrentInstance } from "vue";
+import { computed, ref, Ref } from "vue";
 
-const currentInstance = getCurrentInstance();
-const props = defineProps({
-    class: {
-        type: String,
-        required: false,
-        default: "",
-    },
-    placeholder: {
-        type: String,
-        required: false,
-        default: "",
-    },
-    value: {
-        required: false,
-    },
-});
+const emits = defineEmits();
+const props = withDefaults(
+    defineProps<{
+        class?: string;
+        placeholder?: string;
+        modelValue?: Ref<string|number>;
+        clearable?: boolean;
+        number?: boolean;
+    }>(),
+    {
+        class: "",
+        placeholder: "",
+        clearable: false,
+        number: false,
+    }
+);
 
-const value = props.value || ref("");
+const ownValue = ref("");
+const value = computed({
+    get: () => {
+        if(props.modelValue !== undefined){
+            return props.modelValue;
+        } else {
+            return ownValue.value;
+        }
+    },
+    set: (v) => {
+        if(props.modelValue){
+            emits("update:modelValue", props.number ? Number(v) : v);
+        }
+    },
+})
 
-const focus = ref(false);
-const onFocus = () => {
-    // currentInstance!.refs["$comm-input-box"].classList.add("comm-input-focus");
-    focus.value = true;
-};
-const onBlue = () => {
-    // currentInstance!.refs["$comm-input-box"].classList.remove("comm-input-focus");
-    focus.value = true;
+const clearInput = () => {
+    const clear = props.number ? 0 : "";
+    console.log(props.modelValue);
+    emits("update:modelValue", clear)
 };
 </script>
 

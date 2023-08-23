@@ -25,7 +25,15 @@
         outline: none;
         border: none;
     }
-}
-.comm-input-focus {
-    border-color: linear-gradient(#47E0FF, #48FFFF00);
+    .comm-input-clear{
+        display: inline-block;
+        cursor: pointer;
+        position: absolute;
+        right: 6px;
+        background-image: url("@/components/common/assets/img/commInput/clear.png");
+        background-size: 100% 100%;
+        top: 8px;
+        height: 16px;
+        width: 16px;
+    }
 }

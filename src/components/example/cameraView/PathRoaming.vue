@@ -3,7 +3,7 @@
     <CommPanel
         title="路径漫游"
         :style="{
-            width: '15%',
+            width: '300px',
             left: '2%',
             top: '8%',
         }"
@@ -18,14 +18,15 @@
                     >{{ item.label }}</el-radio
                 >
             </el-radio-group>
-            <div class="height-input">
-                <span style="color: white" class="height-label"
-                    >离地高度：</span
+            <div class="height-input-box">
+                <span class="height-label">离地高度：</span
                 >
                 <CommInput
-                    v-model.number="height"
+                    class="height-input"
+                    v-model="height"
                     placeholder="请输入离地高度"
-                    clearable
+                    :clearable="true"
+                    :number="true"
                 />
             </div>
             <div class="roam-btn-group">
