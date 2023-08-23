@@ -28,9 +28,9 @@ const viewerConfig = {
 
 const initViewConfig = {
     destination: new Cesium.Cartesian3(
-        -5105645.963034768,
+        -4105645.963034768,
         20892661.21772182,
-        13217927.851065105
+        17217927.851065105
     ),
     orientation: new Cesium.HeadingPitchRoll(
         6.283185307179585,

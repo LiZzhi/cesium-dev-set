@@ -2,7 +2,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    #cesium-container{
+    ::v-deep #cesium-container{
         position: relative;
         width: 100%;
         height: 100%;
