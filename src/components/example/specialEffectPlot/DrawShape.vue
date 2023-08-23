@@ -8,13 +8,19 @@
         }"
     >
         <div class="draw-panel">
-            <el-button @click="draw.drawPoint()">画点</el-button>
-            <el-button @click="draw.drawPloyline()">画线</el-button>
-            <el-button @click="draw.drawPloygon()">画面</el-button>
-            <el-button @click="draw.drawCircle()">画圆</el-button>
-            <el-button @click="draw.drawRectangle()">画矩形</el-button>
-            <el-button @click="draw.revoke()">撤销</el-button>
-            <el-button @click="draw.removeAll()">清空</el-button>
+            <div class="btn-group">
+                <CommButton @click="draw.drawPoint()">画点</CommButton>
+                <CommButton @click="draw.drawPloyline()">画线</CommButton>
+                <CommButton @click="draw.drawPloygon()">画面</CommButton>
+            </div>
+            <div class="btn-group">
+                <CommButton @click="draw.drawCircle()">画圆</CommButton>
+                <CommButton @click="draw.drawRectangle()">画矩形</CommButton>
+                <CommButton @click="draw.revoke()" class="revoke">撤销</CommButton>
+            </div>
+            <div class="btn-group">
+                <CommButton @click="draw.removeAll()" class="clear">清空</CommButton>
+            </div>
         </div>
     </CommPanel>
 </template>
