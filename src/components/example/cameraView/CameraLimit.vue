@@ -2,9 +2,7 @@
     <div id="cesium-container"></div>
     <CommPanel
         title="视角限制"
-        :style="{
-            left: '5%',
-        }"
+        class="limit-panel-box"
     >
         <div class="limit-panel">
             <el-button @click="setLimit(false)">限制视角1(慢回滚)</el-button>

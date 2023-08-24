@@ -1,7 +1,10 @@
-.limit-panel{
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 5%;
+.limit-panel-box {
+    left: 5%;
+    .limit-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-top: 5%;
+    }
 }
