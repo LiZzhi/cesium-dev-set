@@ -3,7 +3,6 @@
         <input
             v-model="value"
             :placeholder="props.placeholder"
-            type="text"
             class="comm-input"
         />
         <span
@@ -17,12 +16,12 @@
 <script setup lang="ts">
 import { computed, ref, Ref } from "vue";
 
-const emits = defineEmits();
+const emits = defineEmits(["update:modelValue"]);
 const props = withDefaults(
     defineProps<{
         class?: string;
         placeholder?: string;
-        modelValue?: Ref<string|number>;
+        modelValue?: string|number;
         clearable?: boolean;
         number?: boolean;
     }>(),
@@ -34,7 +33,7 @@ const props = withDefaults(
     }
 );
 
-const ownValue = ref("");
+const ownValue:Ref<string|number> = ref("");
 const value = computed({
     get: () => {
         if(props.modelValue !== undefined){
@@ -44,16 +43,18 @@ const value = computed({
         }
     },
     set: (v) => {
-        if(props.modelValue){
-            emits("update:modelValue", props.number ? Number(v) : v);
+        if(props.modelValue !== undefined){
+            const value = props.number ? Number(v) : v;
+            emits("update:modelValue", value);
+        } else {
+            ownValue.value = v;
         }
     },
 })
 
 const clearInput = () => {
-    const clear = props.number ? 0 : "";
-    console.log(props.modelValue);
-    emits("update:modelValue", clear)
+    const clear = props.number? 0 : "";
+    value.value = clear;
 };
 </script>
 
