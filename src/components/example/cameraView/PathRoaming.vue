@@ -2,11 +2,7 @@
     <div id="cesium-container"></div>
     <CommPanel
         title="路径漫游"
-        :style="{
-            width: '300px',
-            left: '2%',
-            top: '8%',
-        }"
+        class="roam-panel-box"
     >
         <div class="roam-panel">
             <el-radio-group v-model="roamingModel" size="small">
@@ -51,7 +47,7 @@
 
 <script setup lang="ts">
 import { initViewer } from "@/utils/earth";
-import { Ref, ref, onMounted } from "vue";
+import { Ref, ref, onMounted, watch } from "vue";
 import pathRoaming, {
     roamingEnum,
     viewEnum,
@@ -89,6 +85,13 @@ const modelList = ref([
 
 const height = ref(0);
 const speed = ref(1);
+
+watch(
+    () => height,
+    (v) => {
+        console.log(height.value);
+    }
+)
 
 let roam: pathRoaming;
 
