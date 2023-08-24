@@ -2,10 +2,7 @@
     <div id="cesium-container"></div>
     <CommPanel
         title="矢量标绘"
-        :style="{
-            top: '8%',
-            left: '2%',
-        }"
+        class="draw-panel-box"
     >
         <div class="draw-panel">
             <div class="btn-group">

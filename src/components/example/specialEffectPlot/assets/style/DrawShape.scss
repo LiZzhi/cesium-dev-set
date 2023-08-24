@@ -1,22 +1,26 @@
-.draw-panel {
-    display: flex;
-    margin-top: 15px;
-    flex-direction: column;
-    gap: 15px;
-    ::v-deep .btn-group{
+.draw-panel-box {
+    top: 8%;
+    left: 2%;
+    .draw-panel {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 10px;
-        .revoke{
-            .comm-button-context{
-                color: #e6a23c;
+        margin-top: 15px;
+        flex-direction: column;
+        gap: 15px;
+        ::v-deep .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            .revoke {
+                .comm-button-context {
+                    color: #e6a23c;
+                }
             }
-        }
-        .clear{
-            width: 100%;
-            .comm-button-context{
-                color: #f56c6c;
+            .clear {
+                width: 100%;
+                .comm-button-context {
+                    color: #f56c6c;
+                }
             }
         }
     }
