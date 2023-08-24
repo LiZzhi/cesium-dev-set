@@ -1,8 +1,8 @@
 <!--
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-05-24 11:39:23
- * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-07-29 19:10:43
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-24 09:27:01
  * @FilePath: \cesium-secdev-set\src\components\common\CommPanel.vue
  * @Description: 自定义公共组件
  *	props属性:
@@ -35,29 +35,19 @@ import type { Directive, DirectiveBinding } from "vue";
 const defaultClose = require("./assets/img/commPanel/close.png");
 const alive = ref(true);
 const emits = defineEmits(["close"]);
-const props = defineProps({
-    style: {
-        type: Object,
-        required: false,
-        default: function () {
-            return {};
-        },
-    },
-    title: {
-        type: String,
-        required: false,
-        default: function () {
-            return "测试标题";
-        },
-    },
-    icon: {
-        type: String,
-        required: false,
-        default: function () {
-            return require("./assets/img/commPanel/icon2.png");
-        },
-    },
-});
+const props = withDefaults(
+    defineProps<{
+        style?: any;
+        title?: string;
+        icon?: string;
+
+    }>(),
+    {
+        style: {},
+        title: "标题",
+        icon: require("./assets/img/commPanel/icon2.png"),
+    }
+);
 
 // 拖拽
 const vMove:Directive = {
