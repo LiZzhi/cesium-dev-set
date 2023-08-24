@@ -158,7 +158,20 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/dataVisualization/StrongBoundaryData.vue"),
             },
         ]
-    }
+    },
+    {
+        label: "空间分析",
+        name: "spatialAnalysis",
+        components: [
+            {
+                label: "二三维视图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "linkView",
+                component: () => import("@/components/example/spatialAnalysis/LinkView.vue"),
+            },
+        ]
+    },
 ];
 
 export default menu;
