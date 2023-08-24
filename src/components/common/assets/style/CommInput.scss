@@ -18,15 +18,24 @@
         width: calc(100% - 6px);
         height: calc(100% - 2px);
     }
-    .comm-input::placeholder{
+    .comm-input::placeholder {
         color: #a8abb2;
     }
     .comm-input:focus {
         outline: none;
         border: none;
     }
-    .comm-input-clear{
+    .comm-input[type="number"]::-webkit-outer-spin-button,
+    .comm-input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .comm-input[type="number"] {
+        -moz-appearance: textfield; /* Firefox */
+    }
+    .comm-input-clear {
         display: inline-block;
+        user-select: none;
         cursor: pointer;
         position: absolute;
         right: 6px;

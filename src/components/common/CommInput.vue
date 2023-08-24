@@ -1,8 +1,23 @@
+<!--
+ * @Author: XingTao xingt@geovis.com.cn
+ * @Date: 2023-08-24 09:10:29
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-24 10:01:13
+ * @FilePath: \cesium-secdev-set\src\components\common\CommInput.vue
+ * @Description: 自定义公共组件(输入框)
+ *	props属性:
+ *		1.class { string } default:"" class名，用来修改样式
+ *		2.placeholder { string } default:"" 提示
+ *		3.modelValue { string|number } default:"" v-model绑定用
+ *		4.clearable { boolean } default:false 是否需要清空按钮
+ *		5.number { boolean } default:false 是否为数字类型
+-->
 <template>
     <div class="comm-input-box" :class="props.class">
         <input
             v-model="value"
             :placeholder="props.placeholder"
+            :type="props.number? 'number' : 'text'"
             class="comm-input"
         />
         <span
@@ -44,8 +59,8 @@ const value = computed({
     },
     set: (v) => {
         if(props.modelValue !== undefined){
-            const value = props.number ? Number(v) : v;
-            emits("update:modelValue", value);
+            // const value = props.number ? Number(v) : v;
+            emits("update:modelValue", v);
         } else {
             ownValue.value = v;
         }
