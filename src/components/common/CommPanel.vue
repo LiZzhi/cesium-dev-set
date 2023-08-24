@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-05-24 11:39:23
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-24 09:27:01
+ * @LastEditTime: 2023-08-24 10:08:41
  * @FilePath: \cesium-secdev-set\src\components\common\CommPanel.vue
  * @Description: 自定义公共组件
  *	props属性:
@@ -17,7 +17,7 @@
         v-if="alive"
         v-move="`panelTitle`"
         class="panelTem"
-        :style="props.style"
+        :class="props.class"
     >
         <div class="panelTitle">
             <img v-if="icon" class="panelIcon" :src="props.icon" />
@@ -37,13 +37,13 @@ const alive = ref(true);
 const emits = defineEmits(["close"]);
 const props = withDefaults(
     defineProps<{
-        style?: any;
+        class?: string;
         title?: string;
         icon?: string;
 
     }>(),
     {
-        style: {},
+        class: "",
         title: "标题",
         icon: require("./assets/img/commPanel/icon2.png"),
     }
