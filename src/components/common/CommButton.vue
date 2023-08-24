@@ -7,13 +7,14 @@
 </template>
 
 <script setup lang='ts'>
-const props = defineProps({
-    class: {
-        type: String,
-        required: false,
-        default: '',
+const props = withDefaults(
+    defineProps<{
+        class?: string;
+    }>(),
+    {
+        class: "",
     }
-});
+);
 </script>
 
 <style lang='scss' scoped>
