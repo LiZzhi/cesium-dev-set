@@ -7,10 +7,11 @@
  * @Description: 自定义公共组件(按钮)
  *	props属性:
  *		1.class { string } default:"" class名，用来修改样式
+ *		1.contentClass { string } default:"" 内部class名，用来修改样式
 -->
 <template>
     <button class="comm-button" :class="props.class">
-        <span class="comm-button-context">
+        <span class="comm-button-content" :class="contentClass">
             <slot></slot>
         </span>
     </button>
@@ -20,9 +21,11 @@
 const props = withDefaults(
     defineProps<{
         class?: string;
+        contentClass?: string;
     }>(),
     {
         class: "",
+        contentClass: "",
     }
 );
 </script>

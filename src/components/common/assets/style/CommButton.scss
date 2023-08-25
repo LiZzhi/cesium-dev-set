@@ -4,19 +4,19 @@
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    border: 1px solid #3b618f;
+    border: 1px solid $dark-border-color;
     border-radius: 4px;
     padding: 8px 15px;
-    background-color: rgba(18, 28, 41, 0.6);
+    background-color: $dark-back-color;
     // background-image: url("@/components/common/assets/img/commButton/background.png");
     // background-size: 100% 100%;
-    .comm-button-context {
+    .comm-button-content {
         position: relative;
         font-weight: 500;
         color: white;
     }
 }
 .comm-button:hover {
-    background: linear-gradient(#04090CB0, #1190D0C2);
+    background: $dark-gradient;
     // border-color: linear-gradient(#47E0FF, #48FFFF00);
 }

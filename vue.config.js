@@ -109,4 +109,12 @@ module.exports = defineConfig({
             hot: true,
         },
     },
+    css: {
+        loaderOptions: {
+            // 引入全局样式
+            scss: {
+                additionalData: `@import "@/components/common/assets/style/CommStyle.scss";`
+            }
+        }
+    }
 });
