@@ -2,41 +2,35 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-24 18:21:26
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-24 18:35:50
+ * @LastEditTime: 2023-08-25 09:58:48
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\layerSplit.ts
  * @Description: 卷帘
  */
 import {
     Viewer,
     ImageryLayer,
-    ImageryProvider,
     ImagerySplitDirection,
     ScreenSpaceEventHandler,
 } from "cesium";
 
 export default class layerSplit {
     #viewer: Viewer;
-    #baseLayer: ImageryLayer | null; // 初始图层
     #slider: HTMLElement; // 卷帘滑动块
     #splitDirection: ImagerySplitDirection; // 窗口方向
+    #layers: ImageryLayer[]; // 当前矿口图层
     #handler: ScreenSpaceEventHandler | null;
     #isInit: boolean;
 
     /**
      * 创建卷帘图层
      * @param {Viewer} viewer
-     * @param {ImageryProvider} baseLayer 初始图层
      * @param {ImagerySplitDirection} splitDirection 卷帘窗口
+     * @param {ImageryProvider} baseLayer 初始图层
      */
-    constructor(
-        viewer: Viewer,
-        baseLayer: ImageryProvider,
-        splitDirection: ImagerySplitDirection
-    ) {
+    constructor(viewer: Viewer, splitDirection: ImagerySplitDirection) {
         this.#viewer = viewer;
         this.#splitDirection = splitDirection;
-        this.#baseLayer = viewer.imageryLayers.addImageryProvider(baseLayer);
-        this.#baseLayer.splitDirection = splitDirection;
+        this.#layers = [];
         this.#slider = document.createElement("div");
         this.#handler = null;
         this.#isInit = false;
@@ -46,7 +40,7 @@ export default class layerSplit {
      * 初始化卷帘
      */
     create(): void {
-        if (this.#isInit){
+        if (this.#isInit) {
             return;
         }
         this.#isInit = true;
@@ -80,18 +74,21 @@ export default class layerSplit {
      * 销毁
      */
     destory(): void {
-        if (!this.#isInit){
+        if (!this.#isInit) {
             return;
         }
         this.#isInit = false;
 
-        if (this.#baseLayer) {
-            this.#viewer.imageryLayers.remove(this.#baseLayer);
-        }
-
         if (this.#slider) {
             this.#slider.style.display = "none";
         }
+
+        // 清除图层
+        for (let i = 0; i < this.#layers.length; i++) {
+            const element = this.#layers[i];
+            element.splitDirection = ImagerySplitDirection.NONE;
+        }
+        this.#layers.length = 0;
 
         this.#handler && this.#handler.destroy();
         this.#isInit = false;
@@ -104,7 +101,21 @@ export default class layerSplit {
      */
     changeLayer(layer: ImageryLayer) {
         layer.splitDirection = this.#splitDirection;
+        this.#layers.push(layer);
         return layer;
+    }
+
+    /**
+     * @description: 将图层移除窗口
+     * @param {*} this
+     * @return {*}
+     */
+    removeLayer(layer: ImageryLayer) {
+        let index = this.#layers.findIndex((v) => v === layer);
+        if(index >= 0){
+            layer.splitDirection = ImagerySplitDirection.NONE;
+            this.#layers.splice(index, 1);
+        }
     }
 
     /**
@@ -116,24 +127,11 @@ export default class layerSplit {
     }
 
     /**
-     * 获取当前窗口底图
-     * @returns {ImageryLayer|null} 底图
-     */
-    get baseLayer(): ImageryLayer | null {
-        return this.#baseLayer;
-    }
-
-    /**
      * 获取当前窗口中所有的图层
      * @returns {ImageryLayer[]} 图层数组
      */
     get layerCollection(): ImageryLayer[] {
-        // @ts-ignore
-        let layers: ImageryLayer[] = this.#viewer.imageryLayers._layers;
-        let splitLayers = layers.filter(
-            (v) => v.splitDirection === this.#splitDirection
-        );
-        return splitLayers;
+        return this.#layers;
     }
 
     /**

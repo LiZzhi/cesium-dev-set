@@ -170,6 +170,13 @@ const menu:menuConfigType[] = [
                 route: "linkView",
                 component: () => import("@/components/example/spatialAnalysis/LinkView.vue"),
             },
+            {
+                label: "卷帘视图",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "layerSplit",
+                component: () => import("@/components/example/spatialAnalysis/LayerSplit.vue"),
+            },
         ]
     },
 ];

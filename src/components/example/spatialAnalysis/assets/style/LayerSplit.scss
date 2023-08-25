@@ -1,0 +1,16 @@
+.split-panel-box {
+    width: 180px;
+    top: 8%;
+    left: 2%;
+    .split-panel {
+        margin-top: 15px;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        ::v-deep .clear{
+            .comm-button-context {
+                color: #f56c6c;
+            }
+        }
+    }
+}
