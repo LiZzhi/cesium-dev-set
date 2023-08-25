@@ -13,7 +13,7 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/DivPoint.vue"),
             },
             {
-                label: "简单面板点",
+                label: "样本面板点",
                 show: true,
                 img: require("@/assets/specialEffectPlot/test.jpg"),
                 route: "sampleBoardPoint",

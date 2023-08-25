@@ -6,7 +6,7 @@ export default class sampleLabelPoint extends domPointBase {
     #contextDom: HTMLElement;
     #boardVisible: boolean;
     /**
-     * @description: 简单标注点，显示为可插入DOM的标注框
+     * @description: 样本标注点，显示为可插入DOM的标注框
      * @param {Viewer} viewer viewer实例
      * @param {worldDegreesType} worldDegrees 位置，经纬度和高
      * @param {HTMLElement} contextDom 插入的DOM元素
