@@ -13,7 +13,7 @@
             <div class="btn-group">
                 <CommButton @click="draw.drawCircle()">画圆</CommButton>
                 <CommButton @click="draw.drawRectangle()">画矩形</CommButton>
-                <CommButton @click="draw.revoke()" class="revoke">撤销</CommButton>
+                <CommButton @click="draw.revoke()" contentClass="revoke">撤销</CommButton>
             </div>
             <div class="btn-group">
                 <CommButton @click="draw.removeAll()" class="clear">清空</CommButton>

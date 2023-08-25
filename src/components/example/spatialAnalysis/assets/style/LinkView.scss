@@ -8,9 +8,7 @@
         width: 100%;
         justify-content: space-between;
         ::v-deep .clear{
-            .comm-button-context {
-                color: #f56c6c;
-            }
+            color: $danger-color;
         }
     }
 }

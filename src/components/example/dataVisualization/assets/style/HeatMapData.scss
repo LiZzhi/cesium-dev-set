@@ -1,14 +1,14 @@
-.limit-panel-box {
+.heat-panel-box {
     left: 2%;
     top: 8%;
-    .limit-panel {
+    .heat-panel {
         position: relative;
         width: 100%;
         display: flex;
-        justify-content: center;
         gap: 10px;
+        justify-content: center;
         padding-top: 5%;
-        ::v-deep .clear{
+        ::v-deep .clear {
             color: $danger-color;
         }
     }

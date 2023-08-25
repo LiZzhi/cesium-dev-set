@@ -58,6 +58,18 @@
                 .comm-button {
                     width: calc(25% - 3px);
                 }
+                .accelerate{
+                    color: $success-color;
+                }
+                .retard{
+                    color: $info-color;
+                }
+                .stop{
+                    color: $warning-color;
+                }
+                .clear{
+                    color: $danger-color;
+                }
             }
         }
     }

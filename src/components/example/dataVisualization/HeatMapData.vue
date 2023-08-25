@@ -1,21 +1,38 @@
 <template>
-    <div id="cesium-container"></div>
+    <CommPanel title="热力图" class="heat-panel-box">
+        <div class="heat-panel">
+            <CommButton @click="show">显示</CommButton>
+            <CommButton @click="hidden" contentClass="clear">隐藏</CommButton>
+        </div>
+    </CommPanel>
 </template>
 
 <script setup lang="ts">
-import { initViewer } from "@/utils/earth";
 import { onMounted } from "vue";
 import heatMapData from "@/secdev/dataVisualization/mapvVisualization/heatMapData";
 import cesiumMapLayer from "@/secdev/dataVisualization/lib/mapv/MapVLayer.js";
 
-onMounted(() => {
-    const viewer = initViewer("cesium-container");
+const layers:any[] = [];
 
+const show = () => {
+    layers.forEach(v=>{
+        v.show();
+    })
+}
+
+const hidden = () => {
+    layers.forEach(v=>{
+        v.hide();
+    })
+}
+onMounted(() => {
     const data = heatMapData();
     data.forEach(v => {
-        new cesiumMapLayer(viewer, ...v);
+        layers.push(new cesiumMapLayer(viewer, ...v));
     })
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "./assets/style/HeatMapData.scss";
+</style>

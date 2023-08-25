@@ -1,9 +1,5 @@
 <template>
-    <div id="cesium-container"></div>
-    <CommPanel
-        title="路径漫游"
-        class="roam-panel-box"
-    >
+    <CommPanel title="路径漫游" class="roam-panel-box">
         <div class="roam-panel">
             <el-radio-group v-model="roamingModel" size="small">
                 <el-radio
@@ -15,8 +11,7 @@
                 >
             </el-radio-group>
             <div class="height-input-box">
-                <span class="height-label">离地高度：</span
-                >
+                <span class="height-label">离地高度：</span>
                 <CommInput
                     class="height-input"
                     v-model="height"
@@ -35,10 +30,20 @@
                     >
                 </div>
                 <div class="sec-row">
-                    <CommButton @click="changeSpeed(1)">加速</CommButton>
-                    <CommButton @click="changeSpeed(-1)">减速</CommButton>
-                    <CommButton @click="stop">暂停</CommButton>
-                    <CommButton @click="destroy">销毁</CommButton>
+                    <CommButton
+                        @click="changeSpeed(1)"
+                        contentClass="accelerate"
+                        >加速</CommButton
+                    >
+                    <CommButton @click="changeSpeed(-1)" contentClass="retard"
+                        >减速</CommButton
+                    >
+                    <CommButton @click="stop" contentClass="stop"
+                        >暂停</CommButton
+                    >
+                    <CommButton @click="destroy" contentClass="clear"
+                        >销毁</CommButton
+                    >
                 </div>
             </div>
         </div>
@@ -46,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { initViewer } from "@/utils/earth";
 import { Ref, ref, onMounted, watch } from "vue";
 import pathRoaming, {
     roamingEnum,
@@ -91,7 +95,7 @@ watch(
     (v) => {
         console.log(height.value);
     }
-)
+);
 
 let roam: pathRoaming;
 
@@ -118,8 +122,6 @@ const destroy = () => {
 };
 
 onMounted(() => {
-    const viewer = initViewer("cesium-container");
-
     viewer.entities.add({
         polyline: {
             positions: fromDegreesToCartesian3Arr(ps),

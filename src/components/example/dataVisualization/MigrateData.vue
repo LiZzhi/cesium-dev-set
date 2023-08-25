@@ -1,21 +1,38 @@
 <template>
-    <div id="cesium-container"></div>
+    <CommPanel title="迁徙图" class="migrate-panel-box">
+        <div class="migrate-panel">
+            <CommButton @click="show">显示</CommButton>
+            <CommButton @click="hidden" contentClass="clear">隐藏</CommButton>
+        </div>
+    </CommPanel>
 </template>
 
 <script setup lang="ts">
-import { initViewer } from "@/utils/earth";
 import { onMounted } from "vue";
 import migrateData from "@/secdev/dataVisualization/mapvVisualization/migrateData";
 import cesiumMapLayer from "@/secdev/dataVisualization/lib/mapv/MapVLayer.js";
 
-onMounted(() => {
-    const viewer = initViewer("cesium-container");
+const layers:any[] = [];
 
+const show = () => {
+    layers.forEach(v=>{
+        v.show();
+    })
+}
+
+const hidden = () => {
+    layers.forEach(v=>{
+        v.hide();
+    })
+}
+onMounted(() => {
     const data = migrateData();
     data.forEach(v => {
-        new cesiumMapLayer(viewer, ...v);
+        layers.push(new cesiumMapLayer(viewer, ...v));
     })
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "./assets/style/MigrateData.scss";
+</style>

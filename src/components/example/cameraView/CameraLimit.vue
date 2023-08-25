@@ -1,19 +1,17 @@
 <template>
-    <div id="cesium-container"></div>
     <CommPanel
         title="视角限制"
         class="limit-panel-box"
     >
         <div class="limit-panel">
-            <el-button @click="setLimit(false)">限制视角1(慢回滚)</el-button>
-            <el-button @click="setLimit(true)">限制视角2(即时回滚)</el-button>
-            <el-button @click="removeLimit">关闭限制</el-button>
+            <CommButton @click="setLimit(false)">限制视角1(慢回滚)</CommButton>
+            <CommButton @click="setLimit(true)">限制视角2(即时回滚)</CommButton>
+            <CommButton @click="removeLimit" contentClass="clear">关闭限制</CommButton>
         </div>
     </CommPanel>
 </template>
 
 <script setup lang="ts">
-import { initViewer } from "@/utils/earth";
 import { onMounted } from "vue";
 import cameraLimit from "@/secdev/cameraView/cameraLimit";
 
@@ -29,7 +27,6 @@ const removeLimit = () => {
 }
 
 onMounted(() => {
-    const viewer = initViewer("cesium-container");
     // 开启深度监测
     viewer.scene.globe.depthTestAgainstTerrain = true;
 

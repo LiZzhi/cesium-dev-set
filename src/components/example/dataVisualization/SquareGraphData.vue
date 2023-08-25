@@ -1,21 +1,38 @@
 <template>
-    <div id="cesium-container"></div>
+    <CommPanel title="方格图" class="square-panel-box">
+        <div class="square-panel">
+            <CommButton @click="show">显示</CommButton>
+            <CommButton @click="hidden" contentClass="clear">隐藏</CommButton>
+        </div>
+    </CommPanel>
 </template>
 
 <script setup lang="ts">
-import { initViewer } from "@/utils/earth";
 import { onMounted } from "vue";
 import squareGraphData from "@/secdev/dataVisualization/mapvVisualization/squareGraphData";
 import cesiumMapLayer from "@/secdev/dataVisualization/lib/mapv/MapVLayer.js";
 
-onMounted(() => {
-    const viewer = initViewer("cesium-container");
+const layers:any[] = [];
 
+const show = () => {
+    layers.forEach(v=>{
+        v.show();
+    })
+}
+
+const hidden = () => {
+    layers.forEach(v=>{
+        v.hide();
+    })
+}
+onMounted(() => {
     const data = squareGraphData();
     data.forEach(v => {
-        new cesiumMapLayer(viewer, ...v);
+        layers.push(new cesiumMapLayer(viewer, ...v));
     })
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "./assets/style/SquareGraphData.scss";
+</style>

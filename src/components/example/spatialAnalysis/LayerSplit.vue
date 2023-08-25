@@ -1,20 +1,17 @@
 <template>
-    <div id="cesium-container"></div>
     <CommPanel title="卷帘视图" class="split-panel-box">
         <div class="split-panel">
             <CommButton @click="start">开启</CommButton>
-            <CommButton @click="destroy" class="clear">关闭</CommButton>
+            <CommButton @click="destroy" contentClass="clear">关闭</CommButton>
         </div>
     </CommPanel>
 </template>
 
 <script setup lang="ts">
-import { initViewer } from "@/utils/earth";
 import { onMounted } from "vue";
 import { ImagerySplitDirection, ImageryLayer, Viewer } from "cesium";
 import layerSplit from "@/secdev/spatialAnalysis/layerSplit";
 
-let viewer: Viewer;
 let leftSplit: layerSplit;
 let rightSplit: layerSplit;
 const layer = new Cesium.ImageryLayer(
@@ -42,7 +39,6 @@ const destroy = () => {
 };
 
 onMounted(() => {
-    viewer = initViewer("cesium-container");
     viewer.imageryLayers.add(layer);
     leftSplit = new layerSplit(viewer, ImagerySplitDirection.LEFT);
     rightSplit = new layerSplit(viewer, ImagerySplitDirection.RIGHT);
