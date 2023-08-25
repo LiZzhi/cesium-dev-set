@@ -6,6 +6,20 @@ const menu:menuConfigType[] = [
         name: "specialEffectPlot",
         components: [
             {
+                label: "矢量标绘",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "drawShape",
+                component: () => import("@/components/example/specialEffectPlot/DrawShape.vue"),
+            },
+            {
+                label: "聚合标绘",
+                show: true,
+                img: require("@/assets/specialEffectPlot/test.jpg"),
+                route: "primitiveCluster",
+                component: () => import("@/components/example/specialEffectPlot/PrimitiveCluster.vue"),
+            },
+            {
                 label: "普通面板点",
                 show: true,
                 img: require("@/assets/specialEffectPlot/test.jpg"),
@@ -74,20 +88,6 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/specialEffectPlot/test.jpg"),
                 route: "floatPoint",
                 component: () => import("@/components/example/specialEffectPlot/FloatPoint.vue"),
-            },
-            {
-                label: "矢量标绘",
-                show: true,
-                img: require("@/assets/specialEffectPlot/test.jpg"),
-                route: "drawShape",
-                component: () => import("@/components/example/specialEffectPlot/DrawShape.vue"),
-            },
-            {
-                label: "聚合标绘",
-                show: true,
-                img: require("@/assets/specialEffectPlot/test.jpg"),
-                route: "primitiveCluster",
-                component: () => import("@/components/example/specialEffectPlot/PrimitiveCluster.vue"),
             },
         ],
     },
