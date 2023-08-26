@@ -6,8 +6,8 @@
  * @FilePath: \cesium-secdev-set\src\components\common\CommPanel.vue
  * @Description: 自定义公共组件
  *	props属性:
- *		1.style { Object } default:{} 整体样式，便于调整位置等
- *		2.title { String } default:"测试标题" 标题，若不想有标题请设置空字符串
+ *		1.class { string } default:"" 最外层class
+ *		2.title { String } default:"标题" 标题，若不想有标题请设置空字符串
  *		3.icon { String } default:"icon2.png" 图标，若不想有图标请设置空字符串
  *  触发事件
  *		4.close 参数:无 组件销毁时触发
