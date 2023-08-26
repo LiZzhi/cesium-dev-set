@@ -5,5 +5,5 @@ import "./domPoint/erectLabelPoint.css";
 import "./domPoint/gradientLabelPoint.css";
 import "./domPoint/hotSpotBoardPoint.css";
 import "./domPoint/ledLabelPoint.css";
-import "./domPoint/sampleLabelPoint.css";
+import "./domPoint/sampleBoardPoint.css";
 import "./domPoint/waterPoloPoint.css";

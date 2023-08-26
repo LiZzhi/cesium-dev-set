@@ -2,11 +2,11 @@ import { Viewer } from "cesium";
 import domPointBase from "./domPointBase";
 import type { worldDegreesType } from "../../type";
 
-export default class sampleLabelPoint extends domPointBase {
+export default class sampleBoardPoint extends domPointBase {
     #contextDom: HTMLElement;
     #boardVisible: boolean;
     /**
-     * @description: 样本标注点，显示为可插入DOM的标注框
+     * @description: 样本面板点，显示为可插入DOM的面板
      * @param {Viewer} viewer viewer实例
      * @param {worldDegreesType} worldDegrees 位置，经纬度和高
      * @param {HTMLElement} contextDom 插入的DOM元素
