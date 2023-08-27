@@ -7,3 +7,15 @@ declare module '*.vue' {
 
 // mapv图层
 declare module "@/secdev/dataVisualization/lib/mapv/MapVLayer.js"
+
+// 特效线
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineArrowMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineEnergyTransMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineLightingMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineLinkPulseMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineMigrateMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineSpriteMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineSuperMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineTrailMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineTrialFlowMaterial.js"
+declare module "@/secdev/specialEffectPlot/lineMaterial/polylineVolumeTrialMaterial.js"
