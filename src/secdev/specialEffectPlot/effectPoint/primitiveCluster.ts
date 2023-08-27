@@ -2,7 +2,7 @@
  * @Author: “Lizhi” “362042734@qq.com”
  * @Date: 2023-08-22 21:19:50
  * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-08-22 21:37:19
+ * @LastEditTime: 2023-08-27 20:30:40
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\effectPoint\primitiveCluster.ts
  * @Description: primitive聚合(测试版)
  */
@@ -219,7 +219,6 @@ export default class primitiveCluster {
             if (rectBoundary) {
                 const { north, east, south, west } = rectBoundary;
                 const result = this.#kdbush!.range(west, south, east, north);
-                console.log("result", result);
                 // 临时字典，用来记录当前点是否已被聚合
                 const nowPoints: Map<number, boolean> = new Map();
                 for (let i = 0; i < result.length; i++) {
