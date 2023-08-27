@@ -2,10 +2,10 @@ import { Viewer } from "cesium";
 import domPointBase from "./domPointBase";
 import type { worldDegreesType } from "../../type";
 
-export default class gradientLabelPoint extends domPointBase {
+export default class gradientBoardPoint extends domPointBase {
     #contextDom: HTMLElement;
     /**
-     * @description: 渐变标注点，显示为可插入DOM的渐变广告牌点
+     * @description: 渐变面板点，显示为可插入DOM的渐变广告牌点
      * @param {Viewer} viewer viewer实例
      * @param {worldDegreesType} worldDegrees 位置，经纬度和高
      * @param {HTMLElement} contextDom 插入的DOM元素
