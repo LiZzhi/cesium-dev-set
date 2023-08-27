@@ -29,7 +29,7 @@ const props = defineProps({
     img: {
         type: String,
         required: false,
-        default: require("@/assets/specialEffectPlot/test.jpg"),
+        default: require("@/assets/cover/default.png"),
     }
 });
 </script>
