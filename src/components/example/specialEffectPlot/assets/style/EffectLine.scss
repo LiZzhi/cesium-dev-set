@@ -1,0 +1,28 @@
+.line-panel-box {
+    left: 2%;
+    top: 8%;
+    .line-panel {
+        position: relative;
+        width: 100%;
+        padding-top: 5%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            .line-btn{
+                width: calc(33% - 10px);
+            }
+            ::v-deep .clear {
+                width: 100%;
+                .comm-button-content {
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+}
