@@ -1,12 +1,12 @@
 /*
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 11:34:05
- * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-28 18:00:19
+ * @LastEditors: “Lizhi” “362042734@qq.com”
+ * @LastEditTime: 2023-08-28 23:09:31
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
-import { Cartesian3, Entity, PolygonHierarchy, Property } from "cesium";
+import { Cartesian3, Cartographic, Entity, PolygonHierarchy, Property } from "cesium";
 import uuid from "../../utils/uuid";
 
 export default class entityFactory {
@@ -33,10 +33,35 @@ export default class entityFactory {
         return e;
     }
 
-    static createLabelPoint(
+    static createLabel(
         position: Cartesian3,
         text: string|Property,
         options: Entity.ConstructorOptions = {}
+    ): Entity {
+        let properties = {
+            id: "label-" + uuid(),
+            position: position,
+            label:{
+                text: text,
+                font: '14pt bold monospace',
+                fillColor: Cesium.Color.WHITE,
+                outlineColor: Cesium.Color.BLACK,
+                outlineWidth: 4,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                backgroundColor: Cesium.Color.RED,
+                verticalOrigin: Cesium.VerticalOrigin.TOP,
+                horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+                disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                pixelOffset: new Cesium.Cartesian2(0, -30)
+            }
+        };
+        let e = new Cesium.Entity(properties);
+        return e;
+    }
+
+    static createLabelPoint(
+        position: Cartesian3,
+        text: string|Property,
     ): Entity {
         let properties = {
             id: "point-" + uuid(),
@@ -63,10 +88,7 @@ export default class entityFactory {
                 pixelOffset: new Cesium.Cartesian2(0, -30)
             }
         };
-        let o = Object.assign(properties, options, {
-            position: position,
-        });
-        let e = new Cesium.Entity(o);
+        let e = new Cesium.Entity(properties);
         return e;
     }
 
@@ -92,33 +114,18 @@ export default class entityFactory {
         return e;
     }
 
-    static createLabelLine(
+    static createStraightPolyline(
         positions: Cartesian3[],
-        text: string|Property,
         options: Entity.ConstructorOptions = {}
-    ): Entity {
+    ) {
         let properties = {
             id: "polyline-" + uuid(),
             polyline: {
                 positions: positions,
                 width: 3,
                 material: Cesium.Color.fromCssColorString("rgb(22,236,255)"),
-                clampToGround: true,
-                arcType: Cesium.ArcType.RHUMB,
+                arcType: Cesium.ArcType.NONE,
             },
-            label:{
-                text: text,
-                font: '14pt bold monospace',
-                fillColor: Cesium.Color.WHITE,
-                outlineColor: Cesium.Color.BLACK,
-                outlineWidth: 4,
-                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                backgroundColor: Cesium.Color.RED,
-                verticalOrigin: Cesium.VerticalOrigin.TOP,
-                horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-                disableDepthTestDistance: Number.POSITIVE_INFINITY,
-                pixelOffset: new Cesium.Cartesian2(0, -30)
-            }
         };
         if (options.polyline) {
             options.polyline.positions = positions;
