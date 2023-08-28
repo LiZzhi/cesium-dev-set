@@ -2,16 +2,16 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 11:34:05
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-28 16:39:11
+ * @LastEditTime: 2023-08-28 17:51:35
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
-import { Cartesian3, Entity, Property } from "cesium";
+import { Cartesian3, Entity, PolygonHierarchy, Property } from "cesium";
 import uuid from "../../utils/uuid";
 
 export default class entityFactory {
     static createPoint(
-        position: Cartesian3|Property,
+        position: Cartesian3,
         options: Entity.ConstructorOptions = {}
     ): Entity {
         let properties = {
@@ -34,7 +34,7 @@ export default class entityFactory {
     }
 
     static createLabelPoint(
-        position: Cartesian3|Property,
+        position: Cartesian3,
         text: string|Property,
         options: Entity.ConstructorOptions = {}
     ): Entity {
@@ -71,7 +71,7 @@ export default class entityFactory {
     }
 
     static createPolyline(
-        positions: Cartesian3[]|Property,
+        positions: Cartesian3[],
         options: Entity.ConstructorOptions = {}
     ) {
         let properties = {
@@ -130,7 +130,7 @@ export default class entityFactory {
     }
 
     static createCircle(
-        position: Cartesian3|Property,
+        position: Cartesian3,
         distance: number,
         options: Entity.ConstructorOptions = {}
     ) {
