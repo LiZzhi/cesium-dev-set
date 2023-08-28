@@ -3,7 +3,7 @@
         <div class="measure-panel">
             <CommButton @click="measure.measureHeight()">高程测量</CommButton>
             <CommButton @click="">高差测量</CommButton>
-            <CommButton @click="">距离测量</CommButton>
+            <CommButton @click="measure.measureStraightDistance()">距离测量</CommButton>
             <CommButton @click="">周长测量</CommButton>
             <CommButton @click="">面积测量</CommButton>
             <CommButton @click="">角度测量</CommButton>
