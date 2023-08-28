@@ -1,4 +1,4 @@
-import * as turf from "turf";
+import * as turf from "@turf/turf";
 import type {
     Entity,
     DataSource,
@@ -217,7 +217,7 @@ export default class pathRoaming {
                 let from = turf.point(lastPosition);
                 let to = turf.point(nowPosition);
                 // 计算两点间长度
-                let distance = turf.distance(from, to, "meters");
+                let distance = turf.rhumbDistance(from, to, {units: 'meters'});
                 // 计算新时间
                 currentTime = Cesium.JulianDate.addSeconds(
                     currentTime,
