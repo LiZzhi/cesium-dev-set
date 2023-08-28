@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-28 17:40:25
+ * @LastEditTime: 2023-08-28 18:32:55
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -86,8 +86,9 @@ export default class drawShape {
     /**
      * 绘制线要素
      * @param { lineCallBackType } end 绘制结束回调函数
+     * @param { number } maxNode (可选)最大节点数量,默认为正无穷
      */
-    drawPolyline(end: lineCallBackType): void {
+    drawPolyline(end: lineCallBackType, maxNode: number=Number.POSITIVE_INFINITY): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("左键点击绘制线要素");
@@ -96,6 +97,16 @@ export default class drawShape {
             let position = this.#viewer.scene.pickPosition(e.position);
 
             if (Cesium.defined(position)) {
+                if(this.#pointNodePosiArr.length >= maxNode){
+                    // 超出节点限制结束绘图
+                    if (this.#pointNodePosiArr.length >= 2) {
+                        let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
+                        end(position);
+                    }
+                    // 结束绘图
+                    this.#drawEnd();
+                }
+
                 // 添加节点
                 this.#addTemporaryPoint(position);
 
@@ -149,8 +160,9 @@ export default class drawShape {
     /**
      * 绘制面要素
      * @param { lineCallBackType } end 绘制结束回调函数
+     * @param { number } maxNode (可选)最大节点数量,默认为正无穷
      */
-    drawPolygon(end: lineCallBackType): void {
+    drawPolygon(end: lineCallBackType, maxNode: number=Number.POSITIVE_INFINITY): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("左键点击绘制面要素");
@@ -159,6 +171,16 @@ export default class drawShape {
             let position = this.#viewer.scene.pickPosition(e.position);
 
             if (Cesium.defined(position)) {
+                if(this.#pointNodePosiArr.length >= maxNode){
+                    // 超出节点限制结束绘图
+                    if (this.#pointNodePosiArr.length >= 3) {
+                        let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
+                        end(position);
+                    }
+                    // 结束绘图
+                    this.#drawEnd();
+                }
+
                 // 添加节点
                 this.#addTemporaryPoint(position);
 
@@ -212,9 +234,7 @@ export default class drawShape {
         this.#handler.setInputAction((e: any) => {
             // 结束回调
             if (this.#pointNodePosiArr.length >= 3) {
-                let position: Cartesian3[] = JSON.parse(
-                    JSON.stringify(this.#pointNodePosiArr)
-                );
+                let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
                 end(position);
             }
             // 右键点击结束绘图
@@ -233,7 +253,7 @@ export default class drawShape {
         // 圆心
         let circleCenter: Cartesian3;
         let endPosition: Cartesian3;
-        let distance: number;
+        let distance = 0;
         this.#handler.setInputAction((e: any) => {
             // 左键点击画面
             let position = this.#viewer.scene.pickPosition(e.position);
@@ -244,6 +264,17 @@ export default class drawShape {
                     this.#addTemporaryPoint(position);
                     circleCenter = position;
                     this.#messageBox.changeMessage("右键点击结束绘制");
+                } else {
+                    // 第二个节点
+                    if (distance) {
+                        endPosition = position;
+                        // 结束回调
+                        if (this.#drawEntity && Cesium.defined(endPosition)) {
+                            end([circleCenter, endPosition], distance)
+                        }
+                        // 右键点击结束绘图
+                        this.#drawEnd();
+                    }
                 }
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
