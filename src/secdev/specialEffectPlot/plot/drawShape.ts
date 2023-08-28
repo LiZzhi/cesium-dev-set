@@ -355,7 +355,9 @@ export default class drawShape {
                     } else if (!pointB) {
                         pointB = position;
                         this.#messageBox.changeMessage("点击结束绘制");
-                    } else {
+                    }
+                } else {
+                    if (pointA && pointB) {
                         // 结束绘图
                         let p = calculateRectangle([pointA, pointB, position]);
                         end(p);
