@@ -43,7 +43,7 @@ const menu:menuConfigType[] = [
             {
                 label: "特效线",
                 show: true,
-                img: require("@/assets/cover/specialEffectPlot/effectPoint.png"),
+                img: require("@/assets/cover/specialEffectPlot/effectLine.png"),
                 route: "effectLine",
                 component: () => import("@/components/example/specialEffectPlot/EffectLine.vue"),
             },

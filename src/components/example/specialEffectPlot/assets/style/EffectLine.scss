@@ -1,6 +1,7 @@
 .line-panel-box {
     left: 2%;
     top: 8%;
+    width: 330px;
     .line-panel {
         position: relative;
         width: 100%;
@@ -15,7 +16,7 @@
             flex-wrap: wrap;
             gap: 10px;
             .line-btn{
-                width: calc(33% - 10px);
+                width: 90px;
             }
             ::v-deep .clear {
                 width: 100%;
