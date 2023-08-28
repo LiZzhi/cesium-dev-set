@@ -122,6 +122,13 @@ const menu:menuConfigType[] = [
         name: "spatialAnalysis",
         components: [
             {
+                label: "测量工具",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/linkView.png"),
+                route: "measureTool",
+                component: () => import("@/components/example/spatialAnalysis/MeasureTool.vue"),
+            },
+            {
                 label: "二三维视图",
                 show: true,
                 img: require("@/assets/cover/spatialAnalysis/linkView.png"),
