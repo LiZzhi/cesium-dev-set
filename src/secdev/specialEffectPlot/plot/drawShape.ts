@@ -9,10 +9,13 @@ import calculateRectangle from "../../utils/calculateRectangle";
 import mouseMessageBox from "../../utils/mouseMessageBox";
 import uuid from "@/utils/uuid";
 
+export type pointCallBackType = (positions: Cartesian3) => void;
+export type lineCallBackType = (positions: Cartesian3[]) => void;
+export type circleCallBackType = (positions: Cartesian3, distance: number) => void;
+
 export default class drawShape {
     #viewer: Viewer;
     #drawShapeSource: CustomDataSource;
-    #drawShapeEntities: Entity[];
     #pointNodeArr: Entity[];
     #pointNodePosiArr: Cartesian3[];
     #isDepth: boolean;
@@ -35,8 +38,6 @@ export default class drawShape {
         this.#pointNodeArr = [];
         // 绘图过程中，临时记录的节点 Cartesian3 的数组
         this.#pointNodePosiArr = [];
-        // dataSources数组
-        this.#drawShapeEntities = [];
         // 绘图过程中，临时的 Entity
         this.#drawEntity = null;
         // 记录当前深度检测状态
@@ -49,9 +50,9 @@ export default class drawShape {
 
     /**
      * 绘制点要素
-     * @param {Entity.ConstructorOptions} options Entity 中的 Option
+     * @param {pointCallBackType} end 绘制结束回调函数
      */
-    drawPoint(options: Entity.ConstructorOptions = {}): void {
+    drawPoint(end: pointCallBackType): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("左键点击绘制点要素");
@@ -62,21 +63,8 @@ export default class drawShape {
             if (Cesium.defined(position)) {
                 this.#drawEnd();
 
-                let properties = {
-                    id: "point-" + uuid(),
-                    position: position,
-                    point: {
-                        color: Cesium.Color.fromCssColorString('rgb(0,67,72)'),
-                        pixelSize: 6,
-                        outlineWidth: 3,
-                        outlineColor: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                        heightReference:
-                            Cesium.HeightReference.CLAMP_TO_GROUND ,
-                        disableDepthTestDistance: Number.POSITIVE_INFINITY,
-                    },
-                };
-                let o = Object.assign(properties, options);
-                this.#addData(o);
+                // 结束回调
+                end(position);
             }
             this.#drawEnd();
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -89,9 +77,9 @@ export default class drawShape {
 
     /**
      * 绘制线要素
-     * @param { Entity.ConstructorOptions } options Entity 中的 Option
+     * @param { lineCallBackType } end 绘制结束回调函数
      */
-    drawPloyline(options: Entity.ConstructorOptions = {}): void {
+    drawPolyline(end: lineCallBackType): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("左键点击绘制线要素");
@@ -140,34 +128,21 @@ export default class drawShape {
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
         this.#handler.setInputAction((e: any) => {
+            // 结束回调
             if (this.#pointNodePosiArr.length >= 2) {
-                let p = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
-                // 右键点击提前结束
-                let properties = {
-                    id: "ployline-" + uuid(),
-                    polyline: {
-                        positions: p,
-                        width: 3,
-                        material: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                        clampToGround: true,
-                        arcType: Cesium.ArcType.RHUMB,
-                    },
-                };
-                if (options.polyline) {
-                    options.polyline.positions = p;
-                }
-                let o = Object.assign(properties, options);
-                this.#addData(o);
+                let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
+                end(position);
             }
+            // 结束绘图
             this.#drawEnd();
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     }
 
     /**
      * 绘制面要素
-     * @param { Entity.ConstructorOptions } options Entity 中的 Option
+     * @param { lineCallBackType } end 绘制结束回调函数
      */
-    drawPloygon(options: Entity.ConstructorOptions = {}): void {
+    drawPolygon(end: lineCallBackType): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("左键点击绘制面要素");
@@ -229,49 +204,23 @@ export default class drawShape {
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
         this.#handler.setInputAction((e: any) => {
+            // 结束回调
             if (this.#pointNodePosiArr.length >= 3) {
-                // 右键点击结束
-                let p: Cartesian3[] = JSON.parse(
+                let position: Cartesian3[] = JSON.parse(
                     JSON.stringify(this.#pointNodePosiArr)
                 );
-                let hierarchyP = new Cesium.PolygonHierarchy(p);
-                let polylineP = p.concat([p[0]]);
-                let properties = {
-                    id: "ployline-" + uuid(),
-                    polyline: {
-                        positions: polylineP,
-                        width: 3,
-                        material: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                        clampToGround: true,
-                        arcType: Cesium.ArcType.RHUMB,
-                    },
-                    polygon: {
-                        hierarchy: hierarchyP,
-                        material: new Cesium.ColorMaterialProperty(
-                            Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
-                        ),
-                        heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                        arcType: Cesium.ArcType.RHUMB,
-                    },
-                };
-                if (options.polyline) {
-                    options.polyline.positions = polylineP;
-                }
-                if (options.polygon) {
-                    options.polygon.hierarchy = hierarchyP;
-                }
-                let o = Object.assign(properties, options);
-                this.#addData(o);
+                end(position);
             }
+            // 右键点击结束绘图
             this.#drawEnd();
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     }
 
     /**
      * 绘制圆要素
-     * @param { Entity.ConstructorOptions } options Entity 中的 Option
+     * @param { circleCallBackType } end 绘制结束回调函数
      */
-    drawCircle(options: Entity.ConstructorOptions = {}): void {
+    drawCircle(end: circleCallBackType): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("左键点击绘制圆要素");
@@ -336,38 +285,20 @@ export default class drawShape {
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
         this.#handler.setInputAction((e: any) => {
-            // 右键点击结束绘图
+            // 结束回调
             if (this.#drawEntity) {
-                let properties = {
-                    id: "circle-" + uuid(),
-                    position: circleCenter,
-                    ellipse: {
-                        semiMinorAxis: distance,
-                        semiMajorAxis: distance,
-                        fill: true,
-                        material: new Cesium.ColorMaterialProperty(
-                            Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
-                        ),
-                        heightReference:
-                            Cesium.HeightReference.CLAMP_TO_GROUND ,
-                    },
-                };
-                if (options.ellipse) {
-                    options.ellipse.semiMinorAxis = distance;
-                    options.ellipse.semiMajorAxis = distance;
-                }
-                let o = Object.assign(properties, options);
-                this.#addData(o);
+                end(circleCenter, distance)
             }
+            // 右键点击结束绘图
             this.#drawEnd();
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     }
 
     /**
      * 绘制矩形要素
-     * @param { Entity.ConstructorOptions } options Entity 中的 Option
+     * @param { lineCallBackType } end 绘制结束回调函数
      */
-    drawRectangle(options: Entity.ConstructorOptions = {}) {
+    drawRectangle(end: lineCallBackType) {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("左键点击绘制矩形要素");
@@ -450,64 +381,17 @@ export default class drawShape {
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
         this.#handler.setInputAction((e: any) => {
-            // 右键点击结束
+            // 结束回调
             let position = this.#viewer.scene.pickPosition(e.position);
             if (Cesium.defined(position)) {
                 if (pointA && pointB) {
                     let p = calculateRectangle([pointA, pointB, position]);
-                    let hierarchyP = new Cesium.PolygonHierarchy(p);
-                    let polylineP = p.concat([p[0]]);
-                    let properties = {
-                        id: "rectangle-" + uuid(),
-                        polyline: {
-                            positions: polylineP,
-                            width: 3,
-                            material: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                            clampToGround: true,
-                            arcType: Cesium.ArcType.RHUMB,
-                        },
-                        polygon: {
-                            hierarchy: hierarchyP,
-                            material: new Cesium.ColorMaterialProperty(
-                                Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
-                            ),
-                            heightReference:
-                                Cesium.HeightReference.CLAMP_TO_GROUND,
-                            arcType: Cesium.ArcType.RHUMB,
-                        },
-                    };
-                    if (options.polyline) {
-                        options.polyline.positions = polylineP;
-                    }
-                    if (options.polygon) {
-                        options.polygon.hierarchy = hierarchyP;
-                    }
-                    let o = Object.assign(properties, options);
-                    this.#addData(o);
-                    this.#drawEnd();
+                    end(p);
                 }
             }
+            // 结束绘图
+            this.#drawEnd();
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
-    }
-
-    /**
-     * 撤销
-     * @returns
-     */
-    revoke(): boolean {
-        if (this.#drawShapeEntities.length > 0) {
-            let delFeature = this.#drawShapeEntities.pop();
-            this.#drawShapeSource.entities.remove(delFeature!);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 清空
-     */
-    removeAll() {
-        while (this.revoke());
     }
 
     /**
@@ -516,7 +400,6 @@ export default class drawShape {
      */
     destroy() {
         this.#drawEnd();
-        this.removeAll();
         this.#viewer.dataSources.remove(this.#drawShapeSource);
     }
 
@@ -571,16 +454,6 @@ export default class drawShape {
         if (this.#pointNodePosiArr.length > 0) {
             this.#pointNodePosiArr.length = 0;
         }
-    }
-
-    /**
-     * 添加 Entity
-     * @param { Entity.ConstructorOptions } options
-     */
-    #addData(options: Entity.ConstructorOptions) {
-        this.#drawShapeEntities.push(
-            this.#drawShapeSource.entities.add(new Cesium.Entity(options))
-        );
     }
 
     /**
