@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-08-28 19:57:27
+ * @LastEditTime: 2023-08-28 20:49:23
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -63,7 +63,7 @@ export default class drawShape {
     drawPoint(end: pointCallBackType): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
-        this.#messageBox.create("左键点击绘制点要素");
+        this.#messageBox.create("单击绘制点");
         this.#handler.setInputAction((e: any) => {
             // 左键点击画点
             let position = this.#viewer.scene.pickPosition(e.position);
@@ -91,7 +91,7 @@ export default class drawShape {
     drawPolyline(end: lineCallBackType, maxNode: number=Number.POSITIVE_INFINITY): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
-        this.#messageBox.create("左键点击绘制线要素");
+        this.#messageBox.create("单击开始绘制");
         this.#handler.setInputAction((e: any) => {
             // 左键点击画折线
             let position = this.#viewer.scene.pickPosition(e.position);
@@ -125,7 +125,7 @@ export default class drawShape {
                             arcType: Cesium.ArcType.RHUMB,
                         },
                     });
-                    this.#messageBox.changeMessage("左键点击继续绘制，右键点击结束绘制");
+                    this.#messageBox.changeMessage("单击继续绘制，右击结束绘制");
                 }
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -165,7 +165,7 @@ export default class drawShape {
     drawPolygon(end: lineCallBackType, maxNode: number=Number.POSITIVE_INFINITY): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
-        this.#messageBox.create("左键点击绘制面要素");
+        this.#messageBox.create("单击开始绘制");
         this.#handler.setInputAction((e: any) => {
             // 左键点击画面
             let position = this.#viewer.scene.pickPosition(e.position);
@@ -210,7 +210,7 @@ export default class drawShape {
                             arcType: Cesium.ArcType.RHUMB,
                         },
                     });
-                    this.#messageBox.changeMessage("左键点击继续绘制，右键点击结束绘制");
+                    this.#messageBox.changeMessage("单击继续绘制，右击结束绘制");
                 }
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -249,7 +249,7 @@ export default class drawShape {
     drawCircle(end: circleCallBackType): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
-        this.#messageBox.create("左键点击绘制圆要素");
+        this.#messageBox.create("单击开始绘制");
         // 圆心
         let circleCenter: Cartesian3;
         let endPosition: Cartesian3;
@@ -263,7 +263,7 @@ export default class drawShape {
                 if (!circleCenter) {
                     this.#addTemporaryPoint(position);
                     circleCenter = position;
-                    this.#messageBox.changeMessage("右键点击结束绘制");
+                    this.#messageBox.changeMessage("单击结束绘制");
                 } else {
                     // 第二个节点
                     if (distance) {
@@ -338,7 +338,7 @@ export default class drawShape {
     drawRectangle(end: lineCallBackType) {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
-        this.#messageBox.create("点击绘制矩形要素");
+        this.#messageBox.create("单击开始绘制");
         // 初始两点
         let pointA: Cartesian3, pointB: Cartesian3;
         this.#handler.setInputAction((e: any) => {
@@ -351,10 +351,10 @@ export default class drawShape {
                     this.#addTemporaryPoint(position);
                     if (!pointA) {
                         pointA = position;
-                        this.#messageBox.changeMessage("点击继续绘制");
+                        this.#messageBox.changeMessage("单击继续绘制");
                     } else if (!pointB) {
                         pointB = position;
-                        this.#messageBox.changeMessage("点击结束绘制");
+                        this.#messageBox.changeMessage("单击结束绘制");
                     }
                 } else {
                     if (pointA && pointB) {
