@@ -2,16 +2,16 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 11:34:05
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-28 14:21:39
+ * @LastEditTime: 2023-08-28 16:39:11
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
-import { Cartesian3, Entity } from "cesium";
+import { Cartesian3, Entity, Property } from "cesium";
 import uuid from "../../utils/uuid";
 
 export default class entityFactory {
     static createPoint(
-        position: Cartesian3,
+        position: Cartesian3|Property,
         options: Entity.ConstructorOptions = {}
     ): Entity {
         let properties = {
@@ -23,7 +23,6 @@ export default class entityFactory {
                 outlineWidth: 3,
                 outlineColor:
                     Cesium.Color.fromCssColorString("rgb(22,236,255)"),
-                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                 disableDepthTestDistance: Number.POSITIVE_INFINITY,
             },
         };
@@ -34,8 +33,45 @@ export default class entityFactory {
         return e;
     }
 
+    static createLabelPoint(
+        position: Cartesian3|Property,
+        text: string|Property,
+        options: Entity.ConstructorOptions = {}
+    ): Entity {
+        let properties = {
+            id: "point-" + uuid(),
+            position: position,
+            point: {
+                color: Cesium.Color.fromCssColorString("rgb(0,67,72)"),
+                pixelSize: 6,
+                outlineWidth: 3,
+                outlineColor:
+                    Cesium.Color.fromCssColorString("rgb(22,236,255)"),
+                disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            },
+            label:{
+                text: text,
+                font: '14pt bold monospace',
+                fillColor: Cesium.Color.WHITE,
+                outlineColor: Cesium.Color.BLACK,
+                outlineWidth: 4,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                backgroundColor: Cesium.Color.RED,
+                verticalOrigin: Cesium.VerticalOrigin.TOP,
+                horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+                disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                pixelOffset: new Cesium.Cartesian2(0, -30)
+            }
+        };
+        let o = Object.assign(properties, options, {
+            position: position,
+        });
+        let e = new Cesium.Entity(o);
+        return e;
+    }
+
     static createPolyline(
-        positions: Cartesian3[],
+        positions: Cartesian3[]|Property,
         options: Entity.ConstructorOptions = {}
     ) {
         let properties = {
@@ -61,6 +97,7 @@ export default class entityFactory {
         positions: Cartesian3[],
         options: Entity.ConstructorOptions = {}
     ) {
+
         let hierarchyP = new Cesium.PolygonHierarchy(positions);
         let polylineP = positions.concat([positions[0]]);
         let properties = {
@@ -77,7 +114,6 @@ export default class entityFactory {
                 material: new Cesium.ColorMaterialProperty(
                     Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                 ),
-                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                 arcType: Cesium.ArcType.RHUMB,
             },
         };
@@ -94,7 +130,7 @@ export default class entityFactory {
     }
 
     static createCircle(
-        position: Cartesian3,
+        position: Cartesian3|Property,
         distance: number,
         options: Entity.ConstructorOptions = {}
     ) {
@@ -108,7 +144,6 @@ export default class entityFactory {
                 material: new Cesium.ColorMaterialProperty(
                     Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                 ),
-                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
             },
         };
         if (options.ellipse) {
