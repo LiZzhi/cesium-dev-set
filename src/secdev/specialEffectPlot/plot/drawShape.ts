@@ -1,3 +1,11 @@
+/*
+ * @Author: XingTao xingt@geovis.com.cn
+ * @Date: 2023-08-28 10:20:04
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-28 14:24:36
+ * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
+ * @Description: 矢量标绘
+ */
 import type {
     Viewer,
     ScreenSpaceEventHandler,
