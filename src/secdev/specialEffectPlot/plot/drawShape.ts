@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-28 14:24:36
+ * @LastEditTime: 2023-08-28 17:40:25
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -19,7 +19,7 @@ import uuid from "@/utils/uuid";
 
 export type pointCallBackType = (positions: Cartesian3) => void;
 export type lineCallBackType = (positions: Cartesian3[]) => void;
-export type circleCallBackType = (positions: Cartesian3, distance: number) => void;
+export type circleCallBackType = (positions: Cartesian3[], distance: number) => void;
 
 export default class drawShape {
     #viewer: Viewer;
@@ -185,8 +185,6 @@ export default class drawShape {
                             material: new Cesium.ColorMaterialProperty(
                                 Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                             ),
-                            heightReference:
-                                Cesium.HeightReference.CLAMP_TO_GROUND,
                             arcType: Cesium.ArcType.RHUMB,
                         },
                     });
@@ -234,6 +232,7 @@ export default class drawShape {
         this.#messageBox.create("左键点击绘制圆要素");
         // 圆心
         let circleCenter: Cartesian3;
+        let endPosition: Cartesian3;
         let distance: number;
         this.#handler.setInputAction((e: any) => {
             // 左键点击画面
@@ -251,16 +250,16 @@ export default class drawShape {
 
         this.#handler.setInputAction((e: any) => {
             // 鼠标移动事件
-            let position = this.#viewer.scene.pickPosition(e.endPosition);
+            endPosition = this.#viewer.scene.pickPosition(e.endPosition);
             // 移动点跟着光标动
-            if (Cesium.defined(position) && circleCenter) {
+            if (Cesium.defined(endPosition) && circleCenter) {
                 let cartographic0 =
                     this.#viewer.scene.globe.ellipsoid.cartesianToCartographic(
                         circleCenter
                     );
                 let cartographic1 =
                     this.#viewer.scene.globe.ellipsoid.cartesianToCartographic(
-                        position
+                        endPosition
                     );
                 let geodesic = new Cesium.EllipsoidGeodesic(
                     cartographic0,
@@ -281,11 +280,10 @@ export default class drawShape {
                                 return distance;
                             }, false),
                             fill: true,
+                            outline: true,
                             material: new Cesium.ColorMaterialProperty(
                                 Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                             ),
-                            heightReference:
-                                Cesium.HeightReference.CLAMP_TO_GROUND ,
                         },
                     });
                 }
@@ -294,8 +292,8 @@ export default class drawShape {
 
         this.#handler.setInputAction((e: any) => {
             // 结束回调
-            if (this.#drawEntity) {
-                end(circleCenter, distance)
+            if (this.#drawEntity && Cesium.defined(endPosition)) {
+                end([circleCenter, endPosition], distance)
             }
             // 右键点击结束绘图
             this.#drawEnd();
@@ -355,8 +353,6 @@ export default class drawShape {
                             material: new Cesium.ColorMaterialProperty(
                                 Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                             ),
-                            heightReference:
-                                Cesium.HeightReference.CLAMP_TO_GROUND,
                             arcType: Cesium.ArcType.RHUMB,
                         },
                     });
@@ -476,7 +472,6 @@ export default class drawShape {
                 pixelSize: 6,
                 outlineWidth: 3,
                 outlineColor: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                 disableDepthTestDistance: Number.POSITIVE_INFINITY,
             },
         });

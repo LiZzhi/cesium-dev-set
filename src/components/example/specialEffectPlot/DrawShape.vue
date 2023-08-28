@@ -53,8 +53,8 @@ const drawFunc = (type: string)=>{
             })
             break;
         case "circle":
-            draw.drawCircle((positions: Cartesian3, distancs: number) => {
-                let e = entityFactory.createCircle(positions, distancs)
+            draw.drawCircle((positions: Cartesian3[], distance: number) => {
+                let e = entityFactory.createCircle(positions[0], distance)
                 viewer.entities.add(e);
                 entityList.push(e)
             })
