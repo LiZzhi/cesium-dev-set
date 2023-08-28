@@ -1,8 +1,8 @@
 /*
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
- * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-28 18:32:55
+ * @LastEditors: “Lizhi” “362042734@qq.com”
+ * @LastEditTime: 2023-08-28 19:57:27
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -338,7 +338,7 @@ export default class drawShape {
     drawRectangle(end: lineCallBackType) {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
-        this.#messageBox.create("左键点击绘制矩形要素");
+        this.#messageBox.create("点击绘制矩形要素");
         // 初始两点
         let pointA: Cartesian3, pointB: Cartesian3;
         this.#handler.setInputAction((e: any) => {
@@ -351,10 +351,16 @@ export default class drawShape {
                     this.#addTemporaryPoint(position);
                     if (!pointA) {
                         pointA = position;
-                        this.#messageBox.changeMessage("左键点击继续绘制");
+                        this.#messageBox.changeMessage("点击继续绘制");
                     } else if (!pointB) {
                         pointB = position;
-                        this.#messageBox.changeMessage("右键点击结束绘制");
+                        this.#messageBox.changeMessage("点击结束绘制");
+                    } else {
+                        // 结束绘图
+                        let p = calculateRectangle([pointA, pointB, position]);
+                        end(p);
+                        // 结束绘图
+                        this.#drawEnd();
                     }
                 }
                 // 添加临时绘图面
