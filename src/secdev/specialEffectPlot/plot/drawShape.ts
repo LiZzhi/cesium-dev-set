@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 10:51:31
+ * @LastEditTime: 2023-08-29 13:19:02
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -14,6 +14,7 @@ import type {
     CustomDataSource,
     Cartographic,
 } from "cesium";
+import entityFactory from "../../utils/entityFactory";
 import calculateRectangle from "../../utils/calculateRectangle";
 import mouseMessageBox from "../../utils/mouseMessageBox";
 import uuid from "@/utils/uuid";
@@ -127,19 +128,15 @@ export default class drawShape {
 
                 // 添加临时绘图线
                 if (!this.#drawEntity) {
-                    this.#drawEntity = this.#drawShapeSource.entities.add({
-                        polyline: {
-                            positions: new Cesium.CallbackProperty(() => {
-                                return this.#pointNodePosiArr;
-                            }, false),
-                            width: 3,
-                            material: new Cesium.PolylineDashMaterialProperty({
-                                color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                            }),
-                            clampToGround: clampToGround,
-                            arcType: clampToGround?Cesium.ArcType.RHUMB:Cesium.ArcType.NONE,
-                        },
-                    });
+                    const p = new Cesium.CallbackProperty(() => {
+                        return this.#pointNodePosiArr;
+                    }, false);
+                    if (clampToGround) {
+                        this.#drawEntity = entityFactory.createPolyline(p);
+                    } else {
+                        this.#drawEntity = entityFactory.createStraightPolyline(p);
+                    }
+                    this.#drawShapeSource.entities.add(this.#drawEntity);
                     this.#messageBox.changeMessage("单击继续绘制，右击结束绘制");
                 }
             }
@@ -316,36 +313,34 @@ export default class drawShape {
                 distance = geodesic.surfaceDistance;
 
                 if (circleCenter && !this.#drawEntity) {
-                    this.#drawEntity = this.#drawShapeSource.entities.add({
-                        position: circleCenter,
-                        // 不贴地情况下显示与圆心偏离高度线
-                        polyline: clampToGround ? undefined : {
-                            positions: new Cesium.CallbackProperty(() => {
-                                return [circleCenter, Cesium.Cartesian3.fromRadians(
-                                    cartographic0.longitude, cartographic0.latitude, cartographic1.height
-                                )]
-                            }, false),
-                            width: 3,
-                            material: new Cesium.PolylineDashMaterialProperty({
-                                color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                            }),
-                            arcType: Cesium.ArcType.NONE,
-                        },
-                        ellipse: {
-                            semiMinorAxis: new Cesium.CallbackProperty(() => {
-                                return distance;
-                            }, false),
-                            semiMajorAxis: new Cesium.CallbackProperty(() => {
-                                return distance;
-                            }, false),
-                            fill: true,
-                            outline: true,
-                            height: clampToGround ? undefined : new Cesium.CallbackProperty(() => cartographic1.height, false),
-                            material: new Cesium.ColorMaterialProperty(
-                                Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
-                            ),
-                        },
-                    });
+                    if (clampToGround) {
+                        this.#drawEntity = entityFactory.createCircle(
+                            circleCenter,
+                            new Cesium.CallbackProperty(() => distance, false),
+                        )
+                    } else {
+                        this.#drawEntity = entityFactory.createHeightCircle(
+                            circleCenter,
+                            new Cesium.CallbackProperty(() => distance, false),
+                            new Cesium.CallbackProperty(() => cartographic1.height, false),
+                            {
+                                // 添加高度线
+                                polyline: {
+                                    positions: new Cesium.CallbackProperty(() => {
+                                        return [circleCenter, Cesium.Cartesian3.fromRadians(
+                                            cartographic0.longitude, cartographic0.latitude, cartographic1.height
+                                        )]
+                                    }, false),
+                                    width: 3,
+                                    material: new Cesium.PolylineDashMaterialProperty({
+                                        color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
+                                    }),
+                                    arcType: Cesium.ArcType.NONE,
+                                }
+                            }
+                        )
+                    }
+                    this.#drawShapeSource.entities.add(this.#drawEntity);
                 }
             }
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
