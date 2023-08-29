@@ -1,13 +1,20 @@
 <template>
     <CommPanel title="测量工具" class="measure-panel-box">
         <div class="measure-panel">
-            <CommButton @click="measure.measureHeight()">高程测量</CommButton>
-            <CommButton @click="measure.measureHeightDifference()">高差测量</CommButton>
-            <CommButton @click="measure.measureStraightDistance()">距离测量(直线)</CommButton>
-            <CommButton @click="measure.measureClampDistance()">距离测量(贴地)</CommButton>
-            <CommButton @click="">周长测量</CommButton>
-            <CommButton @click="">面积测量</CommButton>
-            <CommButton @click="">角度测量</CommButton>
+            <div class="btn-group">
+                <CommButton @click="measure.measureHeight()">高程测量</CommButton>
+                <CommButton @click="measure.measureHeightDifference()">高差测量</CommButton>
+                <CommButton @click="">周长测量</CommButton>
+                <CommButton @click="measure.measureArea()">面积测量</CommButton>
+            </div>
+            <div class="btn-group">
+                <CommButton @click="measure.measureStraightDistance()">距离测量(直线)</CommButton>
+                <CommButton @click="measure.measureClampDistance()">距离测量(贴地)</CommButton>
+                <CommButton @click="measure.revoke()" contentClass="revoke">撤销</CommButton>
+                <CommButton @click="measure.removeAll()" contentClass="clear">清空</CommButton>
+            </div>
+
+
         </div>
     </CommPanel>
 </template>
@@ -31,4 +38,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import "./assets/style/MeasureTool.scss"
+</style>

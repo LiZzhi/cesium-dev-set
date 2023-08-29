@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:34
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 11:27:59
+ * @LastEditTime: 2023-08-29 19:09:21
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\measureTool.ts
  * @Description: 测量工具
  */
@@ -14,6 +14,7 @@ import equidistantInterpolation from "../utils/equidistantInterpolation";
 import cartographicTool from "../utils/cartographicTool";
 import getTerrainMostDetailedHeight from "../utils/getTerrainMostDetailedHeight";
 import uuid from "../../utils/uuid";
+import type { worldDegreesType } from "../type";
 
 export default class measureTool{
     #viewer: Viewer;
@@ -44,7 +45,7 @@ export default class measureTool{
 
             Cesium.sampleTerrainMostDetailed(this.#viewer.terrainProvider, [radin]).then(radinArr=>{
                 const height = radinArr[0].height;
-                heightStr = height > 1000 ? (height / 1000).toFixed(3) + 'km' : height.toFixed(3) + 'm';
+                heightStr = "高程:" + (height > 1000 ? (height / 1000).toFixed(3) + 'km' : height.toFixed(3) + 'm');
             });
         })
     }
@@ -63,7 +64,7 @@ export default class measureTool{
                 endRadin.height
             )
             const height = endRadin.height - startRadin.height;
-            const heightStr = Math.abs(height) > 1000 ? (height / 1000).toFixed(3) + 'km' : height.toFixed(3) + 'm';
+            const heightStr = "高差:" + (Math.abs(height) > 1000 ? (height / 1000).toFixed(3) + 'km' : height.toFixed(3) + 'm');
             let e1 = entityFactory.createPoint(positions[0]);
             let e2 = entityFactory.createStraightPolyline([positions[0], heightPosition]);
             let e3 = entityFactory.createHeightCircle(positions[0], distance, endRadin.height);
@@ -83,9 +84,10 @@ export default class measureTool{
 
     /**
      * @description: 测量贴地距离
+     * @param { number } interval (可选)插值间隔(米),越小越精准,但计算量越大,建议根据实际距离来配置,默认为1m
      * @return {*}
      */
-    measureClampDistance(){
+    measureClampDistance(interval: number=1){
         this.#draw.drawPolyline(async (positions) => {
             const es:Entity[] = [];
 
@@ -109,7 +111,7 @@ export default class measureTool{
                 // 添加节点
                 es.push(this.#measureDataSource.entities.add(entityFactory.createPoint(positions[i])))
                 // 插值结果
-                const interpolationPositions = equidistantInterpolation(startPosition, endPosition);
+                const interpolationPositions = equidistantInterpolation(startPosition, endPosition, interval);
                 Cesium.sampleTerrainMostDetailed(this.#viewer.terrainProvider, interpolationPositions).then(catArr => {
                     let sumDistance = 0;
                     let lastCat = catArr[0];
@@ -122,7 +124,7 @@ export default class measureTool{
                             Cesium.Cartesian3.fromRadians(endCat.longitude, endCat.latitude, endCat.height, this.#viewer.scene.globe.ellipsoid)
                         );
                     }
-                    distanceStr = sumDistance > 1000 ? (sumDistance / 1000).toFixed(3) + 'km' : sumDistance.toFixed(3) + 'm';
+                    distanceStr = "贴地距离:" + (sumDistance > 1000 ? (sumDistance / 1000).toFixed(3) + 'km' : sumDistance.toFixed(3) + 'm');
                 })
             }
             // 添加线段
@@ -151,7 +153,7 @@ export default class measureTool{
                 Cesium.Cartesian3.midpoint(startPosition, endPosition, centerPosition);
                 // 计算距离
                 const distanceNum = Cesium.Cartesian3.distance(startPosition, endPosition);
-                const distanceText = distanceNum > 1000 ? (distanceNum / 1000).toFixed(3) + 'km' : distanceNum.toFixed(3) + 'm';
+                const distanceText = "直线距离:" + (distanceNum > 1000 ? (distanceNum / 1000).toFixed(3) + 'km' : distanceNum.toFixed(3) + 'm');
                 // 添加label
                 es.push(this.#measureDataSource.entities.add(entityFactory.createLabel(centerPosition, distanceText)));
                 // 添加节点
@@ -162,6 +164,38 @@ export default class measureTool{
             this.#measureCollection.push(es);
         }, {
             clampToGround: false,
+        })
+    }
+
+    /**
+     * @description: 测量多边形面积
+     * @return {*}
+     */
+    measureArea(){
+        this.#draw.drawPolygon(async (positions) => {
+            const es:Entity[] = [];
+            const catArr: number[][] = [];
+            let areaStr = "计算中";
+            es.push(this.#measureDataSource.entities.add(entityFactory.createPloygon(positions)));
+            for (let i = 0; i < positions.length; i++) {
+                if (i === 0) {
+                    // 因为中点高度不好弄,尤其测量3dtile时候,所以直接放在第一点上了
+                    es.push(this.#measureDataSource.entities.add(
+                        entityFactory.createLabelPoint(positions[i], new Cesium.CallbackProperty(() => areaStr, false))
+                    ));
+                } else{
+                    es.push(this.#measureDataSource.entities.add(entityFactory.createPoint(positions[i])));
+                }
+                let cat = Cesium.Cartographic.fromCartesian(positions[i]);
+                catArr.push([Cesium.Math.toDegrees(cat.longitude), Cesium.Math.toDegrees(cat.latitude)])
+            }
+            // 计算面积
+            const area = turf.area({
+                type: 'Polygon',
+                coordinates: [catArr]
+            });
+            areaStr = "面积:" + (area < 100000?(area.toFixed(3)+'m²'):((area/100000).toFixed(3)+'km²'));
+            this.#measureCollection.push(es);
         })
     }
 
