@@ -1,8 +1,8 @@
 /*
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
- * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-08-28 20:49:23
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-29 10:51:31
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -12,6 +12,7 @@ import type {
     Cartesian3,
     Entity,
     CustomDataSource,
+    Cartographic,
 } from "cesium";
 import calculateRectangle from "../../utils/calculateRectangle";
 import mouseMessageBox from "../../utils/mouseMessageBox";
@@ -20,6 +21,15 @@ import uuid from "@/utils/uuid";
 export type pointCallBackType = (positions: Cartesian3) => void;
 export type lineCallBackType = (positions: Cartesian3[]) => void;
 export type circleCallBackType = (positions: Cartesian3[], distance: number) => void;
+
+export type polylineOptionsType = {
+    maxNode?: number;
+    clampToGround?: boolean;
+}
+
+export type circleOptionsType = {
+    clampToGround?: boolean;
+}
 
 export default class drawShape {
     #viewer: Viewer;
@@ -86,9 +96,14 @@ export default class drawShape {
     /**
      * 绘制线要素
      * @param { lineCallBackType } end 绘制结束回调函数
-     * @param { number } maxNode (可选)最大节点数量,默认为正无穷
+     * @param { polylineOptionsType } options (可选)配置项
      */
-    drawPolyline(end: lineCallBackType, maxNode: number=Number.POSITIVE_INFINITY): void {
+    drawPolyline(end: lineCallBackType, options: polylineOptionsType={}): void {
+        // 配置项
+        const {maxNode, clampToGround} = Object.assign({
+            maxNode: Number.POSITIVE_INFINITY,  // (可选)最大节点数量,默认为正无穷
+            clampToGround: true,    // (可选)是否贴地,默认贴地
+        }, options)
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("单击开始绘制");
@@ -121,8 +136,8 @@ export default class drawShape {
                             material: new Cesium.PolylineDashMaterialProperty({
                                 color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
                             }),
-                            clampToGround: true,
-                            arcType: Cesium.ArcType.RHUMB,
+                            clampToGround: clampToGround,
+                            arcType: clampToGround?Cesium.ArcType.RHUMB:Cesium.ArcType.NONE,
                         },
                     });
                     this.#messageBox.changeMessage("单击继续绘制，右击结束绘制");
@@ -162,7 +177,7 @@ export default class drawShape {
      * @param { lineCallBackType } end 绘制结束回调函数
      * @param { number } maxNode (可选)最大节点数量,默认为正无穷
      */
-    drawPolygon(end: lineCallBackType, maxNode: number=Number.POSITIVE_INFINITY): void {
+    drawPolygon(end: lineCallBackType, maxNode:number=Number.POSITIVE_INFINITY): void {
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("单击开始绘制");
@@ -246,13 +261,18 @@ export default class drawShape {
      * 绘制圆要素
      * @param { circleCallBackType } end 绘制结束回调函数
      */
-    drawCircle(end: circleCallBackType): void {
+    drawCircle(end: circleCallBackType, options:circleOptionsType = {}): void {
+        const {clampToGround} = Object.assign({
+            clampToGround: true,
+        }, options)
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
         this.#messageBox.create("单击开始绘制");
         // 圆心
         let circleCenter: Cartesian3;
         let endPosition: Cartesian3;
+        let cartographic0: Cartographic;
+        let cartographic1: Cartographic;
         let distance = 0;
         this.#handler.setInputAction((e: any) => {
             // 左键点击画面
@@ -263,6 +283,8 @@ export default class drawShape {
                 if (!circleCenter) {
                     this.#addTemporaryPoint(position);
                     circleCenter = position;
+                    cartographic0 = this.#viewer.scene.globe.ellipsoid.cartesianToCartographic(circleCenter);
+                    cartographic1 = cartographic0;
                     this.#messageBox.changeMessage("单击结束绘制");
                 } else {
                     // 第二个节点
@@ -284,14 +306,7 @@ export default class drawShape {
             endPosition = this.#viewer.scene.pickPosition(e.endPosition);
             // 移动点跟着光标动
             if (Cesium.defined(endPosition) && circleCenter) {
-                let cartographic0 =
-                    this.#viewer.scene.globe.ellipsoid.cartesianToCartographic(
-                        circleCenter
-                    );
-                let cartographic1 =
-                    this.#viewer.scene.globe.ellipsoid.cartesianToCartographic(
-                        endPosition
-                    );
+                cartographic1 = this.#viewer.scene.globe.ellipsoid.cartesianToCartographic(endPosition);
                 let geodesic = new Cesium.EllipsoidGeodesic(
                     cartographic0,
                     cartographic1,
@@ -303,6 +318,19 @@ export default class drawShape {
                 if (circleCenter && !this.#drawEntity) {
                     this.#drawEntity = this.#drawShapeSource.entities.add({
                         position: circleCenter,
+                        // 不贴地情况下显示与圆心偏离高度线
+                        polyline: clampToGround ? {
+                            positions: new Cesium.CallbackProperty(() => {
+                                return [circleCenter, Cesium.Cartesian3.fromRadians(
+                                    cartographic0.longitude, cartographic0.latitude, cartographic1.height
+                                )]
+                            }, false),
+                            width: 3,
+                            material: new Cesium.PolylineDashMaterialProperty({
+                                color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
+                            }),
+                            arcType: Cesium.ArcType.NONE,
+                        } : undefined,
                         ellipse: {
                             semiMinorAxis: new Cesium.CallbackProperty(() => {
                                 return distance;
@@ -312,6 +340,7 @@ export default class drawShape {
                             }, false),
                             fill: true,
                             outline: true,
+                            height: clampToGround ? new Cesium.CallbackProperty(() => cartographic1.height, false) : undefined,
                             material: new Cesium.ColorMaterialProperty(
                                 Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                             ),
