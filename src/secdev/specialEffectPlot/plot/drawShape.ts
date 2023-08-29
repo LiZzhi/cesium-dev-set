@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 13:19:02
+ * @LastEditTime: 2023-08-29 18:00:58
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -528,17 +528,9 @@ export default class drawShape {
      * @param { Cartesian3 } position 节点坐标
      */
     #addTemporaryPoint(position: Cartesian3): void {
-        let pointEntity = this.#drawShapeSource.entities.add({
-            position: position,
-            point: {
-                color: Cesium.Color.fromCssColorString('rgb(0,67,72)'),
-                pixelSize: 6,
-                outlineWidth: 3,
-                outlineColor: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
-                disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            },
-        });
+        const temporaryPoint = entityFactory.createPoint(position);
+        this.#drawShapeSource.entities.add(temporaryPoint)
         this.#pointNodePosiArr.push(position);
-        this.#pointNodeArr.push(pointEntity);
+        this.#pointNodeArr.push(temporaryPoint);
     }
 }
