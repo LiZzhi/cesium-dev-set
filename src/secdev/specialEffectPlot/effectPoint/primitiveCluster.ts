@@ -1,8 +1,8 @@
 /*
  * @Author: “Lizhi” “362042734@qq.com”
  * @Date: 2023-08-22 21:19:50
- * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-08-27 20:30:40
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-29 09:30:04
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\effectPoint\primitiveCluster.ts
  * @Description: primitive聚合(测试版)
  */
@@ -105,25 +105,24 @@ export default class primitiveCluster {
             this.#kdbush = new kdbush(this.#cartographicPoints.length, 64, Float32Array);
             const newPositions:Cartographic[] = [];
             for (let i = 0; i < this.#cartographicPoints.length; i++) {
-                const {longitude, latitude, height} = this.#cartographicPoints[i];
+                const cat = this.#cartographicPoints[i];
                 let h = 0;
                 if(this.#options.relativeToCround){
                     // 是否计算地形高
-                    h = await getTerrainMostDetailedHeight(
-                        this.#viewer,
-                        Cesium.Math.toDegrees(longitude),
-                        Cesium.Math.toDegrees(latitude)
-                    );
+                    h = (await Cesium.sampleTerrainMostDetailed(
+                        this.#viewer.terrainProvider,
+                        [cat]
+                    ))[0].height;
                 }
-                newPositions.push(new Cesium.Cartographic(longitude, latitude, h + height));
+                newPositions.push(new Cesium.Cartographic(cat.longitude, cat.latitude, h + cat.height));
                 // 存储一份笛卡尔坐标用来直接读取位置
                 this.#cartesianPoints.push(
                     Cesium.Cartesian3.fromRadians(
-                        longitude, latitude, h + height,
+                        cat.longitude, cat.latitude, h + cat.height,
                         this.#viewer.scene.globe.ellipsoid
                     )
                 );
-                this.#kdbush!.add(longitude, latitude);
+                this.#kdbush!.add(cat.longitude, cat.latitude);
             }
             // 替换源数据
             this.#cartographicPoints = newPositions;
