@@ -319,7 +319,7 @@ export default class drawShape {
                     this.#drawEntity = this.#drawShapeSource.entities.add({
                         position: circleCenter,
                         // 不贴地情况下显示与圆心偏离高度线
-                        polyline: clampToGround ? {
+                        polyline: clampToGround ? undefined : {
                             positions: new Cesium.CallbackProperty(() => {
                                 return [circleCenter, Cesium.Cartesian3.fromRadians(
                                     cartographic0.longitude, cartographic0.latitude, cartographic1.height
@@ -330,7 +330,7 @@ export default class drawShape {
                                 color: Cesium.Color.fromCssColorString('rgb(22,236,255)'),
                             }),
                             arcType: Cesium.ArcType.NONE,
-                        } : undefined,
+                        },
                         ellipse: {
                             semiMinorAxis: new Cesium.CallbackProperty(() => {
                                 return distance;
@@ -340,7 +340,7 @@ export default class drawShape {
                             }, false),
                             fill: true,
                             outline: true,
-                            height: clampToGround ? new Cesium.CallbackProperty(() => cartographic1.height, false) : undefined,
+                            height: clampToGround ? undefined : new Cesium.CallbackProperty(() => cartographic1.height, false),
                             material: new Cesium.ColorMaterialProperty(
                                 Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                             ),
