@@ -1,8 +1,8 @@
 /*
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:34
- * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-08-28 23:10:19
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-29 11:27:59
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\measureTool.ts
  * @Description: 测量工具
  */
@@ -10,6 +10,7 @@ import { Cartesian3, Cartographic, CustomDataSource, Viewer, Entity } from "cesi
 import drawShape from "../specialEffectPlot/plot/drawShape";
 import entityFactory from "../utils/entityFactory";
 import * as turf from "@turf/turf";
+import equidistantInterpolation from "../utils/equidistantInterpolation";
 import cartographicTool from "../utils/cartographicTool";
 import getTerrainMostDetailedHeight from "../utils/getTerrainMostDetailedHeight";
 import uuid from "../../utils/uuid";
@@ -32,7 +33,7 @@ export default class measureTool{
      * @return {*}
      */
     measureHeight(){
-        this.#draw.drawPoint(async (position: Cartesian3) => {
+        this.#draw.drawPoint((position) => {
             let radin = Cesium.Cartographic.fromCartesian(position);
             let heightStr = '计算中...';
 
@@ -41,10 +42,92 @@ export default class measureTool{
             )
             this.#measureCollection.push([e]);
 
-            let radinArr = await this.#viewer.scene.sampleHeightMostDetailed([radin]);
-            if(radinArr.length){
-                heightStr = radinArr[0].height.toFixed(3) + 'km';
+            Cesium.sampleTerrainMostDetailed(this.#viewer.terrainProvider, [radin]).then(radinArr=>{
+                const height = radinArr[0].height;
+                heightStr = height > 1000 ? (height / 1000).toFixed(3) + 'km' : height.toFixed(3) + 'm';
+            });
+        })
+    }
+
+    /**
+     * @description: 测量高差
+     * @return {*}
+     */
+    measureHeightDifference(){
+        this.#draw.drawCircle((positions, distance) => {
+            let startRadin = Cesium.Cartographic.fromCartesian(positions[0]);
+            let endRadin = Cesium.Cartographic.fromCartesian(positions[1]);
+            let heightPosition = Cesium.Cartesian3.fromRadians(
+                startRadin.longitude,
+                startRadin.latitude,
+                endRadin.height
+            )
+            const height = endRadin.height - startRadin.height;
+            const heightStr = Math.abs(height) > 1000 ? (height / 1000).toFixed(3) + 'km' : height.toFixed(3) + 'm';
+            let e1 = entityFactory.createPoint(positions[0]);
+            let e2 = entityFactory.createStraightPolyline([positions[0], heightPosition]);
+            let e3 = entityFactory.createHeightCircle(positions[0], distance, endRadin.height);
+            let e4 = entityFactory.createLabelPoint(
+                Cesium.Cartesian3.fromRadians(startRadin.longitude, startRadin.latitude, endRadin.height),
+                heightStr
+            );
+            const es = [e1, e2, e3, e4];
+            this.#measureCollection.push(es);
+            es.forEach(v => {
+                this.#measureDataSource.entities.add(v);
+            })
+        }, {
+            clampToGround: false,
+        })
+    }
+
+    /**
+     * @description: 测量贴地距离
+     * @return {*}
+     */
+    measureClampDistance(){
+        this.#draw.drawPolyline(async (positions) => {
+            const es:Entity[] = [];
+
+            let lastPosition: Cartesian3 = positions[0];
+            // 添加第一个节点
+            es.push(this.#measureDataSource.entities.add(entityFactory.createPoint(lastPosition)))
+            for (let i = 1; i < positions.length; i++) {
+                const startPosition = lastPosition;
+                const endPosition = positions[i];
+                lastPosition = endPosition;
+
+                let distanceStr = '计算中...';
+                // 计算label位置
+                const centerPosition = new Cesium.Cartesian3();
+                Cesium.Cartesian3.midpoint(startPosition, endPosition, centerPosition);
+                // 添加label
+                es.push(this.#measureDataSource.entities.add(entityFactory.createLabel(
+                    centerPosition,
+                    new Cesium.CallbackProperty(()=>distanceStr, false)
+                )));
+                // 添加节点
+                es.push(this.#measureDataSource.entities.add(entityFactory.createPoint(positions[i])))
+                // 插值结果
+                const interpolationPositions = equidistantInterpolation(startPosition, endPosition);
+                Cesium.sampleTerrainMostDetailed(this.#viewer.terrainProvider, interpolationPositions).then(catArr => {
+                    let sumDistance = 0;
+                    let lastCat = catArr[0];
+                    for (let j = 1; j < catArr.length; j++) {
+                        const startCat = lastCat;
+                        const endCat = catArr[j];
+                        lastCat = endCat;
+                        sumDistance += Cesium.Cartesian3.distance(
+                            Cesium.Cartesian3.fromRadians(startCat.longitude, startCat.latitude, startCat.height, this.#viewer.scene.globe.ellipsoid),
+                            Cesium.Cartesian3.fromRadians(endCat.longitude, endCat.latitude, endCat.height, this.#viewer.scene.globe.ellipsoid)
+                        );
+                    }
+                    distanceStr = sumDistance > 1000 ? (sumDistance / 1000).toFixed(3) + 'km' : sumDistance.toFixed(3) + 'm';
+                })
             }
+            // 添加线段
+            es.push(this.#measureDataSource.entities.add(entityFactory.createPolyline(positions)));
+            this.#measureCollection.push(es);
         })
     }
 
@@ -53,7 +136,7 @@ export default class measureTool{
      * @return {*}
      */
     measureStraightDistance(){
-        this.#draw.drawPolyline(async (positions: Cartesian3[]) => {
+        this.#draw.drawPolyline(async (positions) => {
             const es:Entity[] = [];
 
             let lastPosiCat: Cartesian3 = positions[0];
@@ -77,6 +160,24 @@ export default class measureTool{
             // 添加线段
             es.push(this.#measureDataSource.entities.add(entityFactory.createStraightPolyline(positions)));
             this.#measureCollection.push(es);
+        }, {
+            clampToGround: false,
         })
+    }
+
+    revoke(){
+        const entities = this.#measureCollection.pop();
+        if(entities){
+            for (let i = 0; i < entities.length; i++) {
+                this.#measureDataSource.entities.remove(entities[i]);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    removeAll(){
+        while (this.revoke());
     }
 }
