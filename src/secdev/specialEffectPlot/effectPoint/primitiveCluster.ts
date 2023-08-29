@@ -2,7 +2,7 @@
  * @Author: “Lizhi” “362042734@qq.com”
  * @Date: 2023-08-22 21:19:50
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 09:30:04
+ * @LastEditTime: 2023-08-29 09:33:20
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\effectPoint\primitiveCluster.ts
  * @Description: primitive聚合(测试版)
  */
@@ -112,7 +112,7 @@ export default class primitiveCluster {
                     h = (await Cesium.sampleTerrainMostDetailed(
                         this.#viewer.terrainProvider,
                         [cat]
-                    ))[0].height;
+                    ))[0].height || 0;
                 }
                 newPositions.push(new Cesium.Cartographic(cat.longitude, cat.latitude, h + cat.height));
                 // 存储一份笛卡尔坐标用来直接读取位置
