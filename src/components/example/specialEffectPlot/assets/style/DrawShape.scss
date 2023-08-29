@@ -6,7 +6,7 @@
         margin-top: 15px;
         flex-direction: column;
         gap: 15px;
-        ::v-deep .btn-group {
+        :deep(.btn-group) {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;

@@ -35,7 +35,7 @@
                 flex: 0.6;
             }
         }
-        ::v-deep .roam-btn-group {
+        :deep(.roam-btn-group) {
             position: relative;
             display: flex;
             width: 100%;

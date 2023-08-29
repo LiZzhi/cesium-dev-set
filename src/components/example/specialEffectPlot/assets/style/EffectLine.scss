@@ -18,7 +18,7 @@
             .line-btn{
                 width: 90px;
             }
-            ::v-deep .clear {
+            :deep(.clear) {
                 width: 100%;
                 .comm-button-content {
                     color: $danger-color;

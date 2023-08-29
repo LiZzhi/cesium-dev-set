@@ -7,7 +7,7 @@
         display: flex;
         width: 100%;
         justify-content: space-between;
-        ::v-deep .clear{
+        :deep(.clear){
             color: $danger-color;
         }
     }
