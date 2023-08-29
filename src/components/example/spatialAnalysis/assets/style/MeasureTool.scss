@@ -8,16 +8,19 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-        .btn-group {
+        :deep(.btn-group) {
             position: relative;
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            :deep(.revoke){
-                color: $warning-color;
-            }
-            :deep(.clear) {
-                color: $danger-color;
+            .half-btn {
+                width: calc(50% - 5px);
+                .revoke {
+                    color: $warning-color;
+                }
+                .clear {
+                    color: $danger-color;
+                }
             }
         }
     }

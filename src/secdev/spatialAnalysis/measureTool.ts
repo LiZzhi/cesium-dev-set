@@ -1,8 +1,8 @@
 /*
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:34
- * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 19:09:21
+ * @LastEditors: “Lizhi” “362042734@qq.com”
+ * @LastEditTime: 2023-08-29 21:07:53
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\measureTool.ts
  * @Description: 测量工具
  */
@@ -11,10 +11,7 @@ import drawShape from "../specialEffectPlot/plot/drawShape";
 import entityFactory from "../utils/entityFactory";
 import * as turf from "@turf/turf";
 import equidistantInterpolation from "../utils/equidistantInterpolation";
-import cartographicTool from "../utils/cartographicTool";
-import getTerrainMostDetailedHeight from "../utils/getTerrainMostDetailedHeight";
 import uuid from "../../utils/uuid";
-import type { worldDegreesType } from "../type";
 
 export default class measureTool{
     #viewer: Viewer;

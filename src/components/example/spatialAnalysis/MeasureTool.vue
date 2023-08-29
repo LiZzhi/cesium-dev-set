@@ -4,16 +4,16 @@
             <div class="btn-group">
                 <CommButton @click="measure.measureHeight()">高程测量</CommButton>
                 <CommButton @click="measure.measureHeightDifference()">高差测量</CommButton>
-                <CommButton @click="">周长测量</CommButton>
                 <CommButton @click="measure.measureArea()">面积测量</CommButton>
             </div>
             <div class="btn-group">
-                <CommButton @click="measure.measureStraightDistance()">距离测量(直线)</CommButton>
-                <CommButton @click="measure.measureClampDistance()">距离测量(贴地)</CommButton>
-                <CommButton @click="measure.revoke()" contentClass="revoke">撤销</CommButton>
-                <CommButton @click="measure.removeAll()" contentClass="clear">清空</CommButton>
+                <CommButton @click="measure.measureStraightDistance()" class="half-btn">距离测量(直线)</CommButton>
+                <CommButton @click="measure.measureClampDistance()" class="half-btn">距离测量(贴地)</CommButton>
             </div>
-
+            <div class="btn-group">
+                <CommButton @click="measure.revoke()" class="half-btn" contentClass="revoke">撤销</CommButton>
+                <CommButton @click="measure.removeAll()" class="half-btn" contentClass="clear">清空</CommButton>
+            </div>
 
         </div>
     </CommPanel>
