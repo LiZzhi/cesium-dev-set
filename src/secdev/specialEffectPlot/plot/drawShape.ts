@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 18:45:10
+ * @LastEditTime: 2023-08-29 19:04:32
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -411,7 +411,8 @@ export default class drawShape {
                         polygon: {
                             hierarchy: new Cesium.CallbackProperty(() => {
                                 return new Cesium.PolygonHierarchy(
-                                    this.#pointNodePosiArr
+                                    // 不深拷贝源数据就会被修改,真是奇怪了这操作
+                                    JSON.parse(JSON.stringify(this.#pointNodePosiArr))
                                 );
                             }, false),
                             material: new Cesium.ColorMaterialProperty(
