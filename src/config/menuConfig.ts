@@ -124,7 +124,7 @@ const menu:menuConfigType[] = [
             {
                 label: "测量工具",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/linkView.png"),
+                img: require("@/assets/cover/spatialAnalysis/measureTool.png"),
                 route: "measureTool",
                 component: () => import("@/components/example/spatialAnalysis/MeasureTool.vue"),
             },
