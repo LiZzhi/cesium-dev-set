@@ -1,8 +1,8 @@
 /*
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 11:34:05
- * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-08-28 23:09:31
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-29 13:31:18
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
@@ -93,7 +93,7 @@ export default class entityFactory {
     }
 
     static createPolyline(
-        positions: Cartesian3[],
+        positions: Cartesian3[]|Property,
         options: Entity.ConstructorOptions = {}
     ) {
         let properties = {
@@ -115,7 +115,7 @@ export default class entityFactory {
     }
 
     static createStraightPolyline(
-        positions: Cartesian3[],
+        positions: Cartesian3[]|Property,
         options: Entity.ConstructorOptions = {}
     ) {
         let properties = {
@@ -139,7 +139,6 @@ export default class entityFactory {
         positions: Cartesian3[],
         options: Entity.ConstructorOptions = {}
     ) {
-
         let hierarchyP = new Cesium.PolygonHierarchy(positions);
         let polylineP = positions.concat([positions[0]]);
         let properties = {
@@ -172,8 +171,8 @@ export default class entityFactory {
     }
 
     static createCircle(
-        position: Cartesian3,
-        distance: number,
+        position: Cartesian3|Property,
+        distance: number|Property,
         options: Entity.ConstructorOptions = {}
     ) {
         let properties = {
@@ -183,6 +182,38 @@ export default class entityFactory {
                 semiMinorAxis: distance,
                 semiMajorAxis: distance,
                 fill: true,
+                material: new Cesium.ColorMaterialProperty(
+                    Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
+                ),
+            },
+        };
+        if (options.ellipse) {
+            options.ellipse.semiMinorAxis = distance;
+            options.ellipse.semiMajorAxis = distance;
+        }
+        let o = Object.assign(properties, options, {
+            position: position,
+        });
+
+        let e = new Cesium.Entity(o);
+        return e;
+    }
+
+    static createHeightCircle(
+        position: Cartesian3|Property,
+        distance: number|Property,
+        height: number|Property,
+        options: Entity.ConstructorOptions = {},
+    ){
+        let properties = {
+            id: "circle-" + uuid(),
+            position: position,
+            ellipse: {
+                semiMinorAxis: distance,
+                semiMajorAxis: distance,
+                fill: true,
+                outline: true,
+                height: height,
                 material: new Cesium.ColorMaterialProperty(
                     Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
                 ),
