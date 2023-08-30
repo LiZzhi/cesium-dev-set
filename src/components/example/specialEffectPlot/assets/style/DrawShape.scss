@@ -3,7 +3,6 @@
     left: 2%;
     .draw-panel {
         display: flex;
-        margin-top: 15px;
         flex-direction: column;
         gap: 15px;
         :deep(.btn-group) {
