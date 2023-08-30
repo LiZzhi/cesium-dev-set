@@ -1,8 +1,3 @@
-@font-face {
-	font-family: "apb";
-	src: url("../font/commPanel/Alibaba-PuHuiTi-Bold.ttf") format('truetype'),
-}
-
 .panelTem {
 	box-sizing: border-box;
 	display: flex;
@@ -33,7 +28,7 @@
 		cursor: move;
 		.panelLabel {
 			height: 22px;
-			font-family: "apb";
+			font-family: apb;
 			font-style: normal;
 			font-weight: 900;
 			font-size: 15px;

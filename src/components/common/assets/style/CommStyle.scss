@@ -2,9 +2,21 @@
 $dark-back-color: rgba(18, 28, 41, 0.6);
 $dark-border-color: #3b618f;
 $dark-placeholder-color: #a8abb2;
-$dark-gradient: linear-gradient(#04090CB0, #1190D0C2);
+$dark-gradient: linear-gradient(#04090cb0, #1190d0c2);
 $element-color: #409eff;
 $success-color: #67c23a;
 $info-color: #909399;
 $danger-color: #f56c6c;
 $warning-color: #e6a23c;
+
+// 字体
+@font-face {
+    font-family: "apb";
+    src: url("@/components/common/assets/font/Alibaba-PuHuiTi-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "YouSheBiaoTiHei";
+    src: url("@/components/common/assets/font/YouSheBiaoTiHei-2.ttf") format("truetype");
+}
+
