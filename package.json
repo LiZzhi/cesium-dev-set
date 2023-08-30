@@ -15,12 +15,13 @@
     "echarts": "^5.4.3",
     "echarts-liquidfill": "^3.1.0",
     "element-plus": "^2.3.8",
+    "latlon-geohash": "^2.0.0",
     "pinia": "^2.1.6",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
-    "@types/turf": "^3.5.32",
+    "@types/latlon-geohash": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
