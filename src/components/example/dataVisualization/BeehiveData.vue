@@ -1,6 +1,6 @@
 <template>
-    <CommPanel title="蜂巢图" class="beehive-panel-box">
-        <div class="beehive-panel">
+    <CommPanel title="蜂巢图" class="mapv-panel-box">
+        <div class="mapv-panel">
             <CommButton @click="show">显示</CommButton>
             <CommButton @click="hidden" contentClass="clear">隐藏</CommButton>
         </div>
@@ -34,5 +34,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/BeehiveData.scss";
+@import "./assets/style/MapvDataVisual.scss";
 </style>

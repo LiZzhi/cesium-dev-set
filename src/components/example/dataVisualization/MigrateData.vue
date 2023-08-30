@@ -1,6 +1,6 @@
 <template>
-    <CommPanel title="迁徙图" class="migrate-panel-box">
-        <div class="migrate-panel">
+    <CommPanel title="迁徙图" class="mapv-panel-box">
+        <div class="mapv-panel">
             <CommButton @click="show">显示</CommButton>
             <CommButton @click="hidden" contentClass="clear">隐藏</CommButton>
         </div>
@@ -34,5 +34,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/MigrateData.scss";
+@import "./assets/style/MapvDataVisual.scss";
 </style>

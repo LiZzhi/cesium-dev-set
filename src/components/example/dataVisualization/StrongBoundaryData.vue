@@ -1,6 +1,6 @@
 <template>
-    <CommPanel title="边界图" class="boundary-panel-box">
-        <div class="boundary-panel">
+    <CommPanel title="边界图" class="mapv-panel-box">
+        <div class="mapv-panel">
             <CommButton @click="show">显示</CommButton>
             <CommButton @click="hidden" contentClass="clear">隐藏</CommButton>
         </div>
@@ -34,5 +34,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/StrongBoundaryData.scss";
+@import "./assets/style/MapvDataVisual.scss";
 </style>

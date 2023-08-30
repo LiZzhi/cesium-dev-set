@@ -1,13 +1,12 @@
-.beehive-panel-box {
+.mapv-panel-box {
     left: 2%;
     top: 8%;
-    .beehive-panel {
+    .mapv-panel {
         position: relative;
         width: 100%;
         display: flex;
         gap: 10px;
         justify-content: center;
-        padding-top: 5%;
         :deep(.clear) {
             color: $danger-color;
         }
