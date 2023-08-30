@@ -1,0 +1,74 @@
+.bookmark-panel-box {
+    top: 8%;
+    left: 2%;
+    width: 20%;
+    height: 50%;
+    .bookmark-panel {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .bookmark-head {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 32px;
+            gap: 10px;
+            :deep(.bookmark-btn){
+                width: 100px;
+                .add{
+                    color: $success-color;
+                }
+            }
+        }
+        .bookmark-body{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 32px);
+            padding-right: 3px;
+            overflow-y: scroll;
+            gap: 5px;
+            .mark-item{
+                display: flex;
+                flex-direction: column;
+                border: 1px solid $dark-border-color;
+                border-radius: 5px;
+                padding: 5px;
+                gap: 5px;
+                .mark-title-box{
+                    display: flex;
+                    justify-content: space-between;
+                    .mark-title{
+                        display: flex;
+                        align-items: center;
+                        color: white;
+                        font-family: YouSheBiaoTiHei;
+                        font-size: 18px;
+                    }
+                    :deep(.bookmark-del){
+                        color: $danger-color
+                    }
+                }
+                .mark-img{
+                    cursor: pointer;
+                }
+            }
+        }
+        .bookmark-body::-webkit-scrollbar {
+            width: 5px;
+        }
+        // 轨道
+        .bookmark-body::-webkit-scrollbar-track {
+            background: $track-color;
+            border-radius: 2px;
+        }
+        // 滑块
+        .bookmark-body::-webkit-scrollbar-thumb {
+            background: $thumb-color;
+            border-radius: 2px;
+        }
+    }
+}

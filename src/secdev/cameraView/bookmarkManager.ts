@@ -1,6 +1,7 @@
 import { Viewer, Cartesian3, HeadingPitchRoll } from "cesium";
 import saveShareContent from "@/utils/saveShareContent";
 import loadJsonFile from "@/utils/loadJsonFile";
+import uuid from "@/utils/uuid";
 
 export type CameraViewType = {
     destination: Cartesian3;    // 位置
@@ -8,7 +9,7 @@ export type CameraViewType = {
 };
 
 export type BookmarkType = {
-    id: number;
+    id: string;
     img: string;
     name: string;
     cameraView: CameraViewType;
@@ -18,59 +19,12 @@ export type BookmarkType = {
 
 export default class bookmarkManager {
     #viewer: Viewer;
-    #bookmarkList: BookmarkType[];
     /**
      * @description: 相机书签管理功能
      * @param {Viewer} viewer viewer
-     * @param {BookmarkType[]} bookmarkList (可选)带传入的书签数组，默认为空数组
      */
-    constructor(viewer: Viewer, bookmarkList: BookmarkType[] = []) {
+    constructor(viewer: Viewer) {
         this.#viewer = viewer;
-        this.#bookmarkList = bookmarkList;
-    }
-
-    /**
-     * @description: 添加书签,返回是否添加成功
-     * @param {BookmarkType} bookmark 书签
-     * @return {boolean} 是否添加成功
-     */
-    add(bookmark: BookmarkType): boolean {
-        if (!this.#bookmarkList.find((v) => bookmark.id === v.id)) {
-            this.#bookmarkList.push(bookmark);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 从书签列表中移除指定id的书签
-     * @param {number} id 指定书签的id
-     * @return {BookmarkType} 返回删除的书签或undefined
-     */
-    remove(id: number) {
-        let index = this.#bookmarkList.findIndex((v) => v.id === id);
-        if (index >= 0) {
-            let del = this.#bookmarkList.splice(index, 1);
-            return del && del[0];
-        }
-    }
-
-    /**
-     * 获取书签列表
-     * @returns {BookmarkType[]} 当前书签列表
-     */
-    getBookmarkList() {
-        return this.#bookmarkList;
-    }
-
-    /**
-     * 获取指定书签
-     * @param {number} id 书签id
-     * @returns {BookmarkType} 指定id的书签
-     */
-    getBookmarkById(id: number) {
-        return this.#bookmarkList.find((v) => v.id === id);
     }
 
     /**
@@ -89,7 +43,7 @@ export default class bookmarkManager {
         return new Promise((resolve, reject) => {
             this.#getSceneImage(height, width).then((res) => {
                 resolve({
-                    id: new Date().getTime(),
+                    id: uuid(),
                     img: res,
                     name: name,
                     cameraView: {
@@ -115,7 +69,7 @@ export default class bookmarkManager {
      * @param {BookmarkType[]} markList (可选)要保存的书签列表，默认全部保存
      * @returns {MarkJsonType} 待存储的书签json
      */
-    saveMark(filsName: string, markList: BookmarkType[] = this.#bookmarkList) {
+    saveMark(filsName: string, markList: BookmarkType[]) {
         saveShareContent(JSON.stringify(markList), `${filsName}.json`);
     }
 
@@ -124,17 +78,13 @@ export default class bookmarkManager {
      * @param {CallBackType} callback (可选)第一个参数为MarkJsonType类型的书签, 第二个参数为该书签在读取列表中的存储索引
      * @returns {*}
      */
-    loadMark(callback?: any){
-        let that = this;
+    loadMark(callback: any){
         loadJsonFile({
             errFunc: (msg: string) => {
                 console.log(msg);
             },
-            endFunc: (res: any) => {
-                res.jsonContext.forEach((e: BookmarkType, i: number) => {
-                    let status = that.add(e);
-                    typeof callback === "function" && callback(e, i, status);
-                });
+            endFunc: ({jsonContext}) => {
+                typeof callback === "function" && callback(jsonContext);
             },
         });
     }

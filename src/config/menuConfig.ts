@@ -67,6 +67,13 @@ const menu:menuConfigType[] = [
                 route: "cameraLimit",
                 component: () => import("@/components/example/cameraView/CameraLimit.vue"),
             },
+            {
+                label: "视角书签",
+                show: true,
+                img: require("@/assets/cover/cameraView/bookmarkManager.png"),
+                route: "bookmarkManager",
+                component: () => import("@/components/example/cameraView/BookmarkManager.vue"),
+            },
         ]
     },
     {
