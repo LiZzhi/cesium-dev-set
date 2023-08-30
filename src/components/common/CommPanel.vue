@@ -24,7 +24,9 @@
             <span v-if="title" class="panelLabel">{{ props.title }}</span>
             <img class="panelClose" :src="defaultClose" @click="alive=false;"/>
         </div>
-        <slot></slot>
+        <div class="panelBody">
+            <slot></slot>
+        </div>
     </div>
 </template>
 
