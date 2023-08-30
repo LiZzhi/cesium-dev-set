@@ -3,8 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import { createPinia } from "pinia";
 
-// 模板组件
+// 公共组件
 import CommComponents from "@/components/common";
+// 公共指令
+import CommDirectives from "@/directives";
 
 // element
 import ElementPlus from "element-plus";
@@ -30,5 +32,6 @@ app.use(createPinia());
 app.use(ElementPlus);
 
 app.use(CommComponents); // 注册公共组件
+app.use(CommDirectives); // 注册公共指令
 
 app.mount("#app");
