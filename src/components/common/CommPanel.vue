@@ -30,7 +30,6 @@
 
 <script setup lang="ts">
 import { ref, onBeforeUnmount } from "vue";
-import type { Directive, DirectiveBinding } from "vue";
 
 const defaultClose = require("./assets/img/commPanel/close.png");
 const alive = ref(true);
@@ -48,32 +47,6 @@ const props = withDefaults(
         icon: require("./assets/img/commPanel/icon2.png"),
     }
 );
-
-// 拖拽
-const vMove:Directive = {
-    mounted(el:HTMLElement, bindings: DirectiveBinding) {
-        // 可传入指定拖拽元素的class，不指定则默认为绑定的元素
-        let dragDom:HTMLElement;
-        if (bindings.value) {
-            dragDom = el.querySelector(`.${bindings.value}`) as HTMLElement;
-        } else {
-            dragDom = el;
-        }
-
-        dragDom.onmousedown = (e:MouseEvent) => {
-            let offX = e.pageX - el.offsetLeft;
-            let offY = e.pageY - el.offsetTop;
-            document.onmousemove = (e:MouseEvent) => {
-                el.style.left = e.pageX - offX + "px";
-                el.style.top = e.pageY - offY + "px";
-            };
-            document.onmouseup = (e:MouseEvent) => {
-                document.onmousemove = null;
-                document.onmouseup = null;
-            };
-        };
-    },
-};
 
 onBeforeUnmount(() => {
     emits("close");
