@@ -1,3 +1,11 @@
+/*
+ * @Author: XingTao xingt@geovis.com.cn
+ * @Date: 2023-08-30 09:27:23
+ * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditTime: 2023-08-30 09:40:28
+ * @FilePath: \cesium-secdev-set\src\components\common\index.ts
+ * @Description: 全局模板插件
+ */
 import { App } from "vue";
 // 模板组件
 import CommPanel from "./CommPanel.vue";
