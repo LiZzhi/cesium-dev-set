@@ -17,6 +17,7 @@
     "element-plus": "^2.3.8",
     "latlon-geohash": "^2.0.0",
     "pinia": "^2.1.6",
+    "video.js": "^8.5.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
