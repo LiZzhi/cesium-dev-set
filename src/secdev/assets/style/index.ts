@@ -7,3 +7,4 @@ import "./domPoint/hotSpotBoardPoint.css";
 import "./domPoint/ledLabelPoint.css";
 import "./domPoint/sampleBoardPoint.css";
 import "./domPoint/waterPoloPoint.css";
+import "./domPoint/videoPoint.css";

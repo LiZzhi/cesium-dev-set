@@ -27,6 +27,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/BoardPoint.vue"),
             },
             {
+                label: "视频点",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/boardPoint.png"),
+                route: "videoPoint",
+                component: () => import("@/components/example/specialEffectPlot/VideoPoint.vue"),
+            },
+            {
                 label: "文本点",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/labelPoint.png"),
