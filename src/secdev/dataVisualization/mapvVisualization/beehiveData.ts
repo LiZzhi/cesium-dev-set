@@ -1,5 +1,3 @@
-const mapv = require("../lib/mapv/mapv.js");
-
 export default function beehiveData() {
     // 构造数据
     let geojson = [];

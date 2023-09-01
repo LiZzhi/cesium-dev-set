@@ -1,5 +1,3 @@
-const mapv = require("../lib/mapv/mapv.js");
-
 // let timeData = []
 
 /**

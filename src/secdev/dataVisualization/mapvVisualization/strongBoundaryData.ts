@@ -1,5 +1,3 @@
-const mapv = require("../lib/mapv/mapv.js");
-
 export default function strongBoundaryData() {
     let randomCount = 500;
     let node_data: Record<string, Record<string, number>> = {

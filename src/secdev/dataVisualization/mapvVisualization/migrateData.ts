@@ -1,5 +1,3 @@
-const mapv = require("../lib/mapv/mapv.js");
-
 export default function migrateData() {
     let geojsonDataSet = mapv.geojson.getDataSet(getData());
 
