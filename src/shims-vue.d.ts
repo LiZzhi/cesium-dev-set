@@ -6,7 +6,8 @@ declare module '*.vue' {
 }
 
 // mapv图层
-declare module "@/secdev/dataVisualization/lib/mapv/MapVLayer.js"
+declare module "@/thirdParty/mapv/MapVLayer.js"
+declare module "@/thirdParty/mapv/mapv.js"
 
 // 特效线
 declare module "@/secdev/specialEffectPlot/lineMaterial/polylineArrowMaterial.js"
