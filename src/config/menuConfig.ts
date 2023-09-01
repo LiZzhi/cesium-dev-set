@@ -158,6 +158,19 @@ const menu:menuConfigType[] = [
             },
         ]
     },
+    {
+        label: "粒子特效",
+        name: "particleEffect",
+        components: [
+            {
+                label: "火焰特效",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/layerSplit.png"),
+                route: "fireParticle",
+                component: () => import("@/components/example/particleEffect/FireParticle.vue"),
+            },
+        ]
+    },
 ];
 
 export default menu;

@@ -1,0 +1,48 @@
+.fire-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 300px;
+    .fire-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .slider-group {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            .slider-item {
+                position: relative;
+                width: 100%;
+                display: flex;
+                gap: 20px;
+                .slider-label-box {
+                    position: relative;
+                    width: 100px;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    .slider-label {
+                        color: white;
+                    }
+                }
+                .slider-box{
+                    position: relative;
+                    width: calc(100% - 120px);
+                }
+            }
+        }
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            :deep(.clear) {
+                color: $danger-color;
+            }
+        }
+    }
+}
