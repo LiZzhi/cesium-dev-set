@@ -1,14 +1,17 @@
 import videojs from "video.js";
 
-export default function creatVideo(url: string, className?: string) {
+export default function creatVideo(url: string) {
     const videoBox = document.createElement("div");
-    videoBox.classList.add("video-box");
-    className && videoBox.classList.add(className);
+    videoBox.style.position = "relative";
+    videoBox.style.width = "100%";
+    videoBox.style.height = "100%";
 
     const videoElement = document.createElement("video");
     videoElement.classList.add("video-js");
-    videoElement.classList.add("video-content");
-    videoElement.setAttribute("video-content", "{}");
+    videoElement.style.position = "relative";
+    videoElement.style.width = "100%";
+    videoElement.style.height = "100%";
+    videoElement.setAttribute("data-setup", "{}");
     videoBox.appendChild(videoElement);
     videoElement.controls = true;
     videoElement.autoplay = true;
@@ -23,5 +26,9 @@ export default function creatVideo(url: string, className?: string) {
         player.src(sources);
         player.play();
     });
-    return { videoBox, videoElement, player }
+    function destory() {
+        player && player.dispose();
+        videoBox && videoBox.remove()
+    }
+    return { videoBox, videoElement, player, destory }
 }
