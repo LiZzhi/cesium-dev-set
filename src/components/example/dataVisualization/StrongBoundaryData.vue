@@ -10,7 +10,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import strongBoundaryData from "@/secdev/dataVisualization/mapvVisualization/strongBoundaryData";
-import cesiumMapLayer from "@/secdev/dataVisualization/lib/mapv/MapVLayer.js";
 
 const layers:any[] = [];
 
@@ -28,7 +27,7 @@ const hidden = () => {
 onMounted(() => {
     const data = strongBoundaryData();
     data.forEach(v => {
-        layers.push(new cesiumMapLayer(viewer, ...v));
+        layers.push(new MapVLayer(viewer, ...v));
     })
 });
 </script>

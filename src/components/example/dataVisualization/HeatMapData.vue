@@ -10,7 +10,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import heatMapData from "@/secdev/dataVisualization/mapvVisualization/heatMapData";
-import cesiumMapLayer from "@/secdev/dataVisualization/lib/mapv/MapVLayer.js";
 
 const layers:any[] = [];
 
@@ -28,7 +27,7 @@ const hidden = () => {
 onMounted(() => {
     const data = heatMapData();
     data.forEach(v => {
-        layers.push(new cesiumMapLayer(viewer, ...v));
+        layers.push(new MapVLayer(viewer, ...v));
     })
 });
 </script>
