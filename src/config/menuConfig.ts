@@ -165,7 +165,7 @@ const menu:menuConfigType[] = [
             {
                 label: "火焰特效",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/layerSplit.png"),
+                img: require("@/assets/cover/particleEffect/fireParticle.png"),
                 route: "fireParticle",
                 component: () => import("@/components/example/particleEffect/FireParticle.vue"),
             },
