@@ -46,8 +46,8 @@ const emissionRate = ref(200);
 const menuList = ref([
     { label: "粒子数量", data: startScale, min: 0, max: 1000, step: 1 },
     { label: "粒子大小", data: endScale, min: 0, max: 60, step: 1 },
-    { label: "最大生命周期", data: maximumParticleLife, min: 0.1, max: 5.0, step: 0.1 },
-    { label: "最小生命周期", data: minimumParticleLife, min: 0.1, max: 5.0, step: 0.1 },
+    { label: "最大生命", data: maximumParticleLife, min: 0.1, max: 5.0, step: 0.1 },
+    { label: "最小生命", data: minimumParticleLife, min: 0.1, max: 5.0, step: 0.1 },
     { label: "最大速度", data: maximumSpeed, min: 0, max: 30, step: 1 },
     { label: "最小速度", data: minimumSpeed, min: 0, max: 30, step: 1 },
     { label: "初始比例", data: particleSize, min: 0, max: 10, step: 0.5 },
