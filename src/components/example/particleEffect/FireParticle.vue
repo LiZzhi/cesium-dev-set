@@ -1,6 +1,6 @@
 <template>
-    <CommPanel title="火焰特效" class="fire-panel-box">
-        <div class="fire-panel">
+    <CommPanel title="火焰特效" class="particle-panel-box">
+        <div class="particle-panel">
             <div class="slider-group">
                 <div
                     class="slider-item"
@@ -93,5 +93,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/FireParticle.scss";
+@import "./assets/style/Particle.scss";
 </style>
