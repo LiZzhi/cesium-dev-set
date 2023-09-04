@@ -1,8 +1,22 @@
 import { Viewer, Cartesian3} from "cesium";
-import particleSystemBase, { particleStyleType } from "./particleSystemBase";
+import particleSystemBase from "./particleSystemBase";
+
+export type fireStyleType = {
+    image?: string,
+    startScale?: number,
+    endScale?: number,
+    minimumParticleLife?: number,
+    maximumParticleLife?: number,
+    minimumSpeed?: number,
+    maximumSpeed?: number,
+    particleSize?: number;
+    emissionRate?: number,
+    pitch?: number;
+    heading?: number;
+}
 
 export default class fireParticle extends particleSystemBase {
-    #style: particleStyleType;
+    #style: fireStyleType;
     /**
      * @description: 火焰粒子效果
      * @param {Viewer} viewer viewer
@@ -13,7 +27,7 @@ export default class fireParticle extends particleSystemBase {
     constructor(
         viewer: Viewer,
         position: Cartesian3,
-        style: particleStyleType = {}
+        style: fireStyleType = {}
     ) {
         super(viewer, position);
         this.#style = Object.assign(this.defaultStyle, style);
@@ -42,7 +56,7 @@ export default class fireParticle extends particleSystemBase {
 
     /**
      * @description: 获取当前粒子属性
-     * @return {particleStyleType}
+     * @return {fireStyleType}
      */
     get style(){
         return this.#style;
@@ -50,11 +64,10 @@ export default class fireParticle extends particleSystemBase {
 
     /**
      * @description: 更新样式
-     * @param {particleStyleType} style 要更新的样式
+     * @param {fireStyleType} style 要更新的样式
      * @return {*}
      */
-    set style(style: particleStyleType){
-        console.log("ces");
+    set style(style: fireStyleType){
         for (let i in style) {
             if (i === "imageSize") {
                 // @ts-ignore
@@ -103,9 +116,9 @@ export default class fireParticle extends particleSystemBase {
 
     /**
      * @description: 默认样式
-     * @return {particleStyleType}
+     * @return {fireStyleType}
      */
-    get defaultStyle(): particleStyleType {
+    get defaultStyle(): fireStyleType {
         return {
             image: require("../../assets/img/fireParticle/fire.png"),
             startScale: 3,
