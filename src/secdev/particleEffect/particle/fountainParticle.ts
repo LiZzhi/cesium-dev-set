@@ -1,8 +1,26 @@
 import { Viewer, Cartesian3, Particle} from "cesium";
-import particleSystemBase, { particleStyleType } from "./particleSystemBase";
+import particleSystemBase from "./particleSystemBase";
+
+export type fountainUpdateType = {
+    startScale?: number,
+    endScale?: number,
+    minimumParticleLife?: number,
+    maximumParticleLife?: number,
+    minimumSpeed?: number,
+    maximumSpeed?: number,
+    emissionRate?: number,
+    gravity?: number,
+    pitch?: number;
+    heading?: number;
+}
+
+export type fountainInitialType = fountainUpdateType & {
+    image?: string,
+    particleSize?: number;
+}
 
 export default class fountainParticle extends particleSystemBase{
-    #style: particleStyleType;
+    #style: fountainInitialType;
     /**
      * @description: 喷泉粒子效果
      * @param {Viewer} viewer viewer
@@ -10,7 +28,7 @@ export default class fountainParticle extends particleSystemBase{
      * @param {particleStyleType} style (可选)一些属性
      * @return {*}
      */
-    constructor(viewer: Viewer, position: Cartesian3, style: particleStyleType = {}){
+    constructor(viewer: Viewer, position: Cartesian3, style: fountainInitialType = {}){
         super(viewer, position);
         this.#style = Object.assign(this.defaultStyle, style);
     }
@@ -38,7 +56,7 @@ export default class fountainParticle extends particleSystemBase{
 
     /**
      * @description: 获取当前粒子属性
-     * @return {particleStyleType}
+     * @return {fountainInitialType}
      */
     get style(){
         return this.#style;
@@ -46,25 +64,20 @@ export default class fountainParticle extends particleSystemBase{
 
     /**
      * @description: 更新样式
-     * @param {particleStyleType} style 要更新的样式
+     * @param {fountainUpdateType} style 要更新的样式
      * @return {*}
      */
-    set style(style: particleStyleType){
-        for (let i in style) {
-            if (i === "imageSize") {
-                // @ts-ignore
-                this.particleSystem.imageSize = style.particleSize
-                    ? new Cesium.Cartesian2(
-                            style.particleSize,
-                            style.particleSize
-                    ) : new Cesium.Cartesian2(
-                            this.#style.particleSize,
-                            this.#style.particleSize
-                    );
-            } else {
-                // @ts-ignore
-                this.particleSystem[i] = style[i];
+    set style(style: fountainUpdateType){
+        let i: keyof fountainUpdateType;
+        for (i in style) {
+            if(i === "gravity"){
+                this.particleSystem.updateCallback = (particle: Particle, dt: number) => {
+                    return this.applyGravity(particle, dt, style.gravity!);
+                };
+            } else if(i !== "pitch" && i !== "heading") {
+                this.particleSystem[i] = style[i]!;
             }
+            this.#style[i] = style[i]
         }
     }
 
@@ -93,7 +106,7 @@ export default class fountainParticle extends particleSystemBase{
             //粒子发射器
             emitter: new Cesium.CircleEmitter(0.2),
             updateCallback: (particle: Particle, dt: number) => {
-                return this.applyGravity(particle, dt, this.#style);
+                return this.applyGravity(particle, dt, this.#style.gravity!);
             },
             sizeInMeters: true,
             // performance: false
@@ -102,9 +115,9 @@ export default class fountainParticle extends particleSystemBase{
 
     /**
      * @description: 默认样式
-     * @return {particleStyleType}
+     * @return {fountainInitialType}
      */
-    get defaultStyle():particleStyleType {
+    get defaultStyle():fountainInitialType {
         return {
             image: require("../../assets/img/fountainParticle/fountain.png"),
             emissionRate: 40.0,
