@@ -169,6 +169,13 @@ const menu:menuConfigType[] = [
                 route: "fireParticle",
                 component: () => import("@/components/example/particleEffect/FireParticle.vue"),
             },
+            {
+                label: "烟雾特效",
+                show: true,
+                img: require("@/assets/cover/particleEffect/smokeParticle.png"),
+                route: "smokeParticle",
+                component: () => import("@/components/example/particleEffect/SmokeParticle.vue"),
+            },
         ]
     },
 ];
