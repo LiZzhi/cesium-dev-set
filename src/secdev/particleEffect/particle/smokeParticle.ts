@@ -1,16 +1,31 @@
 import { Viewer, Cartesian3, Particle} from "cesium";
-import particleSystemBase, { particleStyleType } from "./particleSystemBase";
+import particleSystemBase from "./particleSystemBase";
+
+export type smokeStyleType = {
+    image?: string,
+    startScale?: number,
+    endScale?: number,
+    minimumParticleLife?: number,
+    maximumParticleLife?: number,
+    minimumSpeed?: number,
+    maximumSpeed?: number,
+    particleSize?: number;
+    emissionRate?: number,
+    gravity?: number,
+    pitch?: number;
+    heading?: number;
+}
 
 export default class smokeParticle extends particleSystemBase{
-    #style: particleStyleType;
+    #style: smokeStyleType;
     /**
      * @description: 烟雾粒子效果
      * @param {Viewer} viewer viewer
      * @param {Cartesian3} position 位置，注意设置高度，无贴地属性
-     * @param {particleStyleType} style (可选)一些属性
+     * @param {smokeStyleType} style (可选)一些属性
      * @return {*}
      */
-    constructor(viewer: Viewer, position: Cartesian3, style: particleStyleType = {}){
+    constructor(viewer: Viewer, position: Cartesian3, style: smokeStyleType = {}){
         super(viewer, position);
         this.#style = Object.assign(this.defaultStyle, style);
     }
@@ -38,10 +53,10 @@ export default class smokeParticle extends particleSystemBase{
 
     /**
      * @description: 更新样式
-     * @param {particleStyleType} style 要更新的样式
+     * @param {smokeStyleType} style 要更新的样式
      * @return {*}
      */
-    updateStyle(style: particleStyleType = {}) {
+    updateStyle(style: smokeStyleType = {}) {
         for (let i in style) {
             if (i === "imageSize") {
                 // @ts-ignore
@@ -70,10 +85,10 @@ export default class smokeParticle extends particleSystemBase{
 
     /**
      * @description: 更新样式
-     * @param {particleStyleType} style 要更新的样式
+     * @param {smokeStyleType} style 要更新的样式
      * @return {*}
      */
-    set style(style: particleStyleType){
+    set style(style: smokeStyleType){
         for (let i in style) {
             if (i === "imageSize") {
                 // @ts-ignore
@@ -94,7 +109,7 @@ export default class smokeParticle extends particleSystemBase{
 
     /**
      * @description: 创建粒子对象
-     * @return {ParticleSystem}
+     * @return {smokeStyleType}
      */
     #createParticleSystem() {
         return new Cesium.ParticleSystem({
@@ -126,9 +141,9 @@ export default class smokeParticle extends particleSystemBase{
 
     /**
      * @description: 默认样式
-     * @return {particleStyleType}
+     * @return {smokeStyleType}
      */
-    get defaultStyle():particleStyleType {
+    get defaultStyle():smokeStyleType {
         return {
             image: require("../../assets/img/smokeParticle/smoke.png"),
             emissionRate: 40.0,
