@@ -14,13 +14,13 @@ export type smokeUpdateType = {
     heading?: number;
 }
 
-export type smokeInitialype = smokeUpdateType & {
+export type smokeInitialType = smokeUpdateType & {
     image?: string,
     particleSize?: number;
 }
 
 export default class smokeParticle extends particleSystemBase{
-    #style: smokeInitialype;
+    #style: smokeInitialType;
     /**
      * @description: 烟雾粒子效果
      * @param {Viewer} viewer viewer
@@ -28,7 +28,7 @@ export default class smokeParticle extends particleSystemBase{
      * @param {smokeStyleType} style (可选)一些属性
      * @return {*}
      */
-    constructor(viewer: Viewer, position: Cartesian3, style: smokeInitialype = {}){
+    constructor(viewer: Viewer, position: Cartesian3, style: smokeInitialType = {}){
         super(viewer, position);
         this.#style = Object.assign(this.defaultStyle, style);
     }
@@ -56,7 +56,7 @@ export default class smokeParticle extends particleSystemBase{
 
     /**
      * @description: 获取当前粒子属性
-     * @return { smokeInitialype }
+     * @return { smokeInitialType }
      */
     get style(){
         return this.#style;
@@ -115,9 +115,9 @@ export default class smokeParticle extends particleSystemBase{
 
     /**
      * @description: 默认样式
-     * @return { smokeInitialype }
+     * @return { smokeInitialType }
      */
-    get defaultStyle():smokeInitialype {
+    get defaultStyle():smokeInitialType {
         return {
             image: require("../../assets/img/smokeParticle/smoke.png"),
             emissionRate: 40.0,
