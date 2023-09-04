@@ -178,13 +178,13 @@ export default class particleSystemBase {
     protected applyGravity(
         particle: Particle,
         dt: number,
-        style: particleStyleType
+        gravity: number
     ) {
         // We need to compute a local up vector for each particle in geocentric space.
         Cesium.Cartesian3.normalize(particle.position, this.gravityScratch);
         Cesium.Cartesian3.multiplyByScalar(
             this.gravityScratch,
-            style.gravity! * dt,
+            gravity * dt,
             this.gravityScratch
         );
         Cesium.Cartesian3.add(
