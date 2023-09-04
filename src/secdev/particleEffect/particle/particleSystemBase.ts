@@ -1,6 +1,7 @@
 import {
     Viewer,
     Entity,
+    EntityCollection,
     CustomDataSource,
     ParticleSystem,
     Matrix4,
@@ -40,7 +41,6 @@ export default class particleSystemBase {
     protected hpr: HeadingPitchRoll;
     protected trs: TranslationRotationScale;
     protected preUpdateEventFunc: voidFuncType;
-    protected entityChangedEvent: voidFuncType;
     protected gravityScratch: Cartesian3;
     protected isStart: boolean;
     protected isDestroy: boolean;
@@ -71,6 +71,7 @@ export default class particleSystemBase {
             this.viewer.dataSources.add(this.particleSystemCollection);
         }
         this.particleSystemCollection.entities.add(this.entity);
+        console.log(this.particleSystemCollection.entities);
         // 粒子
         this.particleSystem = new Cesium.ParticleSystem();
         // 方位属性
@@ -83,19 +84,8 @@ export default class particleSystemBase {
         this.preUpdateEventFunc = () => {};
         // 重力方向
         this.gravityScratch = new Cesium.Cartesian3();
-        // 移除entity即触发destroy
-        this.entityChangedEvent = (e: any) => {
-            if (this.isStart && !this.isDestroy) {
-                let entity = e._entities._array.find(
-                    (entity: any) => entity.id === this.entity.id
-                );
-                if (entity === undefined) {
-                    this.destroy();
-                }
-            }
-        };
         this.entity.entityCollection.collectionChanged.addEventListener(
-            this.entityChangedEvent
+            this.#entityChangedEvent, this
         );
         // 是否创建或销毁
         this.isStart = false;
@@ -210,7 +200,7 @@ export default class particleSystemBase {
      */
     #removeEvent() {
         this.entity.entityCollection.collectionChanged.removeEventListener(
-            this.entityChangedEvent
+            this.#entityChangedEvent, this
         );
         this.viewer.scene.preUpdate.removeEventListener(
             this.preUpdateEventFunc,
@@ -221,5 +211,19 @@ export default class particleSystemBase {
         this.rotation = new Cesium.Quaternion();
         this.hpr = new Cesium.HeadingPitchRoll();
         this.trs = new Cesium.TranslationRotationScale();
+    }
+
+    /**
+     * @description: 移除entity即触发destroy
+     * @param {EntityCollection} e
+     * @return {*}
+     */
+    #entityChangedEvent(e: EntityCollection){
+        if (this.isStart && !this.isDestroy) {
+            let entity = e.values.find( v => v.id === this.entity.id);
+            if (entity === undefined) {
+                this.destroy();
+            }
+        }
     }
 }
