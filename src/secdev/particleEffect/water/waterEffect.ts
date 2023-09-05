@@ -38,12 +38,12 @@ export default function waterEffect(hierarchy: PolygonHierarchy, options: waterO
 
 export function defaultOptions():waterOptionType {
     return {
-        // baseWaterColor: new Cesium.Color(0.117647, 0.564706, 1, 1),
-        baseWaterColor: new Cesium.Color(0, 0.2941177, 0.2078431,0.7),
+        baseWaterColor: new Cesium.Color(0.117647, 0.564706, 1, 0.7),
+        // baseWaterColor: new Cesium.Color(0, 0.2941177, 0.2078431,0.7),
         normalMap: require("../../assets/img/waterEffect/waterNormals.jpg"),
         // normalMap: require("../../assets/img/waterEffect/waterNormalsSmall.jpg"),
-        frequency: 20,
-        animationSpeed: 0.005,
+        frequency: 100,
+        animationSpeed: 0.05,
         amplitude: 1,
         specularIntensity: 0.5,
     }
