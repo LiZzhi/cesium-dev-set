@@ -1,11 +1,12 @@
 import { Color, PolygonHierarchy } from "cesium";
 
 export type waterOptionType = {
-    baseWaterColor?: Color,
-    normalMap?: string,
-    frequency?: number,
-    animationSpeed?: number,
-    amplitude?: number,
+    baseWaterColor?: Color,  // 水颜色
+    normalMap?: string,   // 图像
+    frequency?: number, // 波纹频率
+    animationSpeed?: number,    // 波动速度
+    amplitude?: number, // 波动振幅
+    specularIntensity?: number, // 反射强度
 }
 
 export default function waterEffect(hierarchy: PolygonHierarchy, options: waterOptionType = {}){
@@ -17,7 +18,7 @@ export default function waterEffect(hierarchy: PolygonHierarchy, options: waterO
 
     options = Object.assign(defaultOptions(), options)
 
-    const primitive = new Cesium.Primitive({
+    const primitive = new Cesium.GroundPrimitive({
         geometryInstances: new Cesium.GeometryInstance({
             geometry: polygon
         }),
@@ -25,31 +26,25 @@ export default function waterEffect(hierarchy: PolygonHierarchy, options: waterO
             material: new Cesium.Material({
                 fabric: {
                     type: 'Water',
-                    uniforms: {
-                        baseWaterColor: options.baseWaterColor,
-                        normalMap: options.normalMap,
-                        frequency: options.frequency,
-                        animationSpeed: options.animationSpeed,
-                        amplitude: options.amplitude
-                    }
+                    uniforms: { ...options, }
                 }
             }),
             aboveGround: true
         }),
         show: true
     });
-    return {
-        primitive, options
-    }
+    return { primitive, options }
 }
 
-export function defaultOptions() {
+export function defaultOptions():waterOptionType {
     return {
-        baseWaterColor: new Cesium.Color(0, 0.2941177, 0.2078431, 0.7),
+        // baseWaterColor: new Cesium.Color(0.117647, 0.564706, 1, 1),
+        baseWaterColor: new Cesium.Color(0, 0.2941177, 0.2078431,0.7),
         normalMap: require("../../assets/img/waterEffect/waterNormals.jpg"),
         // normalMap: require("../../assets/img/waterEffect/waterNormalsSmall.jpg"),
         frequency: 20,
         animationSpeed: 0.005,
         amplitude: 1,
+        specularIntensity: 0.5,
     }
 }

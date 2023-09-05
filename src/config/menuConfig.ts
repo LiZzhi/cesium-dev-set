@@ -193,7 +193,7 @@ const menu:menuConfigType[] = [
             {
                 label: "水体特效",
                 show: true,
-                img: require("@/assets/cover/particleEffect/fountainParticle.png"),
+                img: require("@/assets/cover/particleEffect/waterEffect.png"),
                 route: "waterEffect",
                 component: () => import("@/components/example/particleEffect/WaterEffect.vue"),
             },
