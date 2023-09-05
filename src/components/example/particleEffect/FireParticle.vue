@@ -11,12 +11,13 @@
                         <span class="slider-label">{{ item.label }}</span>
                     </div>
                     <div class="slider-box">
-                        <el-slider
+                        <CommSlider
                             v-model="item.data"
                             :min="item.min"
                             :max="item.max"
                             :step="item.step"
-                        />
+                        >
+                        </CommSlider>
                     </div>
                 </div>
             </div>
