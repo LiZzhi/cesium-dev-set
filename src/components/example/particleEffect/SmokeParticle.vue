@@ -52,7 +52,7 @@ const menuList = ref([
     { label: "最小生命", data: minimumParticleLife, min: 0.1, max: 5.0, step: 0.1 },
     { label: "最大速度", data: maximumSpeed, min: 0, max: 30, step: 1 },
     { label: "最小速度", data: minimumSpeed, min: 0, max: 30, step: 1 },
-    { label: "终止比例", data: emissionRate, min: 0, max: 10, step: 0.5 },
+    { label: "终止比例", data: emissionRate, min: 0, max: 100, step: 1 },
     { label: "重力大小", data: gravity, min: -20, max: 20, step: 0.5 },
     { label: "航向角", data: heading, min: 0, max: 360, step: 1 },
     { label: "倾斜角", data: pitch, min: 0, max: 360, step: 1 },
