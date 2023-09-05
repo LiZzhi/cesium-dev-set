@@ -53,7 +53,6 @@ onMounted(() => {
     lineList.value.forEach((v, i) => {
         lines.push(
             viewer.entities.add({
-                show: false,
                 polyline: {
                     positions: linePositions[i],
                     width: 12,

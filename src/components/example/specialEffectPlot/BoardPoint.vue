@@ -52,7 +52,6 @@ onMounted(() => {
         },
         dom1
     );
-    point1.setVisible(false);
     point1.init();
 
     const dom2 = document.createElement("div");
@@ -65,7 +64,6 @@ onMounted(() => {
         },
         dom2
     );
-    point2.setVisible(false);
     point2.init();
 
     const dom3 = document.createElement("div");
@@ -78,7 +76,6 @@ onMounted(() => {
         },
         dom3
     );
-    point3.setVisible(false);
     point3.init();
 
     const dom4 = document.createElement("div");
@@ -91,7 +88,6 @@ onMounted(() => {
         },
         dom4
     );
-    point4.setVisible(false);
     point4.init();
 
     viewer.camera.setView({

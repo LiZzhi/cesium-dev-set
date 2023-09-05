@@ -42,7 +42,6 @@ onMounted(() => {
         },
         "测试文本"
     );
-    point1.setVisible(false);
     point1.init();
 
     point2 = new erectLabelPoint(
@@ -53,7 +52,6 @@ onMounted(() => {
         },
         "测试文本"
     );
-    point2.setVisible(false);
     point2.init();
 
     point3 = new ledLabelPoint(
@@ -64,7 +62,6 @@ onMounted(() => {
         },
         "LED"
     );
-    point3.setVisible(false);
     point3.init();
 
     viewer.camera.setView({

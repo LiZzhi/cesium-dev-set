@@ -41,7 +41,6 @@ onMounted(() => {
             lat: 30.723483346052956,
         }
     );
-    point1.setVisible(false);
     point1.init();
 
     point2 = new floatPoint(
@@ -51,7 +50,6 @@ onMounted(() => {
             lat: 30.722983346052956,
         }
     );
-    point2.setVisible(false);
     point2.init();
 
     point3 = new waterPoloPoint(
@@ -62,7 +60,6 @@ onMounted(() => {
         },
         0.52
     );
-    point3.setVisible(false);
     point3.init();
 
     viewer.camera.flyTo({
