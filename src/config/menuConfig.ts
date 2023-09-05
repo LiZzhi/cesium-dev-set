@@ -190,6 +190,13 @@ const menu:menuConfigType[] = [
                 route: "fountainParticle",
                 component: () => import("@/components/example/particleEffect/FountainParticle.vue"),
             },
+            {
+                label: "水体特效",
+                show: true,
+                img: require("@/assets/cover/particleEffect/fountainParticle.png"),
+                route: "waterEffect",
+                component: () => import("@/components/example/particleEffect/WaterEffect.vue"),
+            },
         ]
     },
 ];
