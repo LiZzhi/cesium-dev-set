@@ -1,0 +1,17 @@
+.weather-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 180px;
+    .weather-panel {
+        position: relative;
+        width: 100%;
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            :deep(.clear) {
+                color: $danger-color;
+            }
+        }
+    }
+}
