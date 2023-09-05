@@ -2,8 +2,8 @@
     <CommPanel title="水体特效" class="water-panel-box">
         <div class="water-panel">
             <div class="btn-group">
-                <CommButton @click="">显示</CommButton>
-                <CommButton @click="" contentClass="clear">隐藏</CommButton>
+                <CommButton @click="setVisible(true)">显示</CommButton>
+                <CommButton @click="setVisible(false)" contentClass="clear">隐藏</CommButton>
             </div>
         </div>
     </CommPanel>
@@ -12,21 +12,25 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import * as turf from "@turf/turf";
+import { GroundPrimitive } from "cesium";
 import waterEffect from "@/secdev/particleEffect/water/waterEffect";
 
 const json = require("./assets/json/湖.json");
+let water: GroundPrimitive
 
 onMounted(() => {
     const coords = processCoordinates(json);
     const bbox = turf.bbox(turf.polygon(json.features[0].geometry.coordinates[0]));
-    const water = waterEffect(new Cesium.PolygonHierarchy(coords));
-    viewer.scene.primitives.add(water.primitive);
-    // @ts-ignore
-    window.w = water;
+    const waterObj = waterEffect(new Cesium.PolygonHierarchy(coords));
+    water = viewer.scene.primitives.add(waterObj.primitive);
     viewer.camera.flyTo({
         destination: Cesium.Rectangle.fromDegrees(...bbox),
     });
 });
+
+const setVisible = (visible: boolean) => {
+    water.show = visible;
+}
 
 const processCoordinates = (json: any)=>{
     const coords: number[] = json.features[0].geometry.coordinates.flat(3)
