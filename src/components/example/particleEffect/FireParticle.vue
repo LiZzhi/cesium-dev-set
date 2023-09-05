@@ -51,7 +51,7 @@ const menuList = ref([
     { label: "最大速度", data: maximumSpeed, min: 0, max: 30, step: 1 },
     { label: "最小速度", data: minimumSpeed, min: 0, max: 30, step: 1 },
     { label: "初始比例", data: particleSize, min: 0, max: 10, step: 0.5 },
-    { label: "终止比例", data: emissionRate, min: 0, max: 10, step: 0.5 },
+    { label: "终止比例", data: emissionRate, min: 0, max: 1000, step: 10 },
 ]);
 
 watchEffect(() => {
