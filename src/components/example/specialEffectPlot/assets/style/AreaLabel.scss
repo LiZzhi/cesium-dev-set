@@ -1,0 +1,36 @@
+.area-panel-box {
+    left: 2%;
+    top: 8%;
+    .area-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        :deep(.btn-group2) {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            .show, .clear{
+                width: 50%;
+            }
+            .show {
+                .comm-button-content {
+                    color: $success-color;
+                }
+            }
+            .clear {
+                .comm-button-content {
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+}

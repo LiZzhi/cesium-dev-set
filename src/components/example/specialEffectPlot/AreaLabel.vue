@@ -1,13 +1,12 @@
 <template>
-    <CommPanel title="特效点" class="point-panel-box">
-        <div class="point-panel">
+    <CommPanel title="区域标注" class="area-panel-box">
+        <div class="area-panel">
             <div class="btn-group">
-                <CommButton @click="">闪烁点</CommButton>
-                <CommButton @click="">浮动点</CommButton>
-                <CommButton @click="">水球点</CommButton>
+                <CommButton @click="setVisible(i)" v-for="(item, i) in labels" :key="item.label">{{ item.label }}</CommButton>
             </div>
-            <div class="btn-group">
-                <CommButton @click="" class="clear">清除</CommButton>
+            <div class="btn-group2">
+                <CommButton @click="setVisibleAll(true)" class="show">全部显示</CommButton>
+                <CommButton @click="setVisibleAll(false)" class="clear">全部隐藏</CommButton>
             </div>
         </div>
     </CommPanel>
@@ -15,38 +14,24 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { Cartesian3 } from "cesium";
+import { Cartesian3, Label, GroundPolylinePrimitive, Primitive } from "cesium";
 import gradientAppearance from "@/secdev/specialEffectPlot/polygon/gradientAppearance";
 
-const colors = [
-    Cesium.Color.AQUA,
-    Cesium.Color.GREEN,
-    Cesium.Color.YELLOW,
-    Cesium.Color.RED
-];
-
-const labels = [{
-    position: Cesium.Cartesian3.fromDegrees(103.88545983932153, 36.033216960244246, 0),
-    label: '沿河区'
-}, {
-    position: Cesium.Cartesian3.fromDegrees(103.87214667212257, 36.038301982724796, 0),
-    label: '环城区'
-}, {
-    position: Cesium.Cartesian3.fromDegrees(103.86194888078703, 36.03969446525105, 0),
-    label: '封控区'
-}, {
-    position: Cesium.Cartesian3.fromDegrees(103.85091307483806, 36.041102519445715, 0),
-    label: '核心区'
-}];
+type areaLabelType = {
+    label: Label,
+    polyline: GroundPolylinePrimitive,
+    polygon: Primitive
+}
 
 const json = require("./assets/json/arealabel.json");
+const arealabelList: areaLabelType[] = [];
 
 onMounted(() => {
     const coords = processCoordinates(json);
     const labelCollection = new Cesium.LabelCollection({ scene: viewer.scene });
     viewer.scene.primitives.add(labelCollection)
     coords.forEach((v, i)=>{
-        viewer.scene.primitives.add(
+        const polygon = viewer.scene.primitives.add(
             new Cesium.GroundPrimitive({
                 geometryInstances: new Cesium.GeometryInstance({
                     geometry: new Cesium.PolygonGeometry({
@@ -57,7 +42,7 @@ onMounted(() => {
                 appearance: gradientAppearance(colors[i].withAlpha(0.3)),
             })
         )
-        viewer.scene.primitives.add(
+        const polyline = viewer.scene.primitives.add(
             new Cesium.GroundPolylinePrimitive({
                 geometryInstances: new Cesium.GeometryInstance({
                     geometry: new Cesium.GroundPolylineGeometry({
@@ -77,7 +62,7 @@ onMounted(() => {
                 }),
             })
         )
-        labelCollection.add({
+        const label = labelCollection.add({
             position: labels[i].position,
             text: labels[i].label,
             fillColor: colors[i],
@@ -92,6 +77,9 @@ onMounted(() => {
             outlineColor: Cesium.Color.BLACK,
             heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
         })
+        arealabelList.push({
+            label, polyline, polygon
+        })
     })
     viewer.camera.flyTo({
         destination: new Cesium.Cartesian3(-1238032.1540224112, 5023944.614962174, 3733248.6348458533),
@@ -99,6 +87,42 @@ onMounted(() => {
         duration: 1
     })
 });
+
+const setVisible = (i: number) => {
+    const item = arealabelList[i]
+    item.label.show = !item.label.show;
+    item.polyline.show = !item.polyline.show;
+    item.polygon.show = !item.polygon.show;
+}
+
+const setVisibleAll = (visible: boolean) => {
+    arealabelList.forEach(v => {
+        v.label.show = visible;
+        v.polyline.show = visible;
+        v.polygon.show = visible;
+    })
+}
+
+const colors = [
+    Cesium.Color.AQUA,
+    Cesium.Color.GREEN,
+    Cesium.Color.YELLOW,
+    Cesium.Color.RED
+];
+
+const labels = [{
+    position: Cesium.Cartesian3.fromDegrees(103.88545983932153, 36.033216960244246),
+    label: '沿河区'
+}, {
+    position: Cesium.Cartesian3.fromDegrees(103.87214667212257, 36.038301982724796),
+    label: '环城区'
+}, {
+    position: Cesium.Cartesian3.fromDegrees(103.86194888078703, 36.03969446525105),
+    label: '封控区'
+}, {
+    position: Cesium.Cartesian3.fromDegrees(103.85091307483806, 36.041102519445715),
+    label: '核心区'
+}];
 
 const processCoordinates = (json: any)=>{
     const jsonCartesian3S: Cartesian3[][] = []
@@ -111,5 +135,5 @@ const processCoordinates = (json: any)=>{
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/EffectPoint.scss";
+@import "./assets/style/AreaLabel.scss";
 </style>
