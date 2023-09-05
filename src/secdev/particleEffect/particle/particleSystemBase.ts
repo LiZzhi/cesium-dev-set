@@ -16,18 +16,18 @@ import {
 import type { voidFuncType } from "@/type/common";
 
 export type particleStyleType = {
-    image?: any;
-    startScale?: number;
-    endScale?: number;
-    minimumParticleLife?: number;
-    maximumParticleLife?: number;
-    minimumSpeed?: number;
-    maximumSpeed?: number;
-    particleSize?: number;
-    emissionRate?: number;
-    gravity?: number;
-    pitch?: number;
-    heading?: number;
+    image?: string, // 图像
+    particleSize?: number;  // 横纵尺寸
+    startScale?: number,    // 在粒子寿命开始时应用于粒子图像的初始比例。
+    endScale?: number,  // 在粒子寿命结束时应用于粒子图像的最终比例。
+    minimumParticleLife?: number,   // 设置以秒为单位的粒子生命的可能持续时间的最小范围，在该时间范围内可以随机选择粒子的实际生命。
+    maximumParticleLife?: number,   // 设置粒子寿命的可能持续时间的最大限制（以秒为单位），在该范围内将随机选择粒子的实际寿命。
+    minimumSpeed?: number,  // 设置以米/秒为单位的最小界限，高于该界限时，将随机选择粒子的实际速度。
+    maximumSpeed?: number,  // 设置以米/秒为单位的最大范围，在该范围内将随机选择粒子的实际速度。
+    emissionRate?: number,  // 每秒要发射的粒子数。
+    gravity?: number,   // 重力大小
+    pitch?: number; // 方向，航向角
+    heading?: number;   // 方向，倾斜角
 };
 
 export default class particleSystemBase {
