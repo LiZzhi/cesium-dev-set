@@ -214,7 +214,7 @@ const menu:menuConfigType[] = [
             {
                 label: "雾天特效",
                 show: true,
-                img: require("@/assets/cover/particleEffect/FogWeather.png"),
+                img: require("@/assets/cover/particleEffect/fogWeather.png"),
                 route: "fogWeather",
                 component: () => import("@/components/example/particleEffect/FogWeather.vue"),
             },
