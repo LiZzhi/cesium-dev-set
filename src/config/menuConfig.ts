@@ -204,6 +204,13 @@ const menu:menuConfigType[] = [
                 route: "rainWeather",
                 component: () => import("@/components/example/particleEffect/RainWeather.vue"),
             },
+            {
+                label: "雪天特效",
+                show: true,
+                img: require("@/assets/cover/particleEffect/snowWeather.png"),
+                route: "snowWeather",
+                component: () => import("@/components/example/particleEffect/SnowWeather.vue"),
+            },
         ]
     },
 ];
