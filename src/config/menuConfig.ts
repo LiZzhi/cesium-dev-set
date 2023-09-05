@@ -54,6 +54,13 @@ const menu:menuConfigType[] = [
                 route: "effectLine",
                 component: () => import("@/components/example/specialEffectPlot/EffectLine.vue"),
             },
+            {
+                label: "区域标注",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/areaLabel.png"),
+                route: "areaLabel",
+                component: () => import("@/components/example/specialEffectPlot/AreaLabel.vue"),
+            },
         ],
     },
     {
