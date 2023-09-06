@@ -61,6 +61,13 @@ const menu:menuConfigType[] = [
                 route: "areaLabel",
                 component: () => import("@/components/example/specialEffectPlot/AreaLabel.vue"),
             },
+            {
+                label: "行政区标注",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/regionLabel.png"),
+                route: "regionLabel",
+                component: () => import("@/components/example/specialEffectPlot/RegionLabel.vue"),
+            },
         ],
     },
     {

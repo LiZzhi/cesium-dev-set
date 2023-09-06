@@ -1,0 +1,26 @@
+.region-panel-box {
+    left: 2%;
+    top: 8%;
+    .region-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            :deep(.region-btn){
+                width: 50%;
+                .show {
+                    color: $success-color;
+                }
+                .clear {
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+}
