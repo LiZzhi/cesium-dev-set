@@ -260,6 +260,13 @@ const menu:menuConfigType[] = [
                 route: "nightVision",
                 component: () => import("@/components/example/sceneEffect/NightVision.vue"),
             },
+            {
+                label: "亮度",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/brightness.png"),
+                route: "brightness",
+                component: () => import("@/components/example/sceneEffect/Brightness.vue"),
+            },
         ]
     },
 ];
