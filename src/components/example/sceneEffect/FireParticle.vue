@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from "vue";
-import fireParticle from "@/secdev/particleEffect/particle/fireParticle";
+import fireParticle from "@/secdev/sceneEffect/particle/fireParticle";
 
 let fire: fireParticle;
 

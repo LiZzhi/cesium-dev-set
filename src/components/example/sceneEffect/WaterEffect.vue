@@ -13,7 +13,7 @@
 import { onMounted } from "vue";
 import * as turf from "@turf/turf";
 import { GroundPrimitive } from "cesium";
-import waterEffect from "@/secdev/particleEffect/water/waterEffect";
+import waterEffect from "@/secdev/sceneEffect/water/waterEffect";
 
 const json = require("./assets/json/湖.json");
 let water: GroundPrimitive

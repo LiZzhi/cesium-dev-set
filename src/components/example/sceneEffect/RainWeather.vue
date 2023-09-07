@@ -1,5 +1,5 @@
 <template>
-    <CommPanel title="雾天效果" class="scene-panel-box">
+    <CommPanel title="雨天效果" class="scene-panel-box">
         <div class="scene-panel">
             <div class="btn-group">
                 <CommButton @click="setVisible(true)">显示</CommButton>
@@ -11,10 +11,10 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import fogWeather from "@/secdev/particleEffect/weather/fogWeather";
+import rainWeather from "@/secdev/sceneEffect/weather/rainWeather";
 import { voidFuncType } from "@/type/common";
 
-let destoryFog: voidFuncType|undefined = undefined;
+let destoryRain: voidFuncType|undefined = undefined;
 
 onMounted(() => {
     // 加载3DTileset
@@ -25,16 +25,16 @@ onMounted(() => {
             })
         )
     );
-    destoryFog = fogWeather(viewer);
+    destoryRain = rainWeather(viewer);
 });
 
 const setVisible = (visible: boolean) => {
     if (visible) {
-        destoryFog && destoryFog();
-        destoryFog = fogWeather(viewer);
+        destoryRain && destoryRain();
+        destoryRain = rainWeather(viewer);
     } else {
-        destoryFog && destoryFog();
-        destoryFog = undefined;
+        destoryRain && destoryRain();
+        destoryRain = undefined;
     }
 }
 </script>
