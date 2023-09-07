@@ -267,6 +267,13 @@ const menu:menuConfigType[] = [
                 route: "brightness",
                 component: () => import("@/components/example/sceneEffect/Brightness.vue"),
             },
+            {
+                label: "光照",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/illumination.png"),
+                route: "illumination",
+                component: () => import("@/components/example/sceneEffect/Illumination.vue"),
+            },
         ]
     },
 ];
