@@ -225,6 +225,13 @@ const menu:menuConfigType[] = [
                 route: "fogWeather",
                 component: () => import("@/components/example/particleEffect/FogWeather.vue"),
             },
+            {
+                label: "地形三角网",
+                show: true,
+                img: require("@/assets/cover/particleEffect/triangulationNetwork.png"),
+                route: "triangulationNetwork",
+                component: () => import("@/components/example/particleEffect/TriangulationNetwork.vue"),
+            },
         ]
     },
 ];
