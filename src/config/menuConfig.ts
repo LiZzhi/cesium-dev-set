@@ -173,8 +173,8 @@ const menu:menuConfigType[] = [
         ]
     },
     {
-        label: "粒子特效",
-        name: "particleEffect",
+        label: "场景特效",
+        name: "effectEffect",
         components: [
             {
                 label: "火焰特效",
