@@ -232,6 +232,13 @@ const menu:menuConfigType[] = [
                 route: "triangulationNetwork",
                 component: () => import("@/components/example/sceneEffect/TriangulationNetwork.vue"),
             },
+            {
+                label: "地表透明",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/surfaceTransparency.png"),
+                route: "surfaceTransparency",
+                component: () => import("@/components/example/sceneEffect/SurfaceTransparency.vue"),
+            },
         ]
     },
 ];
