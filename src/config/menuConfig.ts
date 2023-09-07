@@ -281,6 +281,13 @@ const menu:menuConfigType[] = [
                 route: "outline",
                 component: () => import("@/components/example/sceneEffect/Outline.vue"),
             },
+            {
+                label: "景深",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/depthField.png"),
+                route: "depthField",
+                component: () => import("@/components/example/sceneEffect/DepthField.vue"),
+            },
         ]
     },
 ];
