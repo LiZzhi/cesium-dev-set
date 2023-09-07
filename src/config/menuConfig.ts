@@ -253,6 +253,13 @@ const menu:menuConfigType[] = [
                 route: "grayscale",
                 component: () => import("@/components/example/sceneEffect/Grayscale.vue"),
             },
+            {
+                label: "夜视",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/nightVision.png"),
+                route: "nightVision",
+                component: () => import("@/components/example/sceneEffect/NightVision.vue"),
+            },
         ]
     },
 ];
