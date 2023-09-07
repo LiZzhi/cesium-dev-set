@@ -274,6 +274,13 @@ const menu:menuConfigType[] = [
                 route: "illumination",
                 component: () => import("@/components/example/sceneEffect/Illumination.vue"),
             },
+            {
+                label: "轮廓",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/outline.png"),
+                route: "outline",
+                component: () => import("@/components/example/sceneEffect/Outline.vue"),
+            },
         ]
     },
 ];
