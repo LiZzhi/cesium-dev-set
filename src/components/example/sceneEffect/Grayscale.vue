@@ -1,7 +1,7 @@
 <template>
-    <CommPanel title="灰度" class="grayscale-panel-box">
-        <div class="grayscale-panel">
-            <div class="grayscale-slider">
+    <CommPanel title="灰度" class="sceneslider-panel-box">
+        <div class="sceneslider-panel">
+            <div class="sceneslider-slider">
                 <span class="slider-label">对比度：</span>
                 <CommSlider v-model="gradations" :min="1.0" :max="20.0" :step="1.0"></CommSlider>
             </div>
@@ -34,5 +34,5 @@ const setVisible = (visible: boolean) => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/Grayscale.scss";
+@import "./assets/style/SceneSliderEffect.scss";
 </style>

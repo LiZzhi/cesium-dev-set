@@ -1,14 +1,14 @@
-.grayscale-panel-box {
+.sceneslider-panel-box {
     left: 2%;
     top: 8%;
     width: 250px;
-    .grayscale-panel {
+    .sceneslider-panel {
         position: relative;
         display: flex;
         flex-direction: column;
         gap: 10px;
         width: 100%;
-        .grayscale-slider {
+        .sceneslider-slider {
             position: relative;
             display: flex;
             justify-content: space-between;

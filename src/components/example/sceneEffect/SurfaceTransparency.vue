@@ -1,7 +1,7 @@
 <template>
-    <CommPanel title="地表透明" class="translucency-panel-box">
-        <div class="translucency-panel">
-            <div class="translucency-slider">
+    <CommPanel title="地表透明" class="sceneslider-panel-box">
+        <div class="sceneslider-panel">
+            <div class="sceneslider-slider">
                 <span class="slider-label">透明度：</span>
                 <CommSlider v-model="alpha" :min="0" :max="1" :step="0.1"></CommSlider>
             </div>
@@ -34,5 +34,5 @@ const setVisible = (visible: boolean) => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/SurfaceTransparency.scss";
+@import "./assets/style/SceneSliderEffect.scss";
 </style>
