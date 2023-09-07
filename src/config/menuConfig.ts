@@ -239,6 +239,13 @@ const menu:menuConfigType[] = [
                 route: "surfaceTransparency",
                 component: () => import("@/components/example/sceneEffect/SurfaceTransparency.vue"),
             },
+            {
+                label: "泛光",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/floodlight.png"),
+                route: "floodlight",
+                component: () => import("@/components/example/sceneEffect/Floodlight.vue"),
+            },
         ]
     },
 ];
