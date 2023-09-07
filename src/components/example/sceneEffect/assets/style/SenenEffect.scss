@@ -5,6 +5,9 @@
     .scene-panel {
         position: relative;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         .btn-group {
             position: relative;
             display: flex;
