@@ -246,6 +246,13 @@ const menu:menuConfigType[] = [
                 route: "floodlight",
                 component: () => import("@/components/example/sceneEffect/Floodlight.vue"),
             },
+            {
+                label: "灰度",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/grayscale.png"),
+                route: "grayscale",
+                component: () => import("@/components/example/sceneEffect/Grayscale.vue"),
+            },
         ]
     },
 ];
