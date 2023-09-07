@@ -288,6 +288,13 @@ const menu:menuConfigType[] = [
                 route: "depthField",
                 component: () => import("@/components/example/sceneEffect/DepthField.vue"),
             },
+            {
+                label: "日照阴影",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/sunshineShadow.png"),
+                route: "sunshineShadow",
+                component: () => import("@/components/example/sceneEffect/SunshineShadow.vue"),
+            },
         ]
     },
 ];
