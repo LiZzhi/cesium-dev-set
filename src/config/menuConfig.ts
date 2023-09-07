@@ -170,6 +170,13 @@ const menu:menuConfigType[] = [
                 route: "layerSplit",
                 component: () => import("@/components/example/spatialAnalysis/LayerSplit.vue"),
             },
+            {
+                label: "鹰眼视图",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/layerSplit.png"),
+                route: "eagleEyeView",
+                component: () => import("@/components/example/spatialAnalysis/EagleEyeView.vue"),
+            },
         ]
     },
     {
