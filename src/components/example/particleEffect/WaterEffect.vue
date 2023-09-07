@@ -1,6 +1,6 @@
 <template>
-    <CommPanel title="水体特效" class="water-panel-box">
-        <div class="water-panel">
+    <CommPanel title="水体特效" class="scene-panel-box">
+        <div class="scene-panel">
             <div class="btn-group">
                 <CommButton @click="setVisible(true)">显示</CommButton>
                 <CommButton @click="setVisible(false)" contentClass="clear">隐藏</CommButton>
@@ -39,5 +39,5 @@ const processCoordinates = (json: any)=>{
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/WaterEffect.scss";
+@import "./assets/style/SenenEffect.scss";
 </style>

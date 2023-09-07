@@ -1,6 +1,6 @@
 <template>
-    <CommPanel title="雾天效果" class="weather-panel-box">
-        <div class="weather-panel">
+    <CommPanel title="雾天效果" class="scene-panel-box">
+        <div class="scene-panel">
             <div class="btn-group">
                 <CommButton @click="setVisible(true)">显示</CommButton>
                 <CommButton @click="setVisible(false)" contentClass="clear">隐藏</CommButton>
@@ -40,5 +40,5 @@ const setVisible = (visible: boolean) => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/Weather.scss";
+@import "./assets/style/SenenEffect.scss";
 </style>
