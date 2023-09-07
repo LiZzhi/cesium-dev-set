@@ -4,6 +4,7 @@
             type="range"
             class="comm-input-slider"
             v-model.number="value"
+            :step="props.step"
             :min="props.min"
             :max="props.max"
         />
@@ -20,9 +21,11 @@ const props = withDefaults(
         max: number;
         class?: string;
         modelValue?: number;
+        step?: number;
     }>(),
     {
         class: "",
+        step: 1,
     }
 );
 
