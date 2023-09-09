@@ -1,0 +1,22 @@
+.eagle-eye-ol-map{
+    position: absolute;
+    z-index: 999;
+    bottom: 10px;
+    right: 30px;
+    height: 160px;
+    width: 300px;
+    border-radius: 8px;
+    padding: 5px;
+    background: linear-gradient(
+        180deg,
+        rgba(71, 148, 255, 0.2) 0%,
+        rgba(72, 148, 255, 0) 9.71%
+    ),
+    linear-gradient(
+        174.85deg,
+        rgba(27, 40, 60, 0.9) 73.27%,
+        rgba(52, 78, 115, 0.9) 93.78%,
+        rgba(62, 104, 164, 0.9) 100%
+    );
+    border: rgb(99, 148, 197) 1px solid;
+}

@@ -4,8 +4,8 @@
         class="link-panel-box"
     >
         <div class="link-panel">
-            <CommButton @click="">开启</CommButton>
-            <CommButton @click="" contentClass="clear">关闭</CommButton>
+            <CommButton @click="view.init(exampleBody)">开启</CommButton>
+            <CommButton @click="view.destory()" contentClass="clear">关闭</CommButton>
         </div>
     </CommPanel>
 </template>
@@ -15,11 +15,21 @@ import { onMounted } from "vue";
 import eagleEyeView from "@/secdev/spatialAnalysis/eagleEyeView";
 
 let view: eagleEyeView;
+let exampleBody: HTMLElement;
 
 onMounted(() => {
-    const exampleBody = document.querySelector(".example-body") as HTMLElement;
+    exampleBody = document.querySelector(".example-body") as HTMLElement;
     view = new eagleEyeView(viewer);
     view.init(exampleBody);
+
+    // 加载3DTileset
+    viewer.flyTo(
+        viewer.scene.primitives.add(
+            new Cesium.Cesium3DTileset({
+                url: "http://earthsdk.com/v/last/Apps/assets/dayanta/tileset.json",
+            })
+        )
+    );
 });
 </script>
 

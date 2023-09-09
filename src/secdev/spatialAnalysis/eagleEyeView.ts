@@ -2,7 +2,7 @@
  * @Author: “Lizhi” “362042734@qq.com”
  * @Date: 2023-09-07 21:17:29
  * @LastEditors: “Lizhi” “362042734@qq.com”
- * @LastEditTime: 2023-09-07 22:46:47
+ * @LastEditTime: 2023-09-09 14:45:21
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\eagleEyeView.ts
  * @Description: ol鹰眼地图
  */
@@ -46,10 +46,19 @@ export default class eagleEyeView{
     }
 
     init(root: HTMLElement){
+        this.destory();
         this.#createDom(root);
         this.#createOlMap(this.#olmapDom);
         this.#viewer.scene.postRender.addEventListener(this.#syncEvent, this);
         this.#activate();
+    }
+
+    destory(){
+        this.#viewer.scene.postRender.removeEventListener(this.#syncEvent, this);
+        this.#map && this.#map.dispose();
+        this.#olmapDom && this.#olmapDom.remove();
+        (this.#viewer.container as HTMLElement).onmouseenter = null;
+        this.#activateContainer = "";
     }
 
     #syncEvent(){
@@ -80,18 +89,8 @@ export default class eagleEyeView{
 
     #createDom(root: HTMLElement){
         this.#olmapDom = document.createElement('div');
+        this.#olmapDom.classList.add("eagle-eye-ol-map");
         root.appendChild(this.#olmapDom);
-        this.#olmapDom.style.cssText = `
-            position: absolute;
-            z-index: 999;
-            bottom: 10px;
-            right: 30px;
-            height: 160px;
-            width: 300px;
-            border-radius: 8px;
-            padding: 5px;
-            border: 2px solid rgba(255, 255, 255, 0.637);
-        `
     }
 
     /**
@@ -155,5 +154,4 @@ export default class eagleEyeView{
             this.#activateContainer = 'ol';
         };
     }
-
 }

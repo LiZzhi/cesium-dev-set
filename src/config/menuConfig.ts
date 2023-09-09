@@ -173,7 +173,7 @@ const menu:menuConfigType[] = [
             {
                 label: "鹰眼视图",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/layerSplit.png"),
+                img: require("@/assets/cover/spatialAnalysis/eagleEyeView.png"),
                 route: "eagleEyeView",
                 component: () => import("@/components/example/spatialAnalysis/EagleEyeView.vue"),
             },
