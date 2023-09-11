@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 19:04:32
+ * @LastEditTime: 2023-09-11 12:27:16
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -121,6 +121,7 @@ export default class drawShape {
                     }
                     // 结束绘图
                     this.#drawEnd();
+                    return;
                 }
 
                 // 添加节点
@@ -191,6 +192,7 @@ export default class drawShape {
                     }
                     // 结束绘图
                     this.#drawEnd();
+                    return;
                 }
 
                 // 添加节点
@@ -388,6 +390,7 @@ export default class drawShape {
                         end(p);
                         // 结束绘图
                         this.#drawEnd();
+                        return;
                     }
                 }
                 // 添加临时绘图面
