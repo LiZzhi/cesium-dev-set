@@ -1,39 +1,41 @@
 import { Cartesian3, Viewer, Color, Camera, ShadowMap, PostProcessStage, PerspectiveFrustum, Primitive } from "cesium";
+import visualField from "./visualField";
 import getHeading from "../utils/getHeading";
 import getPitch from "../utils/getPitch";
 import uuid from "@/utils/uuid";
 
 export type visualFieldOptionsType = {
-    show: boolean;
-    size: number;
-    distance: number;
-    heading: number;
-    pitch: number;
-    horizontalAngle: number;
-    verticalAngle: number;
-    visibleColor: Color;
-    invisibleColor: Color;
-    softShadows: boolean;
+    show: boolean;  // 是否显示
+    size: number;   // 贴图尺寸
+    distance: number;   // 可视域半径
+    heading: number;    // 航向角
+    pitch: number;  // 倾斜角
+    horizontalAngle: number;    // 水平可视域角度
+    verticalAngle: number;  // 垂直可视域角度
+    visibleColor: Color;    // 可视区域颜色
+    invisibleColor: Color;  // 不可视区域颜色
+    softShadows: boolean;   // 是否启用柔和阴影
 }
 
 export default class visualFieldAnalysis{
     #viewer: Viewer;
-    #options: visualFieldOptionsType;
-    constructor(viewer: Viewer, options: Partial<visualFieldOptionsType> = {}){
+    constructor(viewer: Viewer){
         this.#viewer = viewer;
-        this.#options = Object.assign(this.defaultOpitons, options);
     }
 
-    init(position: Cartesian3){
-        const camera = this.#createLightCamera(this.#viewer, position);
-        const shadowMap = this.#createShadowMap(this.#viewer, camera);
-        this.#viewer.scene.shadowMap = shadowMap;
-        const postStage = this.#createPostStage(this.#viewer, camera, shadowMap);
-        this.#viewer.scene.postProcessStages.add(postStage);
-        const FrustumOutline = this.#drawFrustumOutline(this.#viewer, camera);
-        this.#viewer.scene.primitives.add(FrustumOutline);
-        const sketch = this.#drawSketch(camera);
-        this.#viewer.entities.add(sketch);
+    init(position: Cartesian3, options: Partial<visualFieldOptionsType> = {}){
+        const o: visualFieldOptionsType = Object.assign(this.defaultOpitons, options);
+        const camera = this.#createLightCamera(this.#viewer, position, o);
+        const shadowMap = this.#createShadowMap(this.#viewer, camera, o);
+        const postStage = this.#createPostStage(this.#viewer, camera, shadowMap, o);
+        const frustumOutline = this.#drawFrustumOutline(camera);
+        const sketch = this.#drawSketch(camera, o);
+        const visual = new visualField(camera, postStage, shadowMap, frustumOutline, sketch);
+        return visual;
+    }
+
+    destroy(visual: visualField){
+        visual.remove(this.#viewer);
     }
 
     get defaultOpitons(): visualFieldOptionsType{
@@ -43,16 +45,16 @@ export default class visualFieldAnalysis{
             distance: 100.0,
             heading: 0.0,
             pitch: 0.0,
-            horizontalAngle: 90.0,
-            verticalAngle: 60.0,
+            horizontalAngle: 60.0,
+            verticalAngle: 30.0,
             visibleColor: Cesium.Color.GREEN,
             invisibleColor: Cesium.Color.RED,
             softShadows: true,
         }
     }
 
-    #createLightCamera(viewer: Viewer, position: Cartesian3): Camera{
-        const { distance, horizontalAngle, verticalAngle, heading, pitch } = this.#options;
+    #createLightCamera(viewer: Viewer, position: Cartesian3, options: visualFieldOptionsType): Camera{
+        const { distance, horizontalAngle, verticalAngle, heading, pitch } = options;
 
         let camera = new Cesium.Camera(viewer.scene);
         camera.position = position;
@@ -77,11 +79,12 @@ export default class visualFieldAnalysis{
         return camera;
     }
 
-    #createShadowMap(viewer:Viewer, camera: Camera): ShadowMap {
-        const { show, distance, size, softShadows } = this.#options;
+    #createShadowMap(viewer:Viewer, camera: Camera, options: visualFieldOptionsType): ShadowMap {
+        const { show, distance, size, softShadows } = options;
 
         return new Cesium.ShadowMap({
-            context: viewer.canvas.getContext('webgl'),
+            // @ts-ignore
+            context: viewer.scene.context,    // 此context并非 canvas.getContext，而是cesium封装的一个类
             lightCamera: camera,
             enabled: show,
             isPointLight: true,
@@ -102,8 +105,8 @@ export default class visualFieldAnalysis{
      * @param {ShadowMap} shadowMap
      * @return {PostProcessStage}
      */
-    #createPostStage(viewer:Viewer, camera:Camera, shadowMap: ShadowMap): PostProcessStage{
-        const { distance, visibleColor, invisibleColor } = this.#options;
+    #createPostStage(viewer:Viewer, camera:Camera, shadowMap: ShadowMap, options: visualFieldOptionsType): PostProcessStage{
+        const { distance, visibleColor, invisibleColor } = options;
         const glsl = getGLSL();
         const scene = viewer.scene;
         return new Cesium.PostProcessStage({
@@ -169,26 +172,22 @@ export default class visualFieldAnalysis{
         })
     }
 
-    #drawFrustumOutline(viewer:Viewer, camera:Camera): Primitive {
+    #drawFrustumOutline(camera:Camera): Primitive {
         const scratchRight = new Cesium.Cartesian3();
         const scratchRotation = new Cesium.Matrix3();
         const scratchOrientation = new Cesium.Quaternion();
-        const position = camera.positionWC;
-        const direction = camera.directionWC;
-        const up = camera.upWC;
-        let right = camera.rightWC;
-        right = Cesium.Cartesian3.negate(right, scratchRight);
-        let rotation = scratchRotation;
-        Cesium.Matrix3.setColumn(rotation, 0, right, rotation);
-        Cesium.Matrix3.setColumn(rotation, 1, up, rotation);
-        Cesium.Matrix3.setColumn(rotation, 2, direction, rotation);
-        let orientation = Cesium.Quaternion.fromRotationMatrix(rotation, scratchOrientation);
+
+        Cesium.Cartesian3.negate(camera.rightWC, scratchRight);
+        Cesium.Matrix3.setColumn(scratchRotation, 0, scratchRight, scratchRotation);
+        Cesium.Matrix3.setColumn(scratchRotation, 1, camera.upWC, scratchRotation);
+        Cesium.Matrix3.setColumn(scratchRotation, 2, camera.directionWC, scratchRotation);
+        Cesium.Quaternion.fromRotationMatrix(scratchRotation, scratchOrientation);
 
         let instance = new Cesium.GeometryInstance({
             geometry: new Cesium.FrustumOutlineGeometry({
                 frustum: camera.frustum as PerspectiveFrustum,
-                origin: position,
-                orientation: orientation
+                origin: camera.positionWC,
+                orientation: scratchOrientation
             }),
             id: "VFA" + uuid(),
             attributes: {
@@ -208,13 +207,13 @@ export default class visualFieldAnalysis{
         })
     }
 
-    #drawSketch(camera: Camera){
-        const { heading, pitch, distance, horizontalAngle, verticalAngle } = this.#options;
+    #drawSketch(camera: Camera, options: visualFieldOptionsType){
+        const { heading, pitch, distance, horizontalAngle, verticalAngle } = options;
         return new Cesium.Entity({
             name: 'sketch',
             position: camera.positionWC,
             orientation: new Cesium.ConstantProperty(
-                ()=> Cesium.Transforms.headingPitchRollQuaternion(
+                Cesium.Transforms.headingPitchRollQuaternion(
                     camera.positionWC,
                     Cesium.HeadingPitchRoll.fromDegrees(heading - 90, pitch, 0.0)
                 )
