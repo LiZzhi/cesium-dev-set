@@ -1,9 +1,9 @@
 <template>
     <CommPanel
         title="鹰眼视图"
-        class="link-panel-box"
+        class="eye-panel-box"
     >
-        <div class="link-panel">
+        <div class="eye-panel">
             <CommButton @click="view.init(exampleBody)">开启</CommButton>
             <CommButton @click="view.destory()" contentClass="clear">关闭</CommButton>
         </div>
@@ -34,5 +34,5 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/LinkView.scss";
+@import "./assets/style/EagleEyeView.scss";
 </style>
