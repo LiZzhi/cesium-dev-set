@@ -1,4 +1,5 @@
 import * as C from "cesium";
+import * as T from "@turf/turf";
 import { Viewer } from "cesium";
 
 // 扩展全局变量
@@ -9,11 +10,14 @@ declare global {
     // 定义mapv
     const mapv: any;
     const MapVLayer: any;
+    // 定义turf
+    const turf: typeof T;
     //扩展 Window
     interface Window {
         Cesium: typeof C;
         viewer: Viewer;
         mapv: any;
         MapVLayer: any;
+        turf: typeof T;
     }
 }
