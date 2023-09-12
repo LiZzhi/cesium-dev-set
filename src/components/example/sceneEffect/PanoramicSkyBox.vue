@@ -97,8 +97,8 @@ onMounted(() => {
     sky.init();
     viewer.scene.skyAtmosphere.show = false;
     viewer.scene.camera.flyTo({
-        destination: new Cesium.Cartesian3(65223480.94141966, 7611725.097783383, 36690685.67755988),
-        orientation: new Cesium.HeadingPitchRoll(0.007964576421628067, -1.496632048717383, 6.278770156514737),
+        destination: new Cesium.Cartesian3(37382457.79237426, -53766399.1478696, 37013151.88743977),
+        orientation: new Cesium.HeadingPitchRoll(0.004531006974906937, -1.4966148618698796, 6.278633154536658),
     })
 });
 
@@ -108,8 +108,8 @@ const changeView = (type: "far"|"near") => {
     if (type === "far") {
         // destination = new Cesium.Cartesian3(-45802988.9566341, -41512897.1313383, 42860387.48041018);
         // orientation = new Cesium.HeadingPitchRoll(1.2536256744910776, -1.49857771791951, 0.03727351623405806);
-        destination = new Cesium.Cartesian3(65223480.94141966, 7611725.097783383, 36690685.67755988);
-        orientation = new Cesium.HeadingPitchRoll(0.007964576421628067, -1.496632048717383, 6.278770156514737);
+        destination = new Cesium.Cartesian3(37382457.79237426, -53766399.1478696, 37013151.88743977);
+        orientation = new Cesium.HeadingPitchRoll(0.004531006974906937, -1.4966148618698796, 6.278633154536658);
     } else {
         destination = new Cesium.Cartesian3(-2895596.962457116, 4717490.945820842, 3158425.3777735666);
         orientation = new Cesium.HeadingPitchRoll(3.8736780571268605, -0.13964038346926966, 6.283183317671659);
