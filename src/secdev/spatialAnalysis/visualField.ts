@@ -13,29 +13,40 @@ export default class visualField {
     shadowMap: ShadowMap;
     frustumOutline: Primitive;
     sketch: Entity;
+    #viewer: Viewer;
+    #isStart: boolean;
     constructor(
+        viewer: Viewer,
         camera: Camera,
         postStage: PostProcessStage,
         shadowMap: ShadowMap,
         frustumOutline: Primitive,
-        sketch: Entity
+        sketch: Entity,
     ) {
+        this.#viewer = viewer;
         this.camera = camera;
         this.postStage = postStage;
         this.shadowMap = shadowMap;
         this.frustumOutline = frustumOutline;
         this.sketch = sketch;
+        this.#isStart = false;
     }
 
-    init(viewer: Viewer) {
-        viewer.scene.postProcessStages.add(this.postStage);
-        // viewer.scene.primitives.add(this.frustumOutline);
-        viewer.entities.add(this.sketch);
+    init() {
+        if (!this.#isStart) {
+            this.#viewer.scene.postProcessStages.add(this.postStage);
+            // viewer.scene.primitives.add(this.frustumOutline);
+            this.#viewer.entities.add(this.sketch);
+            this.#isStart = true;
+        }
     }
 
-    remove(viewer: Viewer) {
-        viewer.scene.postProcessStages.remove(this.postStage);
-        // viewer.scene.primitives.remove(this.frustumOutline);
-        viewer.entities.remove(this.sketch);
+    remove() {
+        if (this.#isStart) {
+            this.#viewer.scene.postProcessStages.remove(this.postStage);
+            // viewer.scene.primitives.remove(this.frustumOutline);
+            this.#viewer.entities.remove(this.sketch);
+            this.#isStart = false;
+        }
     }
 }

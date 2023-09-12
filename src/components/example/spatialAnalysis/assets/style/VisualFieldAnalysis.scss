@@ -1,0 +1,51 @@
+.visual-panel-box {
+    width: 280px;
+    top: 8%;
+    left: 2%;
+    .visual-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .slider-group {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            .slider-item {
+                position: relative;
+                width: 100%;
+                display: flex;
+                gap: 20px;
+                .slider-label-box {
+                    position: relative;
+                    width: 80px;
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    .slider-label {
+                        color: white;
+                    }
+                }
+                .slider-box {
+                    position: relative;
+                    width: calc(100% - 100px);
+                }
+            }
+        }
+        :deep(.btn-group) {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+            .revoke {
+                color: $warning-color;
+            }
+            .clear {
+                color: $danger-color;
+            }
+        }
+    }
+}

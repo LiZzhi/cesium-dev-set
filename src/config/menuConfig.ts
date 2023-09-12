@@ -180,7 +180,7 @@ const menu:menuConfigType[] = [
             {
                 label: "可视域分析",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/eagleEyeView.png"),
+                img: require("@/assets/cover/bePerfecting.png"),
                 route: "visualFieldAnalysis",
                 component: () => import("@/components/example/spatialAnalysis/VisualFieldAnalysis.vue"),
             },

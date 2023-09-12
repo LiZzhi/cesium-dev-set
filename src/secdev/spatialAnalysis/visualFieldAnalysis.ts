@@ -1,15 +1,13 @@
-import { Cartesian3, Viewer, Color, Camera, ShadowMap, PostProcessStage, PerspectiveFrustum, Primitive } from "cesium";
+import { Cartesian3, Viewer, Color, Camera, ShadowMap, PostProcessStage, PerspectiveFrustum, Primitive, HeadingPitchRoll } from "cesium";
 import visualField from "./visualField";
-import getHeading from "../utils/getHeading";
-import getPitch from "../utils/getPitch";
 import uuid from "@/utils/uuid";
 
 export type visualFieldOptionsType = {
     show: boolean;  // 是否显示
     size: number;   // 贴图尺寸
     distance: number;   // 可视域半径
-    heading: number;    // 航向角
-    pitch: number;  // 倾斜角
+    heading: number;    // 航向角,角度
+    pitch: number;  // 倾斜角,角度
     horizontalAngle: number;    // 水平可视域角度
     verticalAngle: number;  // 垂直可视域角度
     visibleColor: Color;    // 可视区域颜色
@@ -23,19 +21,19 @@ export default class visualFieldAnalysis{
         this.#viewer = viewer;
     }
 
-    init(position: Cartesian3, options: Partial<visualFieldOptionsType> = {}){
+    create(position: Cartesian3, options: Partial<visualFieldOptionsType> = {}){
         const o: visualFieldOptionsType = Object.assign(this.defaultOpitons, options);
         const camera = this.#createLightCamera(this.#viewer, position, o);
         const shadowMap = this.#createShadowMap(this.#viewer, camera, o);
         const postStage = this.#createPostStage(this.#viewer, camera, shadowMap, o);
         const frustumOutline = this.#drawFrustumOutline(camera);
         const sketch = this.#drawSketch(camera, o);
-        const visual = new visualField(camera, postStage, shadowMap, frustumOutline, sketch);
+        const visual = new visualField(this.#viewer, camera, postStage, shadowMap, frustumOutline, sketch);
         return visual;
     }
 
-    destroy(visual: visualField){
-        visual.remove(this.#viewer);
+    remove(visual: visualField){
+        visual.remove();
     }
 
     get defaultOpitons(): visualFieldOptionsType{
@@ -73,7 +71,7 @@ export default class visualFieldAnalysis{
 
         camera.setView({
             destination: position,
-            orientation: { heading, pitch, roll: 0}
+            orientation: HeadingPitchRoll.fromDegrees(heading, pitch, 0.0)
         })
 
         return camera;
