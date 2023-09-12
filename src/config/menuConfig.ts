@@ -240,6 +240,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/FogWeather.vue"),
             },
             {
+                label: "天空特效",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/panoramicSkyBox.png"),
+                route: "panoramicSkyBox",
+                component: () => import("@/components/example/sceneEffect/PanoramicSkyBox.vue"),
+            },
+            {
                 label: "地形三角网",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/triangulationNetwork.png"),
