@@ -1,42 +1,31 @@
 <template>
-    <CommPanel title="天空盒" class="scene-panel-box">
-        <div class="scene-panel">
-            <div>
-                <el-select
-                    v-model="far"
-                    placeholder="Select"
-                    size="small"
-                    class="comm-select"
-                    popper-class="comm-option"
-                >
-                    <el-option
-                        v-for="(item, i) in farList"
-                        :key="item"
-                        :label="'远景天空盒' + item"
-                        :value="item"
-                    />
-                </el-select>
-                <select
-                    v-model="near"
-                >
-                    <option
-                        v-for="(item, i) in nearList"
-                        :value="item"
-                    >{{ '近景天空盒' + item }}</option>
-                </select>
+    <CommPanel title="天空特效" class="sky-panel-box">
+        <div class="sky-panel">
+            <div class="select-group">
+                <CommSelect
+                    placeholder="请选择远景天空特效"
+                    :data="farItemList"
+                    :select="change('far')"
+                ></CommSelect>
+                <CommSelect
+                    placeholder="请选择近景天空特效"
+                    :data="nearItemList"
+                    :select="change('near')"
+                ></CommSelect>
             </div>
             <div class="btn-group">
-                <CommButton @click="changeView('far')">远景</CommButton>
-                <CommButton @click="changeView('near')">近景</CommButton>
+                <CommButton @click="changeView('far')" class="btn">远景</CommButton>
+                <CommButton @click="changeView('near')" class="btn">近景</CommButton>
             </div>
         </div>
     </CommPanel>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import panoramicSkyBox from "@/secdev/sceneEffect/sky/panoramicSkyBox";
 import { Cartesian3, HeadingPitchRoll } from "cesium";
+import { selectOptionType } from "@/type/common";
 
 const far = ref("02");
 const near = ref("02");
@@ -45,6 +34,38 @@ const nearList = [
     "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"
 ];
+const farItemList = computed(()=>{
+    let list:selectOptionType[] = [];
+    farList.forEach(v=>{
+        list.push({
+            label: "远景天空特效" + v,
+            value: v,
+        })
+    })
+    return list;
+})
+const nearItemList = computed(()=>{
+    let list:selectOptionType[] = [];
+    nearList.forEach(v=>{
+        list.push({
+            label: "近景天空特效" + v,
+            value: v,
+        })
+    })
+    return list;
+})
+
+const change = (key: "near" | "far") => {
+    return (value: selectOptionType) => {
+        if (key === "near") {
+            near.value = value.value;
+        }
+        if (key === "far") {
+            far.value = value.value;
+        }
+    }
+}
+
 let sky: panoramicSkyBox;
 
 watch(far, (v)=>{
@@ -119,5 +140,5 @@ const changeView = (type: "far"|"near") => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/SenenEffect.scss";
+@import "./assets/style/PanoramicSkyBox.scss";
 </style>
