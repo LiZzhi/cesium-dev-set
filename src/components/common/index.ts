@@ -12,6 +12,7 @@ import CommPanel from "./CommPanel.vue";
 import CommButton from "./CommButton.vue";
 import CommInput from "./CommInput.vue";
 import CommSlider from "./CommSlider.vue";
+import CommSelect from "./CommSelect.vue";
 
 export default{
     install(Vue: App<Element>){
@@ -19,5 +20,6 @@ export default{
         Vue.component("CommButton", CommButton);    // 按钮模板
         Vue.component("CommInput", CommInput);  // 输入框模板
         Vue.component("CommSlider", CommSlider);  // 滑块模板
+        Vue.component("CommSelect", CommSelect);  // 选择菜单模板
     }
 }
