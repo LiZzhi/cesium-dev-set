@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-09-13 14:53:45
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-09-13 18:35:34
+ * @LastEditTime: 2023-09-13 18:42:08
  * @FilePath: \cesium-secdev-set\src\components\common\CommSelect.vue
  * @Description: 自定义公共组件(select)
  *	props属性:
@@ -21,7 +21,6 @@
                 type="text"
                 :placeholder="props.placeholder"
             />
-            <img src="" alt="" />
             <svg
                 class="comm-select-icon"
                 :class="show? 'comm-select-icon-trans' : ''"
