@@ -2,7 +2,7 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 11:34:05
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-08-29 13:31:18
+ * @LastEditTime: 2023-09-14 15:24:24
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
@@ -165,6 +165,35 @@ export default class entityFactory {
             options.polygon.hierarchy = hierarchyP;
         }
         let o = Object.assign(properties, options);
+
+        let e = new Cesium.Entity(o);
+        return e;
+    }
+
+    static createHeightPloygon(
+        hierarchy: PolygonHierarchy|Property,
+        height: number|Property,
+        options: Entity.ConstructorOptions = {}
+    ){
+        let properties = {
+            id: "polygon-" + uuid(),
+            polygon: {
+                hierarchy: hierarchy,
+                material: new Cesium.ColorMaterialProperty(
+                    Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
+                ),
+                arcType: Cesium.ArcType.RHUMB,
+                outline: true,
+                outlineColor: Cesium.Color.fromCssColorString("rgb(22,236,255)"),
+                outlineWidth: 3,
+                height: height,
+            },
+        };
+        let o = Object.assign(properties, options);
+
+        if (options.polygon) {
+            options.polygon.hierarchy = hierarchy;
+        }
 
         let e = new Cesium.Entity(o);
         return e;
