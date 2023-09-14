@@ -1,0 +1,21 @@
+.position-box {
+    position: absolute;
+    width: 600px;
+    height: 35px;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(18, 28, 41);
+    z-index: 20;
+    border-radius: 0 20px 0 0;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    padding-left: 20px;
+    font-family: YouSheBiaoTiHei;
+    font-size: 18px;
+    .position-box-label{
+        width: 280px;
+        color: white;
+    }
+}
