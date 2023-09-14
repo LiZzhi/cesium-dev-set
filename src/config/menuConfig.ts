@@ -191,6 +191,13 @@ const menu:menuConfigType[] = [
                 route: "visualFieldAnalysis",
                 component: () => import("@/components/example/spatialAnalysis/VisualFieldAnalysis.vue"),
             },
+            {
+                label: "限高分析",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/heightLimitAnalysis.png"),
+                route: "heightLimitAnalysis",
+                component: () => import("@/components/example/spatialAnalysis/HeightLimitAnalysis.vue"),
+            },
         ]
     },
     {
