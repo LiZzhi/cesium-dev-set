@@ -8,6 +8,12 @@
             :min="props.min"
             :max="props.max"
         />
+        <div class="comm-slider-tip">
+            <div class="comm-slider-triangle"></div>
+            <span
+                class="comm-slider-label"
+            >{{ value }}</span>
+        </div>
     </div>
 </template>
 
