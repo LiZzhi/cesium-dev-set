@@ -95,6 +95,13 @@ const menu:menuConfigType[] = [
                 route: "bookmarkManager",
                 component: () => import("@/components/example/cameraView/BookmarkManager.vue"),
             },
+            {
+                label: "地球自转",
+                show: true,
+                img: require("@/assets/cover/cameraView/rotation.png"),
+                route: "rotation",
+                component: () => import("@/components/example/cameraView/Rotation.vue"),
+            },
         ]
     },
     {

@@ -1,0 +1,18 @@
+.rotation-panel-box {
+    left: 2%;
+    top: 8%;
+    .rotation-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            :deep(.clear) {
+                color: $danger-color;
+            }
+        }
+    }
+}
