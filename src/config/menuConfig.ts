@@ -198,6 +198,13 @@ const menu:menuConfigType[] = [
                 route: "heightLimitAnalysis",
                 component: () => import("@/components/example/spatialAnalysis/HeightLimitAnalysis.vue"),
             },
+            {
+                label: "地理网格",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/geoGrid.png"),
+                route: "geoGrid",
+                component: () => import("@/components/example/spatialAnalysis/GeoGrid.vue"),
+            },
         ]
     },
     {
