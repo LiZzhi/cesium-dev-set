@@ -2,11 +2,11 @@
  * @Author: XingTao xingt@geovis.com.cn
  * @Date: 2023-08-28 11:34:05
  * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-09-14 15:24:24
+ * @LastEditTime: 2023-09-15 14:55:29
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
-import { Cartesian3, Cartographic, Entity, PolygonHierarchy, Property } from "cesium";
+import { Cartesian3, Cartographic, Entity, PolygonHierarchy, Property, Rectangle } from "cesium";
 import uuid from "../../utils/uuid";
 
 export default class entityFactory {
@@ -55,7 +55,14 @@ export default class entityFactory {
                 pixelOffset: new Cesium.Cartesian2(0, -30)
             }
         };
-        let e = new Cesium.Entity(properties);
+
+        let o = Object.assign(properties, options, {
+            position: position,
+        });
+        if (options.label) {
+            o.label.text = text;
+        }
+        let e = new Cesium.Entity(o);
         return e;
     }
 
@@ -106,10 +113,10 @@ export default class entityFactory {
                 arcType: Cesium.ArcType.RHUMB,
             },
         };
-        if (options.polyline) {
-            options.polyline.positions = positions;
-        }
         let o = Object.assign(properties, options);
+        if (options.polyline) {
+            o.polyline.positions = positions;
+        }
         let e = new Cesium.Entity(o);
         return e;
     }
@@ -127,10 +134,11 @@ export default class entityFactory {
                 arcType: Cesium.ArcType.NONE,
             },
         };
-        if (options.polyline) {
-            options.polyline.positions = positions;
-        }
+
         let o = Object.assign(properties, options);
+        if (options.polyline) {
+            o.polyline.positions = positions;
+        }
         let e = new Cesium.Entity(o);
         return e;
     }
@@ -158,13 +166,14 @@ export default class entityFactory {
                 arcType: Cesium.ArcType.RHUMB,
             },
         };
+        let o = Object.assign(properties, options);
+
         if (options.polyline) {
-            options.polyline.positions = polylineP;
+            o.polyline.positions = polylineP;
         }
         if (options.polygon) {
-            options.polygon.hierarchy = hierarchyP;
+            o.polygon.hierarchy = hierarchyP;
         }
-        let o = Object.assign(properties, options);
 
         let e = new Cesium.Entity(o);
         return e;
@@ -192,7 +201,7 @@ export default class entityFactory {
         let o = Object.assign(properties, options);
 
         if (options.polygon) {
-            options.polygon.hierarchy = hierarchy;
+            o.polygon.hierarchy = hierarchy;
         }
 
         let e = new Cesium.Entity(o);
@@ -216,14 +225,14 @@ export default class entityFactory {
                 ),
             },
         };
-        if (options.ellipse) {
-            options.ellipse.semiMinorAxis = distance;
-            options.ellipse.semiMajorAxis = distance;
-        }
+
         let o = Object.assign(properties, options, {
             position: position,
         });
-
+        if (options.ellipse) {
+            o.ellipse.semiMinorAxis = distance;
+            o.ellipse.semiMajorAxis = distance;
+        }
         let e = new Cesium.Entity(o);
         return e;
     }
@@ -248,13 +257,41 @@ export default class entityFactory {
                 ),
             },
         };
-        if (options.ellipse) {
-            options.ellipse.semiMinorAxis = distance;
-            options.ellipse.semiMajorAxis = distance;
-        }
+
         let o = Object.assign(properties, options, {
             position: position,
         });
+
+        if (options.ellipse) {
+            o.ellipse.semiMinorAxis = distance;
+            o.ellipse.semiMajorAxis = distance;
+        }
+
+        let e = new Cesium.Entity(o);
+        return e;
+    }
+
+    static createRectangle(
+        rectangle: Rectangle|Property,
+        options: Entity.ConstructorOptions = {},
+    ){
+        let properties = {
+            id: "rectangle-" + uuid(),
+            rectangle: {
+                coordinates: rectangle,
+                fill: true,
+                material: new Cesium.ColorMaterialProperty(
+                    Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
+                ),
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+            },
+        };
+
+        let o = Object.assign(properties, options);
+
+        if (options.rectangle) {
+            o.rectangle.coordinates = rectangle;
+        }
 
         let e = new Cesium.Entity(o);
         return e;
