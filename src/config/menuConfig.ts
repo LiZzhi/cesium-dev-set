@@ -212,6 +212,13 @@ const menu:menuConfigType[] = [
                 route: "geoGrid",
                 component: () => import("@/components/example/spatialAnalysis/GeoGrid.vue"),
             },
+            {
+                label: "海陆判断",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/geoGrid.png"),
+                route: "pointIsInLand",
+                component: () => import("@/components/example/spatialAnalysis/PointIsInLand.vue"),
+            },
         ]
     },
     {
