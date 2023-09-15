@@ -102,6 +102,13 @@ const menu:menuConfigType[] = [
                 route: "rotation",
                 component: () => import("@/components/example/cameraView/Rotation.vue"),
             },
+            {
+                label: "模型部分可见",
+                show: true,
+                img: require("@/assets/cover/cameraView/modelPartlyVisible.png"),
+                route: "modelPartlyVisible",
+                component: () => import("@/components/example/cameraView/ModelPartlyVisible.vue"),
+            },
         ]
     },
     {
