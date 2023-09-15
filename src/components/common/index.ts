@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-30 09:27:23
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-08-30 09:40:28
  * @FilePath: \cesium-secdev-set\src\components\common\index.ts
  * @Description: 全局模板插件

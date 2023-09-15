@@ -1,7 +1,7 @@
 /*
  * @Author: “Lizhi” “362042734@qq.com”
  * @Date: 2023-08-22 21:19:50
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-08-29 09:33:20
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\effectPoint\primitiveCluster.ts
  * @Description: primitive聚合(测试版)

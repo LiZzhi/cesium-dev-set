@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-09-05 11:04:55
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-09-05 11:06:28
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\gradientAppearance.ts
  * @Description: 区域标注材质

@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-30 09:34:17
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-08-30 09:42:02
  * @FilePath: \cesium-secdev-set\src\directives\vMove.ts
  * @Description: 拖拽

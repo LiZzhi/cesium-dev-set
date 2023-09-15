@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-22 17:24:02
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-08-22 18:14:57
  * @FilePath: \cesium-plugin\effectLine\src\func\PolylineTrailMaterial.js
  * @Description: 尾迹线材质

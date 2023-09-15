@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-28 11:34:05
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-09-15 14:55:29
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何

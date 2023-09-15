@@ -1,8 +1,8 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-09-15 13:56:28
- * @LastEditors: XingTao xingt@geovis.com.cn
- * @LastEditTime: 2023-09-15 14:25:55
+ * @LastEditors: Xingtao 362042734@qq.com
+ * @LastEditTime: 2023-09-15 15:13:36
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\geoGrid.ts
  * @Description: 地理网格
  */

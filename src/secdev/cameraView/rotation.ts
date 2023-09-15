@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-09-14 09:54:31
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-09-14 10:39:47
  * @FilePath: \cesium-secdev-set\src\secdev\cameraView\rotation.ts
  * @Description: 地球自转

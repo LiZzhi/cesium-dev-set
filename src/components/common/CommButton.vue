@@ -1,7 +1,7 @@
 <!--
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-23 13:43:50
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-08-24 09:29:33
  * @FilePath: \cesium-secdev-set\src\components\common\CommButton.vue
  * @Description: 自定义公共组件(按钮)

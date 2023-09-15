@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-22 17:24:02
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-08-22 17:24:40
  * @FilePath: \cesium-plugin\effectLine\src\func\PolylineEnergyTransMaterial.js
  * @Description: 动态传输线材质

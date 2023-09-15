@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-09-14 11:18:35
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-09-14 16:28:30
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\heightLimitAnalysis.ts
  * @Description: 限高分析

@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-23 14:41:20
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-08-23 16:38:44
  * @FilePath: \cesium-secdev-set\src\secdev\utils\mouseMessageBox.ts
  * @Description: 在Cesium画布中创建跟着鼠标移动的消息盒子

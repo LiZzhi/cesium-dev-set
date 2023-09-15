@@ -1,7 +1,7 @@
 /*
- * @Author: XingTao xingt@geovis.com.cn
+ * @Author: XingTao 362042734@qq.com
  * @Date: 2023-09-12 15:26:40
- * @LastEditors: XingTao xingt@geovis.com.cn
+ * @LastEditors: XingTao 362042734@qq.com
  * @LastEditTime: 2023-09-12 15:50:03
  * @FilePath: \cesium-secdev-set\src\secdev\sceneEffect\sky\groundSkyBox.ts
  * @Description: 近景天空盒
