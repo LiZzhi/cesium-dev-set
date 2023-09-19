@@ -19,7 +19,8 @@
             "element-plus/global"
         ],
         "paths": {
-            "@/*": ["src/*"]
+            "@/*": ["src/*"],
+            "~/*": ["public/*"]
         },
         "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
     },
