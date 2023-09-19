@@ -1,6 +1,6 @@
 <template>
     <CommPanel
-        title="海路判断"
+        title="海陆判断"
         class="land-panel-box"
     >
         <div class="land-panel">
@@ -58,5 +58,5 @@ const clear = ()=>{
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/EagleEyeView.scss";
+@import "./assets/style/PointIsInLand.scss";
 </style>

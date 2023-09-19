@@ -1,0 +1,13 @@
+.land-panel-box {
+    width: 180px;
+    top: 8%;
+    left: 2%;
+    .land-panel {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        :deep(.clear){
+            color: $danger-color;
+        }
+    }
+}

@@ -215,7 +215,7 @@ const menu:menuConfigType[] = [
             {
                 label: "海陆判断",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/geoGrid.png"),
+                img: require("@/assets/cover/spatialAnalysis/pointIsInLand.png"),
                 route: "pointIsInLand",
                 component: () => import("@/components/example/spatialAnalysis/PointIsInLand.vue"),
             },
