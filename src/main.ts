@@ -22,7 +22,9 @@ import "@/thirdParty/script";
 import "@/thirdParty/style";
 
 // 全局配置
-window.$ip = ip;
+window.$config = {
+    ip: ip,
+};
 
 const app = createApp(App);
 
