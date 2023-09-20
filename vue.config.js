@@ -107,6 +107,14 @@ module.exports = defineConfig({
             open: true,
             // 模块热更新
             hot: true,
+            // 代理
+            proxy: {
+                "https://geo.datav.aliyun.com": {
+                    target: "https://geo.datav.aliyun.com",   // 后台接口域名
+                    secure: true,  // 如果是https接口，需要配置这个参数
+                    changeOrigin: true,  //是否跨域
+                }
+            }
         },
     },
     css: {
