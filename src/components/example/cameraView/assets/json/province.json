@@ -1,0 +1,76 @@
+[
+    {
+        "name": "华北",
+        "cityList": [
+            { "name": "北京", "adcode": 110000 },
+            { "name": "天津", "adcode": 120000 },
+            { "name": "河北", "adcode": 130000 },
+            { "name": "山西", "adcode": 140000 },
+            { "name": "内蒙古", "adcode": 150000 }
+        ]
+    },
+    {
+        "name": "东北",
+        "cityList": [
+            { "name": "辽宁", "adcode": 210000 },
+            { "name": "吉林", "adcode": 220000 },
+            { "name": "黑龙江", "adcode": 230000 }
+        ]
+    },
+    {
+        "name": "华东",
+        "cityList": [
+            { "name": "上海", "adcode": 310000 },
+            { "name": "江苏", "adcode": 320000 },
+            { "name": "浙江", "adcode": 330000 },
+            { "name": "安徽", "adcode": 340000 },
+            { "name": "福建", "adcode": 350000 },
+            { "name": "江西", "adcode": 360000 },
+            { "name": "山东", "adcode": 370000 }
+        ]
+    },
+    {
+        "name": "华中",
+        "cityList": [
+            { "name": "河南", "adcode": 410000 },
+            { "name": "湖北", "adcode": 420000 },
+            { "name": "湖南", "adcode": 430000 }
+        ]
+    },
+    {
+        "name": "华南",
+        "cityList": [
+            { "name": "广东", "adcode": 440000 },
+            { "name": "广西", "adcode": 450000 },
+            { "name": "海南", "adcode": 460000 }
+        ]
+    },
+    {
+        "name": "西南",
+        "cityList": [
+            { "name": "重庆", "adcode": 500000 },
+            { "name": "四川", "adcode": 510000 },
+            { "name": "贵州", "adcode": 520000 },
+            { "name": "云南", "adcode": 530000 },
+            { "name": "西藏", "adcode": 540000 }
+        ]
+    },
+    {
+        "name": "西北",
+        "cityList": [
+            { "name": "陕西", "adcode": 610000 },
+            { "name": "甘肃", "adcode": 620000 },
+            { "name": "青海", "adcode": 630000 },
+            { "name": "宁夏", "adcode": 640000 },
+            { "name": "新疆", "adcode": 650000 }
+        ]
+    },
+    {
+        "name": "港澳台",
+        "cityList": [
+            { "name": "台湾", "adcode": 710000 },
+            { "name": "香港", "adcode": 810000 },
+            { "name": "澳门", "adcode": 820000 }
+        ]
+    }
+]

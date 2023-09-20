@@ -75,6 +75,13 @@ const menu:menuConfigType[] = [
         name: "cameraView",
         components: [
             {
+                label: "地区导航",
+                show: true,
+                img: require("@/assets/cover/cameraView/areaNavigation.png"),
+                route: "areaNavigation",
+                component: () => import("@/components/example/cameraView/AreaNavigation.vue"),
+            },
+            {
                 label: "路径漫游",
                 show: true,
                 img: require("@/assets/cover/cameraView/pathRoaming.png"),

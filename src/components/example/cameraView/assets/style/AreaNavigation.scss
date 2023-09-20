@@ -1,0 +1,87 @@
+.navigation-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 260px;
+    .navigation-panel {
+        position: relative;
+        width: 100%;
+        .navigation-title {
+            position: relative;
+            width: 100%;
+            .navigation-title-box {
+                position: relative;
+                width: 95%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .navigation-title-label {
+                    position: relative;
+                    color: white;
+                    font-size: 14px;
+                    letter-spacing: 1px;
+                }
+                .navigation-back-triangle {
+                    position: relative;
+                    transform: translateX(1px);
+                    cursor: pointer;
+                    width: 0;
+                    height: 0;
+                    border-top: 7px transparent solid;
+                    border-right: 7px #627eb5 solid;
+                    border-bottom: 7px transparent solid;
+                }
+            }
+            .navigation-divider {
+                margin: 10px 0;
+                border-color: gray;
+            }
+        }
+        .navigation-province {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            .province-container {
+                position: relative;
+                width: 100%;
+                display: flex;
+                .province-region {
+                    color: #0ff;
+                    font-family: YouSheBiaoTiHei;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 400;
+                    letter-spacing: 1.4px;
+                    width: 70px;
+                }
+                .province-item-body {
+                    display: flex;
+                    width: calc(100% - 70px);
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    row-gap: 5px;
+                    cursor: pointer;
+                    .province-item {
+                        color: white;
+                        font-size: 14px;
+                        letter-spacing: 1px;
+                    }
+                }
+            }
+        }
+        .navigation-subdomain {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            flex-wrap: wrap;
+            row-gap: 5px;
+            cursor: pointer;
+            .subdomain-item {
+                color: white;
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+        }
+    }
+}
