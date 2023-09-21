@@ -226,6 +226,13 @@ const menu:menuConfigType[] = [
                 route: "pointIsInLand",
                 component: () => import("@/components/example/spatialAnalysis/PointIsInLand.vue"),
             },
+            {
+                label: "遮罩图层",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/pointIsInLand.png"),
+                route: "maskLayer",
+                component: () => import("@/components/example/spatialAnalysis/MaskLayer.vue"),
+            },
         ]
     },
     {
