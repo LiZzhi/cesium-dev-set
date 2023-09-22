@@ -82,6 +82,13 @@ const menu:menuConfigType[] = [
                 route: "scanSegment",
                 component: () => import("@/components/example/specialEffectPlot/ScanSegment.vue"),
             },
+            {
+                label: "渐变填充",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/gradientPolygon.png"),
+                route: "gradientPolygon",
+                component: () => import("@/components/example/specialEffectPlot/GradientPolygon.vue"),
+            },
         ],
     },
     {

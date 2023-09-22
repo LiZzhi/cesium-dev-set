@@ -1,0 +1,21 @@
+.gradient-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 170px;
+    .gradient-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            :deep(.clear) {
+                color: $danger-color;
+            }
+        }
+    }
+}
