@@ -2,31 +2,51 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-09-20 17:24:57
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-09-21 22:35:19
+ * @LastEditTime: 2023-09-22 09:18:44
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\maskLayer.ts
- * @Description: 反选遮罩
+ * @Description: 遮罩图层
  */
-import { Viewer, PolygonHierarchy, GeometryInstance } from "cesium";
+import { Viewer, PolygonHierarchy, GeometryInstance, CustomDataSource, Primitive } from "cesium";
+import uuid from "@/utils/uuid";
 
 export default class {
     #viewer: Viewer;
+    #collection: CustomDataSource;
+    #wall: Primitive|undefined;
     constructor(viewer: Viewer) {
         this.#viewer = viewer;
+        this.#collection = new Cesium.CustomDataSource(`mask-${uuid()}`);
+        this.#viewer.dataSources.add(this.#collection);
+        this.#wall = undefined;
     }
 
-    init(center: PolygonHierarchy[], height: number=1000) {
+    /**
+     * @description: 创建
+     * @param {PolygonHierarchy[]} center 可视区域，类型为数组，可传入多个区域
+     * @param {number} height (可选)，边界墙高度，默认为1000
+     * @return {*}
+     */
+    create(center: PolygonHierarchy[], height: number=1000) {
+        this.remove();
+
         let [p1, p2] = this.globalMaskPosition;
         let h1 = new Cesium.PolygonHierarchy(p1, center);
         let h2 = new Cesium.PolygonHierarchy(p2);
 
-        this.#viewer.entities.add(this.#createMaskPolygon(h1));
-        this.#viewer.entities.add(this.#createMaskPolygon(h2));
+        this.#collection.entities.add(this.#createMaskPolygon(h1));
+        this.#collection.entities.add(this.#createMaskPolygon(h2));
 
-        let p = this.#createCenterPolygon(center, height);
-        this.#viewer.scene.primitives.add(p);
+        this.#wall = this.#createWallPolygon(center, height);
+        this.#viewer.scene.primitives.add(this.#wall);
     }
 
-    #createCenterPolygon(center: PolygonHierarchy[], height: number) {
+    remove(){
+        this.#collection.entities.removeAll();
+        this.#viewer.scene.primitives.remove(this.#wall);
+        this.#wall = undefined;
+    }
+
+    #createWallPolygon(center: PolygonHierarchy[], height: number) {
         let wallInstances: Array<GeometryInstance> = [];
         for (let i = 0; i < center.length; i++) {
             const positions = center[i].positions;
