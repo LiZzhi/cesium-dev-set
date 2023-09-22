@@ -268,6 +268,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/WaterEffect.vue"),
             },
             {
+                label: "雷达扫描线",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/radarScanLine.png"),
+                route: "radarScanLine",
+                component: () => import("@/components/example/sceneEffect/RadarScanLine.vue"),
+            },
+            {
                 label: "雨天特效",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/rainWeather.png"),
