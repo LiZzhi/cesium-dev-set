@@ -1,6 +1,6 @@
 <template>
-    <CommPanel title="雷达扫描线" class="scanline-panel-box">
-        <div class="scanline-panel">
+    <CommPanel title="雷达扫描线" class="scan-panel-box">
+        <div class="scan-panel">
             <div class="btn-group">
                 <CommButton @click="drawCircle('red')">红色扫描线</CommButton>
                 <CommButton @click="drawCircle('blue')">蓝色扫描线</CommButton>
@@ -65,5 +65,5 @@ const clear = ()=>{
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/RadarScanLine.scss";
+@import "./assets/style/RadarScan.scss";
 </style>
