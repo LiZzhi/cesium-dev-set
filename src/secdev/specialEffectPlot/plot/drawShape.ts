@@ -2,7 +2,7 @@
  * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-09-22 17:13:22
+ * @LastEditTime: 2023-09-22 17:16:01
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -37,6 +37,7 @@ export default class drawShape {
     #drawShapeSource: CustomDataSource;
     #pointNodeArr: Entity[];
     #pointNodePosiArr: Cartesian3[];
+    #isDepth: boolean;
     #handler: ScreenSpaceEventHandler | null;
     #drawEntity: Entity | null;
     #messageBox: mouseMessageBox;
@@ -58,6 +59,8 @@ export default class drawShape {
         this.#pointNodePosiArr = [];
         // 绘图过程中，临时的 Entity
         this.#drawEntity = null;
+        // 记录当前深度检测状态
+        this.#isDepth = viewer.scene.globe.depthTestAgainstTerrain;
         // 屏幕事件句柄
         this.#handler = null;
         // 提示dom
@@ -483,6 +486,12 @@ export default class drawShape {
         window.document.body.style.cursor = "crosshair";
         // 获取屏幕事件句柄
         let handler = new Cesium.ScreenSpaceEventHandler(this.#viewer.canvas);
+        // 开启深度探测
+        if (!this.#isDepth) {
+            this.#isDepth = this.#viewer.scene.globe.depthTestAgainstTerrain;
+            this.#viewer.scene.globe.depthTestAgainstTerrain = true;
+            console.log("%c自动开启深度检测！", "color: #43bb88;");
+        }
         return handler;
     }
 
@@ -494,6 +503,8 @@ export default class drawShape {
         this.#messageBox.destroy();
         // 恢复鼠标样式
         window.document.body.style.cursor = "auto";
+        // 恢复深度检测状态
+        this.#viewer.scene.globe.depthTestAgainstTerrain = this.#isDepth;
         // 销毁事件句柄
         if (this.#handler && !this.#handler.isDestroyed()) {
             this.#handler.destroy();
