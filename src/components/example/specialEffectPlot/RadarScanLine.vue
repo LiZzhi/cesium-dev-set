@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { PostProcessStage, Color } from "cesium";
-import radarScanLine from "@/secdev/sceneEffect/particle/radarScanLine";
+import radarScanLine from "@/secdev/specialEffectPlot/plot/radarScanLine";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 
 let scanLine: radarScanLine;

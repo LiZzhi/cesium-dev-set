@@ -68,6 +68,13 @@ const menu:menuConfigType[] = [
                 route: "regionLabel",
                 component: () => import("@/components/example/specialEffectPlot/RegionLabel.vue"),
             },
+            {
+                label: "雷达扫描线",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/radarScanLine.png"),
+                route: "radarScanLine",
+                component: () => import("@/components/example/specialEffectPlot/RadarScanLine.vue"),
+            },
         ],
     },
     {
@@ -266,13 +273,6 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/sceneEffect/waterEffect.png"),
                 route: "waterEffect",
                 component: () => import("@/components/example/sceneEffect/WaterEffect.vue"),
-            },
-            {
-                label: "雷达扫描线",
-                show: true,
-                img: require("@/assets/cover/sceneEffect/radarScanLine.png"),
-                route: "radarScanLine",
-                component: () => import("@/components/example/sceneEffect/RadarScanLine.vue"),
             },
             {
                 label: "雨天特效",
