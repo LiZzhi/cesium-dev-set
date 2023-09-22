@@ -1,11 +1,19 @@
 <template>
-    <div class="comm-slider-warpper" :class="props.class">
-        <el-slider
-            v-model="value"
+    <div class="comm-slider-box" :class="props.class">
+        <input
+            type="range"
+            class="comm-input-slider"
+            v-model.number="value"
+            :step="props.step"
             :min="props.min"
             :max="props.max"
-            :step="props.step"
-        ></el-slider>
+        />
+        <div class="comm-slider-tip">
+            <div class="comm-slider-triangle"></div>
+            <span
+                class="comm-slider-label"
+            >{{ value }}</span>
+        </div>
     </div>
 </template>
 
@@ -27,25 +35,25 @@ const props = withDefaults(
     }
 );
 
-const ownValue: Ref<number> = ref(0);
+const ownValue:Ref<number> = ref(0);
 const value = computed({
     get: () => {
-        if (props.modelValue !== undefined) {
+        if(props.modelValue !== undefined){
             return props.modelValue;
         } else {
             return ownValue.value;
         }
     },
     set: (v) => {
-        if (props.modelValue !== undefined) {
+        if(props.modelValue !== undefined){
             emits("update:modelValue", v);
         } else {
             ownValue.value = v;
         }
     },
-});
+})
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/CommSlider.scss";
+@import "./assets/style/CommSlider2.scss"
 </style>
