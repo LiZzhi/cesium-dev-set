@@ -1,0 +1,23 @@
+.heatmap-panel-box {
+    width: 180px;
+    top: 8%;
+    left: 2%;
+    .heatmap-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        :deep(.btn-group){
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            .fly{
+                width: 100%;
+            }
+            .clear{
+                color: $danger-color;
+            }
+        }
+    }
+}
