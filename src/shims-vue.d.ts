@@ -20,3 +20,5 @@ declare module "@/secdev/specialEffectPlot/lineMaterial/polylineSuperMaterial.js
 declare module "@/secdev/specialEffectPlot/lineMaterial/polylineTrailMaterial.js"
 declare module "@/secdev/specialEffectPlot/lineMaterial/polylineTrialFlowMaterial.js"
 declare module "@/secdev/specialEffectPlot/lineMaterial/polylineVolumeTrialMaterial.js"
+
+declare module "@/thirdParty/heatmap/heatmap.js"

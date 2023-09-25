@@ -2,6 +2,7 @@ import * as C from "cesium";
 import * as T from "@turf/turf";
 import { Viewer } from "cesium";
 import ip from "~/public/config/ip.json"
+import heatmap from "@/thirdParty/heatmap/heatmap.js";
 
 type publicConfig = {
     ip: ip;
@@ -17,6 +18,8 @@ declare global {
     const MapVLayer: any;
     // 定义turf
     const turf: typeof T;
+    // 定义h337, cesiumHeatmap使用
+    const h337: typeof heatmap;
     // 全局配置
     const $config: publicConfig;
     //扩展 Window
@@ -26,6 +29,7 @@ declare global {
         mapv: any;
         MapVLayer: any;
         turf: typeof T;
+        h337: typeof heatmap;
         $config: publicConfig;
     }
 }
