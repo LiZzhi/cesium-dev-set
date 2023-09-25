@@ -4,3 +4,11 @@ export type worldDegreesType = {
     lat: number;
     height?: number;
 }
+
+// 包围盒范围
+export type bboxType = {
+    north: number;
+    east: number;
+    south: number;
+    west: number;
+}
