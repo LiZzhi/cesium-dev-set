@@ -220,6 +220,13 @@ const menu:menuConfigType[] = [
                 route: "echartsOutletLineMap",
                 component: () => import("@/components/example/dataVisualization/EchartsOutletLineMap.vue"),
             },
+            {
+                label: "echarts流入线",
+                show: true,
+                img: require("@/assets/cover/dataVisualization/echartsInflowLineMap.png"),
+                route: "echartsInflowLineMap",
+                component: () => import("@/components/example/dataVisualization/EchartsInflowLineMap.vue"),
+            },
         ]
     },
     {
