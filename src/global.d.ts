@@ -16,6 +16,8 @@ declare global {
     // 定义mapv
     const mapv: any;
     const MapVLayer: any;
+    // 定义echartsLayer
+    const EchartsLayer: any;
     // 定义turf
     const turf: typeof T;
     // 定义h337, cesiumHeatmap使用
@@ -28,6 +30,7 @@ declare global {
         viewer: Viewer;
         mapv: any;
         MapVLayer: any;
+        EchartsLayer: any;
         turf: typeof T;
         h337: typeof heatmap;
         $config: publicConfig;

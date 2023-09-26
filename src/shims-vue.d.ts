@@ -21,4 +21,8 @@ declare module "@/secdev/specialEffectPlot/lineMaterial/polylineTrailMaterial.js
 declare module "@/secdev/specialEffectPlot/lineMaterial/polylineTrialFlowMaterial.js"
 declare module "@/secdev/specialEffectPlot/lineMaterial/polylineVolumeTrialMaterial.js"
 
+// 热力图
 declare module "@/thirdParty/heatmap/heatmap.js"
+
+// echartsLayer图层
+declare module "@/thirdParty/echartsLayer/echartsLayer.js"
