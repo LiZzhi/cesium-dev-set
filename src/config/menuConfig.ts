@@ -227,6 +227,13 @@ const menu:menuConfigType[] = [
                 route: "echartsInflowLineMap",
                 component: () => import("@/components/example/dataVisualization/EchartsInflowLineMap.vue"),
             },
+            {
+                label: "echarts散点图",
+                show: true,
+                img: require("@/assets/cover/dataVisualization/echartsScatterMap.png"),
+                route: "echartsScatterMap",
+                component: () => import("@/components/example/dataVisualization/EchartsScatterMap.vue"),
+            },
         ]
     },
     {
