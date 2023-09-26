@@ -213,6 +213,13 @@ const menu:menuConfigType[] = [
                 route: "echartsMigrateMap3",
                 component: () => import("@/components/example/dataVisualization/EchartsMigrateMap3.vue"),
             },
+            {
+                label: "echarts流出线",
+                show: true,
+                img: require("@/assets/cover/dataVisualization/echartsOutletLineMap.png"),
+                route: "echartsOutletLineMap",
+                component: () => import("@/components/example/dataVisualization/EchartsOutletLineMap.vue"),
+            },
         ]
     },
     {
