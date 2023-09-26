@@ -28,7 +28,7 @@ export default class EchartsLayer {
     if (!this.box || this.visible === bool) return;
     this.box.hidden = !bool;
     this.visible = bool;
-    bool === true && setCharts();
+    bool === true && this.setCharts();
   }
   /*
       refreshBegin() {
