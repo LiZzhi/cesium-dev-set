@@ -199,6 +199,20 @@ const menu:menuConfigType[] = [
                 route: "echartsMigrateMap1",
                 component: () => import("@/components/example/dataVisualization/EchartsMigrateMap1.vue"),
             },
+            {
+                label: "echarts迁徙图2",
+                show: true,
+                img: require("@/assets/cover/dataVisualization/echartsMigrateMap2.png"),
+                route: "echartsMigrateMap2",
+                component: () => import("@/components/example/dataVisualization/EchartsMigrateMap2.vue"),
+            },
+            {
+                label: "echarts迁徙图3",
+                show: true,
+                img: require("@/assets/cover/dataVisualization/echartsMigrateMap3.png"),
+                route: "echartsMigrateMap3",
+                component: () => import("@/components/example/dataVisualization/EchartsMigrateMap3.vue"),
+            },
         ]
     },
     {
