@@ -192,6 +192,13 @@ const menu:menuConfigType[] = [
                 route: "strongBoundaryData",
                 component: () => import("@/components/example/dataVisualization/StrongBoundaryData.vue"),
             },
+            {
+                label: "echarts迁徙图1",
+                show: true,
+                img: require("@/assets/cover/dataVisualization/echartsMigrateMap1.png"),
+                route: "echartsMigrateMap1",
+                component: () => import("@/components/example/dataVisualization/EchartsMigrateMap1.vue"),
+            },
         ]
     },
     {
