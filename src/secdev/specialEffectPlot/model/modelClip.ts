@@ -2,16 +2,16 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-09-26 17:17:45
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-09-27 09:29:37
+ * @LastEditTime: 2023-09-27 10:20:26
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\model\modelClip.ts
  * @Description: 模型裁剪
  */
-import { Cartesian3, Cesium3DTileset, Matrix4, Viewer, ClippingPlane } from "cesium";
-import cartographicTool from "../../utils/cartographicTool";
+import { Cartesian3, Cesium3DTileset, Matrix4, ClippingPlane } from "cesium";
+import booleanClockwise from "../../utils/booleanClockwise";
 
 export default class modelClip {
     clip(tileset: Cesium3DTileset, positions: Cartesian3[]){
-        let bClockwise = this.#booleanClockwise(positions);
+        let bClockwise = booleanClockwise(positions);   // 判断点顺序是否为顺时针
         if (bClockwise) {
             //顺时针 需要转换点的顺序
             positions = positions.reverse();
@@ -48,22 +48,6 @@ export default class modelClip {
             edgeWidth: 1.0,
             edgeColor: Cesium.Color.WHITE
         });
-    }
-
-    /**
-     * @description: 判断点顺序是否为顺时针
-     * @param {*} positions
-     * @return {*}
-     */
-    #booleanClockwise(positions: Cartesian3[]) {
-        let degreesArrary = positions.map(position => {
-            let cat = cartographicTool.formCartesian3(position);
-            return [cat.longitude, cat.latitude];
-        });
-        //首尾闭合
-        degreesArrary.push(degreesArrary[0]);
-        let lineString = turf.lineString(degreesArrary);
-        return turf.booleanClockwise(lineString);
     }
 
     /**
