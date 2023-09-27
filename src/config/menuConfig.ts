@@ -89,6 +89,13 @@ const menu:menuConfigType[] = [
                 route: "gradientPolygon",
                 component: () => import("@/components/example/specialEffectPlot/GradientPolygon.vue"),
             },
+            {
+                label: "模型裁剪",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/modelClip.png"),
+                route: "modelClip",
+                component: () => import("@/components/example/specialEffectPlot/ModelClip.vue"),
+            },
         ],
     },
     {
@@ -302,7 +309,7 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/spatialAnalysis/maskLayer.png"),
                 route: "maskLayer",
                 component: () => import("@/components/example/spatialAnalysis/MaskLayer.vue"),
-            },
+            }
         ]
     },
     {
