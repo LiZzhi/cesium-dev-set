@@ -309,6 +309,13 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/spatialAnalysis/maskLayer.png"),
                 route: "maskLayer",
                 component: () => import("@/components/example/spatialAnalysis/MaskLayer.vue"),
+            },
+            {
+                label: "地形开挖",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/surfaceExcavate.png"),
+                route: "surfaceExcavate",
+                component: () => import("@/components/example/spatialAnalysis/SurfaceExcavate.vue"),
             }
         ]
     },
