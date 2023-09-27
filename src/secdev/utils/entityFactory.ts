@@ -1,12 +1,12 @@
 /*
  * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-28 11:34:05
- * @LastEditors: XingTao 362042734@qq.com
- * @LastEditTime: 2023-09-15 14:55:29
+ * @LastEditors: Xingtao 362042734@qq.com
+ * @LastEditTime: 2023-09-27 21:24:41
  * @FilePath: \cesium-secdev-set\src\secdev\utils\entityFactory.ts
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
-import { Cartesian3, Cartographic, Entity, PolygonHierarchy, Property, Rectangle } from "cesium";
+import { Cartesian3, Cartographic, Entity, HeightReference, PolygonHierarchy, Property, Rectangle } from "cesium";
 import centerOfPolygon from "./centerOfPolygon";
 import uuid from "../../utils/uuid";
 
@@ -190,7 +190,7 @@ export default class entityFactory {
         let polylineP = positions.concat([positions[0]]);
         let properties = {
             id: "polygon-" + uuid(),
-            positions: center,
+            position: center,
             label:{
                 text: text,
                 font: '14pt bold monospace',
@@ -202,6 +202,7 @@ export default class entityFactory {
                 verticalOrigin: Cesium.VerticalOrigin.TOP,
                 horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
                 disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
                 pixelOffset: new Cesium.Cartesian2(0, -30)
             },
             polyline: {
