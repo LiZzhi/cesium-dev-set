@@ -316,6 +316,13 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/spatialAnalysis/surfaceExcavate.png"),
                 route: "surfaceExcavate",
                 component: () => import("@/components/example/spatialAnalysis/SurfaceExcavate.vue"),
+            },
+            {
+                label: "路径规划",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/surfaceExcavate.png"),
+                route: "pathPlanning",
+                component: () => import("@/components/example/spatialAnalysis/PathPlanning.vue"),
             }
         ]
     },
