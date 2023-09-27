@@ -7,6 +7,7 @@
  * @Description: Entity工厂，快速构建简单的Entity几何
  */
 import { Cartesian3, Cartographic, Entity, PolygonHierarchy, Property, Rectangle } from "cesium";
+import centerOfPolygon from "./centerOfPolygon";
 import uuid from "../../utils/uuid";
 
 export default class entityFactory {
@@ -151,6 +152,58 @@ export default class entityFactory {
         let polylineP = positions.concat([positions[0]]);
         let properties = {
             id: "polygon-" + uuid(),
+            polyline: {
+                positions: polylineP,
+                width: 3,
+                material: Cesium.Color.fromCssColorString("rgb(22,236,255)"),
+                clampToGround: true,
+                arcType: Cesium.ArcType.RHUMB,
+            },
+            polygon: {
+                hierarchy: hierarchyP,
+                material: new Cesium.ColorMaterialProperty(
+                    Cesium.Color.LIGHTSKYBLUE.withAlpha(0.5)
+                ),
+                arcType: Cesium.ArcType.RHUMB,
+            },
+        };
+        let o = Object.assign(properties, options);
+
+        if (options.polyline) {
+            o.polyline.positions = polylineP;
+        }
+        if (options.polygon) {
+            o.polygon.hierarchy = hierarchyP;
+        }
+
+        let e = new Cesium.Entity(o);
+        return e;
+    }
+
+    static createLabelPloygon(
+        positions: Cartesian3[],
+        text: string| Property,
+        options: Entity.ConstructorOptions = {}
+    ) {
+        let center = centerOfPolygon(positions);
+        let hierarchyP = new Cesium.PolygonHierarchy(positions);
+        let polylineP = positions.concat([positions[0]]);
+        let properties = {
+            id: "polygon-" + uuid(),
+            positions: center,
+            label:{
+                text: text,
+                font: '14pt bold monospace',
+                fillColor: Cesium.Color.WHITE,
+                outlineColor: Cesium.Color.BLACK,
+                outlineWidth: 4,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                backgroundColor: Cesium.Color.RED,
+                verticalOrigin: Cesium.VerticalOrigin.TOP,
+                horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+                disableDepthTestDistance: Number.POSITIVE_INFINITY,
+                pixelOffset: new Cesium.Cartesian2(0, -30)
+            },
             polyline: {
                 positions: polylineP,
                 width: 3,
