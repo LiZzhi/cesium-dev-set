@@ -11,6 +11,7 @@
  *		3.modelValue { string|number } default:"" v-model绑定用
  *		4.clearable { boolean } default:false 是否需要清空按钮
  *		5.number { boolean } default:false 是否为数字类型
+ *		6.readonly { boolean } default:false 是否只读
 -->
 <template>
     <div class="comm-input-box" :class="props.class">
@@ -19,6 +20,7 @@
             :placeholder="props.placeholder"
             :type="props.number? 'number' : 'text'"
             class="comm-input"
+            :readonly="props.readonly"
         />
         <span
             v-if="props.clearable"
@@ -39,12 +41,14 @@ const props = withDefaults(
         modelValue?: string|number;
         clearable?: boolean;
         number?: boolean;
+        readonly?: boolean;
     }>(),
     {
         class: "",
         placeholder: "",
         clearable: false,
         number: false,
+        readonly: false,
     }
 );
 
