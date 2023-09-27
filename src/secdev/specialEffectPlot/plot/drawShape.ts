@@ -2,7 +2,7 @@
  * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-09-22 17:16:01
+ * @LastEditTime: 2023-09-27 11:11:58
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -116,7 +116,7 @@ export default class drawShape {
                 if(this.#pointNodePosiArr.length >= maxNode){
                     // 超出节点限制结束绘图
                     if (this.#pointNodePosiArr.length >= 2) {
-                        let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
+                        let position = this.#pointNodePosiArr.map(v => v.clone());
                         end(position);
                     }
                     // 结束绘图
@@ -162,7 +162,7 @@ export default class drawShape {
         this.#handler.setInputAction((e: any) => {
             // 结束回调
             if (this.#pointNodePosiArr.length >= 2) {
-                let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
+                let position = this.#pointNodePosiArr.map(v => v.clone());
                 end(position);
             }
             // 结束绘图
@@ -187,7 +187,7 @@ export default class drawShape {
                 if(this.#pointNodePosiArr.length >= maxNode){
                     // 超出节点限制结束绘图
                     if (this.#pointNodePosiArr.length >= 3) {
-                        let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
+                        let position = this.#pointNodePosiArr.map(v => v.clone());
                         end(position);
                     }
                     // 结束绘图
@@ -216,7 +216,7 @@ export default class drawShape {
                             hierarchy: new Cesium.CallbackProperty(() => {
                                 return new Cesium.PolygonHierarchy(
                                     // 不深拷贝源数据就会被修改,真是奇怪了这操作
-                                    JSON.parse(JSON.stringify(this.#pointNodePosiArr))
+                                    this.#pointNodePosiArr.map(v => v.clone())
                                 );
                             }, false),
                             material: new Cesium.ColorMaterialProperty(
@@ -249,7 +249,7 @@ export default class drawShape {
         this.#handler.setInputAction((e: any) => {
             // 结束回调
             if (this.#pointNodePosiArr.length >= 3) {
-                let position = JSON.parse(JSON.stringify(this.#pointNodePosiArr));
+                let position = this.#pointNodePosiArr.map(v => v.clone());
                 end(position);
             }
             // 右键点击结束绘图
@@ -415,7 +415,7 @@ export default class drawShape {
                             hierarchy: new Cesium.CallbackProperty(() => {
                                 return new Cesium.PolygonHierarchy(
                                     // 不深拷贝源数据就会被修改,真是奇怪了这操作
-                                    JSON.parse(JSON.stringify(this.#pointNodePosiArr))
+                                    this.#pointNodePosiArr.map(v => v.clone())
                                 );
                             }, false),
                             material: new Cesium.ColorMaterialProperty(
