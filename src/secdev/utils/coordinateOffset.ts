@@ -2,14 +2,14 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-10-06 20:50:49
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-10-06 22:01:29
+ * @LastEditTime: 2023-10-06 22:02:44
  * @FilePath: \cesium-secdev-set\src\secdev\utils\CoordinateOffset.ts
  * @Description: 坐标偏移转换工具，包括对 WGS84、百度坐标系、高德坐标系的互转函数
  */
 
 export default class coordinateOffset {
     static PI = 3.14159265358979324;
-    static x_pi = this.PI * 3000.0 / 180.0;
+    static X_PI = this.PI * 3000.0 / 180.0;
     static a = 6378245.0; //  a: 卫星椭球坐标投影到平面地图坐标系的投影因子。
     static ee = 0.00669342162296594323; //  ee: 椭球的偏心率。
 
@@ -48,8 +48,8 @@ export default class coordinateOffset {
      */
     static bd_encrypt(gcjLon: number, gcjLat: number) {
         let x = gcjLon, y = gcjLat;
-        let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * this.x_pi);
-        let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * this.x_pi);
+        let z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * this.X_PI);
+        let theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * this.X_PI);
         let bdLon = z * Math.cos(theta) + 0.0065;
         let bdLat = z * Math.sin(theta) + 0.006;
         return [bdLon, bdLat];
@@ -63,8 +63,8 @@ export default class coordinateOffset {
      */
     static bd_decrypt(bdLon: number, bdLat: number) {
         let x = bdLon - 0.0065, y = bdLat - 0.006;
-        let z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * this.x_pi);
-        let theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * this.x_pi);
+        let z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * this.X_PI);
+        let theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * this.X_PI);
         let gcjLon = z * Math.cos(theta);
         let gcjLat = z * Math.sin(theta);
         return [gcjLon, gcjLat];
