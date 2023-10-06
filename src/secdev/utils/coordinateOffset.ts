@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-10-06 20:50:49
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-10-06 21:08:10
+ * @LastEditTime: 2023-10-06 22:01:29
  * @FilePath: \cesium-secdev-set\src\secdev\utils\CoordinateOffset.ts
  * @Description: 坐标偏移转换工具，包括对 WGS84、百度坐标系、高德坐标系的互转函数
  */
@@ -10,6 +10,8 @@
 export default class coordinateOffset {
     static PI = 3.14159265358979324;
     static x_pi = this.PI * 3000.0 / 180.0;
+    static a = 6378245.0; //  a: 卫星椭球坐标投影到平面地图坐标系的投影因子。
+    static ee = 0.00669342162296594323; //  ee: 椭球的偏心率。
 
     /**
      * @description: WGS84 转 高德(火星)，WGS-84 to GCJ-02
@@ -95,20 +97,14 @@ export default class coordinateOffset {
 
     static delta(lon: number, lat: number){
         // Krasovsky 1940
-        //
-        // a = 6378245.0, 1/f = 298.3
-        // b = a * (1 - f)
-        // ee = (a^2 - b^2) / a^2;
-        let a = 6378245.0; //  a: 卫星椭球坐标投影到平面地图坐标系的投影因子。
-        let ee = 0.00669342162296594323; //  ee: 椭球的偏心率。
         let dLat = this.transformLat(lon - 105.0, lat - 35.0);
         let dLon = this.transformLon(lon - 105.0, lat - 35.0);
         let radLat = lat / 180.0 * this.PI;
         let magic = Math.sin(radLat);
-        magic = 1 - ee * magic * magic;
+        magic = 1 - this.ee * magic * magic;
         let sqrtMagic = Math.sqrt(magic);
-        dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * this.PI);
-        dLon = (dLon * 180.0) / (a / sqrtMagic * Math.cos(radLat) * this.PI);
+        dLat = (dLat * 180.0) / ((this.a * (1 - this.ee)) / (magic * sqrtMagic) * this.PI);
+        dLon = (dLon * 180.0) / (this.a / sqrtMagic * Math.cos(radLat) * this.PI);
         return [dLon, dLat];
     }
 
