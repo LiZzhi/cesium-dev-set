@@ -320,7 +320,7 @@ const menu:menuConfigType[] = [
             {
                 label: "路径规划",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/surfaceExcavate.png"),
+                img: require("@/assets/cover/spatialAnalysis/pathPlanning.png"),
                 route: "pathPlanning",
                 component: () => import("@/components/example/spatialAnalysis/PathPlanning.vue"),
             }

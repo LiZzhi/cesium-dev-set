@@ -67,24 +67,24 @@
                 class="result-item-box"
             >
                 <div class="result-item-content">
-                    <span class="result-item-title">路程全长（米）：</span>
+                    <span class="result-item-title">路程全长：</span>
                     <span class="result-item-body">{{ item.distance }}</span>
                 </div>
                 <div class="result-item-content">
-                    <span class="result-item-title">路程耗时（秒）：</span>
+                    <span class="result-item-title">路程耗时：</span>
                     <span class="result-item-body">{{ item.duration }}</span>
                 </div>
                 <div class="result-item-content">
-                    <span class="result-item-title">红绿灯数（个）：</span>
+                    <span class="result-item-title">红绿灯数：</span>
                     <span class="result-item-body">{{ item.lights }}</span>
                 </div>
                 <div class="result-item-content">
-                    <span class="result-item-title">收费路段（米）：</span>
+                    <span class="result-item-title">收费路段：</span>
                     <span class="result-item-body">{{ item.toll }}</span>
                 </div>
                 <div class="result-item-content">
-                    <span class="result-item-title">路程说明：</span>
-                    <span class="result-item-body">{{ item.instruction }}</span>
+                    <span class="result-item-title">途径路段：</span>
+                    <span class="result-item-body">{{ item.roads }}</span>
                 </div>
                 <div class="result-item-content">
                     <span class="result-item-title" style="align-self: center;">显示路线：</span>
@@ -196,7 +196,7 @@ const chooseAvoidancePoint = ()=>{
         avoidanceArea.value.push(polygon);
         avoidanceEntities.push(e);
         viewer.entities.add(e);
-    })
+    }, 16)
 }
 const clearAvoidancePoint = ()=>{
     avoidanceArea.value.length = 0;
@@ -212,7 +212,7 @@ type resultType = {
     duration:string;
     lights: string;
     toll: string;
-    instruction: string;
+    roads: string;
 }
 let show = ref(false);
 let result: Ref<resultType[]> = ref([]);
@@ -223,37 +223,28 @@ const requset = async () => {
         return;
     }
     // 途径点
-    let approach = "";
+    let approach: string[] = [];
     if(approachPoint.value.length){
         for (let i = 0; i < approachPoint.value.length; i++) {
-            if(i !== 0){
-                approach += ";";
-            }
             let cur = approachPoint.value[i];
             // 84转高德(火星)
             cur = coordinateOffset.gcj_encrypt(cur[0], cur[1]);
-            approach += `${cur[0].toFixed(6)},${cur[1].toFixed(6)}`;
+            approach.push(`${cur[0].toFixed(6)},${cur[1].toFixed(6)}`);
         }
     }
     // 避让区
-    let avoidance = "";
+    let avoidance: string[] = [];
     if(avoidanceArea.value.length){
         for (let i = 0; i < avoidanceArea.value.length; i++) {
-            if(i !== 0){
-                avoidance += "|";
-            }
-            let areaStr = "";
+            let areaStr: string[] = [];
             const curArea = avoidanceArea.value[i];
             for (let j = 0; j < curArea.length; j++) {
-                if(j !== 0){
-                    areaStr += ";";
-                }
-                let cur = curArea[i];
+                let cur = curArea[j];
                 // 84转高德(火星)
                 cur = coordinateOffset.gcj_encrypt(cur[0], cur[1]);
-                areaStr += `${cur[0].toFixed(6)},${cur[1].toFixed(6)}`;
+                areaStr.push(`${cur[0].toFixed(6)},${cur[1].toFixed(6)}`);
             }
-            avoidance += `${areaStr}`
+            avoidance.push(areaStr.join(";"));
         }
     }
 
@@ -272,38 +263,35 @@ const requset = async () => {
             origin: origin,
             destination: destination,
             strategy: "10", // 策略，当前为高德地图默认策略
-            waypoints: approach,
-            avoidpolygons: avoidance,
+            waypoints: approach.join(";"),
+            avoidpolygons: avoidance.join("|"),
             output: "JSON", // 返回数据格式类型
             extensions: "all",  // 返回全部信息
         }
     })
     if(res.status === 200 && res.data.status === "1"){
         let data = res.data.route.paths;
+        console.log(data);
         for (let i = 0; i < data.length; i++) {
             const element = data[i];
             const steps = element.steps;
-            let instruction = "";
-            let line = "";
+            let roads: string[] = [];
+            let lines: string[] = [];
             for (let j = 0; j < steps.length; j++) {
-                if(j !== 0){
-                    instruction += ",";
-                    line += ";";
-                }
-                instruction += steps[j].instruction;
-                line += steps[j].polyline;
+                steps[j].road && roads.push(steps[j].road);
+                steps[j].polyline && lines.push(steps[j].polyline);
             }
             result.value.push({
                 distance: element.distance + "米",
-                duration: element.duration + "秒",
+                duration: (element.duration/3600).toFixed(2) + "时",
                 lights: element.traffic_lights + "个",
                 toll: element.toll_distance + "米",
-                instruction: instruction + "。",
+                roads: roads.join("、") + "。",
                 entity: new Cesium.Entity({
                     id: '路径规划-方案-' + i,
                     name: '路径规划-方案-' + i,
                     polyline: {
-                        positions: analyticCoord(line),
+                        positions: analyticCoord(lines.join(";")),
                         width: 15,
                         material: new polylineLinkPulseMaterial({
                             color: Cesium.Color.fromRandom().withAlpha(0.7),
@@ -315,6 +303,7 @@ const requset = async () => {
             })
         }
         show.value = true;
+        showLine(result.value[0].entity);
     }
 }
 
