@@ -1,25 +1,49 @@
 <template>
-    <div class="toolbar">
-        <el-dropdown>
-            <el-icon style="margin-right: 8px; margin-top: 1px"
-                ><setting
-            /></el-icon>
-            <template #dropdown>
-                <el-dropdown-menu>
-                    <el-dropdown-item>View</el-dropdown-item>
-                    <el-dropdown-item>Add</el-dropdown-item>
-                    <el-dropdown-item>Delete</el-dropdown-item>
-                </el-dropdown-menu>
-            </template>
-        </el-dropdown>
-        <span>Tom</span>
+    <div class="header-container">
+        <div class="header-icon-box">
+            <span class="header-icon">
+                Cesium二次开发集合
+            </span>
+        </div>
+        <div class="toolbar">
+            <div
+                v-for="(item, i) in headerMenu"
+                :key="item.label"
+                class="header-menu-item"
+                @click="headerFunc(item.label)"
+            >
+                {{ item.label }}
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import { Setting } from "@element-plus/icons-vue";
+import { ref } from "vue";
+
+const headerMenu = ref([
+    { label: "示例程序" },
+    { label: "Cesium官方文档" },
+    { label: "检测WebGL" },
+]);
+
+const headerFunc = (label: string) => {
+    switch (label) {
+        case "示例程序":
+            window.open("/", "_blank")
+            break;
+        case "Cesium官方文档":
+            window.open("http://cesium.xin/cesium/cn/Documentation1.72/index.html", "_blank")
+            break;
+        case "检测WebGL":
+            window.open("https://get.webgl.org/", "_blank")
+            break;
+        default:
+            break;
+    }
+}
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/HomeHeader.scss"
+@import "./assets/style/HomeHeader.scss";
 </style>

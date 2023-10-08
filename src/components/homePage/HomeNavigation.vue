@@ -1,5 +1,9 @@
 <template>
-    <el-menu default-active="0">
+    <el-menu
+        default-active="0"
+        text-color="#000"
+        active-text-color="#fff"
+    >
         <el-menu-item
             v-for="(item, index) in menuConfig"
             :key="item.name"

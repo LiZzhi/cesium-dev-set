@@ -1,3 +1,16 @@
 .el-menu {
     border-right: none;
+    background-color: $trans-color;
+    .el-menu-item {
+        background-color: rgb(242, 242, 242);
+        &:hover {
+            background-color: $element-color;
+            color: #fff;
+        }
+    }
+    .is-active {
+        background-color: $element-color;
+        margin-bottom: 10px;
+        box-shadow: 0 5px 5px #888888;
+    }
 }
