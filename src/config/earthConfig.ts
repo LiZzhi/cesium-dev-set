@@ -1,7 +1,12 @@
-const viewerConfig = {
+import { Viewer } from "cesium";
+
+const viewerConfig: Viewer.ConstructorOptions = {
     terrainProvider: Cesium.createWorldTerrain({
         requestWaterMask: true,
         requestVertexNormals: true,
+    }),
+    imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+        url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer',
     }),
     animation: false, // 是否显示动画控件
     homeButton: false, // 是否显示home键
@@ -10,7 +15,7 @@ const viewerConfig = {
     timeline: false, // 是否显示时间线控件
     fullscreenButton: false, // 是否全屏显示
     scene3DOnly: true, // 如果设置为true，则所有几何图形以3D模式绘制以节约GPU资源
-    infoBox: true, // 是否显示点击要素之后显示的信息
+    infoBox: false, // 是否显示点击要素之后显示的信息
     sceneModePicker: false, // 是否显示投影方式控件  三维/二维
     navigationInstructionsInitiallyVisible: false,
     navigationHelpButton: false, // 是否显示帮助信息控件
