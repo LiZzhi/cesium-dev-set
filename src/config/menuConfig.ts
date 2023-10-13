@@ -83,6 +83,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/ScanSegment.vue"),
             },
             {
+                label: "卫星态势",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/satelliteExtension.png"),
+                route: "satelliteExtension",
+                component: () => import("@/components/example/specialEffectPlot/SatelliteExtension.vue"),
+            },
+            {
                 label: "渐变填充",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/gradientPolygon.png"),

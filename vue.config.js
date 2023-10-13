@@ -96,6 +96,17 @@ module.exports = defineConfig({
                     },
                     type: "javascript/auto"
                 },
+                {
+                    test: /\.(txt)(\?.*)?$/,
+                    loader: "url-loader",
+                    include: /src/,
+                    options: {
+                        limit: 10000,
+                        name: "static/files/[name].[hash:7].[ext]",
+                        esModule: false,
+                    },
+                    type: "javascript/auto"
+                },
             ],
         },
         devServer: {
