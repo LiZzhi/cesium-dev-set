@@ -2,26 +2,30 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-09-27 10:12:19
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-09-27 11:34:09
+ * @LastEditTime: 2023-10-23 10:18:17
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\surfaceExcavate.ts
  * @Description: 地形开挖
  */
-import { Cartesian3, Viewer, ClippingPlane, Entity } from "cesium";
+import { Cartesian3, Viewer, ClippingPlane, Entity, Cartographic } from "cesium";
 import booleanClockwise from "../utils/booleanClockwise";
+import equidistantInterpolation from "../utils/equidistantInterpolation";
+import { en } from "element-plus/es/locale";
 
 export type excavateOptionType = {
-    depth: number;  // 开挖深度
+    depth: number;  // 开挖深度, 默认200
     bottomImage: string;    // 底部贴图
     sideImage: string;  // 侧面贴图
+    clampToGround: boolean; // 是否贴地, 默认false
+    lerpDistance: number;   //贴地时插值距离, 默认为50
 }
 
-export default class surfaceExcavate {
+export default class surfaceExcavateAnalysis {
     #viewer: Viewer;
     constructor(viewer: Viewer){
         this.#viewer = viewer;
     }
 
-    create(positions: Cartesian3[], options: Partial<excavateOptionType>={}){
+    async create(positions: Cartesian3[], options: Partial<excavateOptionType>={}){
         let o = Object.assign(this.defaultOptions, options);
         positions = Cesium.clone(positions);
         let bClockwise = booleanClockwise(positions);   // 判断点顺序是否为顺时针
@@ -45,7 +49,7 @@ export default class surfaceExcavate {
             edgeColor: Cesium.Color.WHITE
         });
 
-        let entity = this.#createEntity(positions, o);
+        let entity = await this.#createEntity(positions, o);
         this.#viewer.entities.add(entity);
         return entity;
     }
@@ -57,9 +61,12 @@ export default class surfaceExcavate {
         this.#viewer.entities.remove(entity);
     }
 
-    #createEntity(positions: Cartesian3[], options: excavateOptionType){
+    async #createEntity(positions: Cartesian3[], options: excavateOptionType){
         if (!positions[0].equals(positions[positions.length-1])) {
             positions.push(positions[0]);
+        }
+        if (options.clampToGround) {
+            positions = await this.#computedLerp(positions, options.lerpDistance);
         }
         let hierarchy = new Cesium.PolygonHierarchy(positions);
         let {bottomImage, sideImage, depth} = options;
@@ -81,6 +88,29 @@ export default class surfaceExcavate {
             }
         })
         return e;
+    }
+
+    /**
+     * @description: 计算插值，用来贴地
+     * @return {Cartesian3[]}
+     */
+    async #computedLerp(positions: Cartesian3[], lerpDistance: number){
+        let catArr2: Cartographic[][] = [];
+        for (let i = 1; i < positions.length; i++) {
+            let start: Cartesian3 = positions[i - 1];
+            let end: Cartesian3 = positions[i];
+            let cat = equidistantInterpolation(start, end, lerpDistance);
+            cat = await Cesium.sampleTerrainMostDetailed(this.#viewer.terrainProvider, cat);
+            catArr2.push(cat);
+        }
+
+        let catArr = catArr2.flat();
+        let c3Arr: Cartesian3[] = [];
+        catArr.forEach(v=>{
+            let c = Cesium.Cartesian3.fromRadians(v.longitude, v.latitude, v.height);
+            c3Arr.push(c)
+        })
+        return c3Arr;
     }
 
     /**
@@ -109,6 +139,8 @@ export default class surfaceExcavate {
             depth: 200,
             bottomImage: require("../assets/img/surfaceExcavate/excavate_bottom_min.jpg"),
             sideImage: require("../assets/img/surfaceExcavate/excavate_side_min.jpg"),
+            clampToGround: false,
+            lerpDistance: 50,
         }
     }
 }

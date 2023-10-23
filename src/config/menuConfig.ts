@@ -320,9 +320,9 @@ const menu:menuConfigType[] = [
             {
                 label: "地形开挖",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/surfaceExcavate.png"),
-                route: "surfaceExcavate",
-                component: () => import("@/components/example/spatialAnalysis/SurfaceExcavate.vue"),
+                img: require("@/assets/cover/spatialAnalysis/surfaceExcavateAnalysis.png"),
+                route: "surfaceExcavateAnalysis",
+                component: () => import("@/components/example/spatialAnalysis/SurfaceExcavateAnalysis.vue"),
             },
             {
                 label: "路径规划",
