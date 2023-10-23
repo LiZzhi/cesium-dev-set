@@ -2,14 +2,14 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-09-27 10:12:19
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-10-23 10:18:17
- * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\surfaceExcavate.ts
+ * @LastEditTime: 2023-10-23 10:53:21
+ * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\surfaceExcavateAnalysis.ts
  * @Description: 地形开挖
  */
 import { Cartesian3, Viewer, ClippingPlane, Entity, Cartographic } from "cesium";
 import booleanClockwise from "../utils/booleanClockwise";
 import equidistantInterpolation from "../utils/equidistantInterpolation";
-import { en } from "element-plus/es/locale";
+import surfaceExcavate from "./surfaceExcavate";
 
 export type excavateOptionType = {
     depth: number;  // 开挖深度, 默认200
@@ -25,6 +25,12 @@ export default class surfaceExcavateAnalysis {
         this.#viewer = viewer;
     }
 
+    /**
+     * @description: 创建开挖
+     * @param {Cartesian3[]} positions 位置
+     * @param {Partial<excavateOptionType>} options 配置项
+     * @return {surfaceExcavate}
+     */
     async create(positions: Cartesian3[], options: Partial<excavateOptionType>={}){
         let o = Object.assign(this.defaultOptions, options);
         positions = Cesium.clone(positions);
@@ -48,17 +54,18 @@ export default class surfaceExcavateAnalysis {
             edgeWidth: 1.0,
             edgeColor: Cesium.Color.WHITE
         });
-
         let entity = await this.#createEntity(positions, o);
         this.#viewer.entities.add(entity);
-        return entity;
+
+        let surface = new surfaceExcavate(this.#viewer, entity, positions, o.depth, o.clampToGround);
+        return surface;
     }
 
-    remove(entity: Entity){
+    remove(surface: surfaceExcavate){
         this.#viewer.scene.globe.clippingPlanes = new Cesium.ClippingPlaneCollection({
             planes: []
         });
-        this.#viewer.entities.remove(entity);
+        this.#viewer.entities.remove(surface.entity);
     }
 
     async #createEntity(positions: Cartesian3[], options: excavateOptionType){
@@ -67,7 +74,11 @@ export default class surfaceExcavateAnalysis {
         }
         if (options.clampToGround) {
             positions = await this.#computedLerp(positions, options.lerpDistance);
+            if (!positions[0].equals(positions[positions.length-1])) {
+                positions.push(positions[0]);
+            }
         }
+
         let hierarchy = new Cesium.PolygonHierarchy(positions);
         let {bottomImage, sideImage, depth} = options;
         let e = new Cesium.Entity({
