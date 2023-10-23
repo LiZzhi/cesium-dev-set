@@ -1,4 +1,4 @@
 {
-    "aLiYun": "https://geo.datav.aliyun.com/",
-    "aMap": "https://restapi.amap.com/"
+    "ALIYUN": "https://geo.datav.aliyun.com/",
+    "AMAP": "https://restapi.amap.com/"
 }

@@ -9,7 +9,7 @@
 import axios from "axios";
 
 const server = axios.create({
-    baseURL: window.$config.ip.aLiYun,
+    baseURL: window.$config.ip.ALIYUN,
 });
 server.defaults.headers.common["Content-Type"] = "application/json;charset=utf-8";
 
