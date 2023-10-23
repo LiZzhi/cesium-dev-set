@@ -31,8 +31,15 @@
                     color: $danger-color;
                 }
             }
-
         }
-
+        .surface-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .surface-text {
+                color: white;
+            }
+        }
     }
 }

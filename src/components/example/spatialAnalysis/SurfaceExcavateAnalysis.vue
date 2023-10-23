@@ -15,6 +15,9 @@
                 <CommButton @click="drawRegion" class="btn">开挖</CommButton>
                 <CommButton @click="clear" class="btn" contentClass="clear">清空</CommButton>
             </div>
+            <div class="surface-group" v-if="volume">
+                <div class="surface-text">方量：{{volume.toFixed(3)}}m²</div>
+            </div>
         </div>
     </CommPanel>
 </template>
@@ -22,13 +25,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import surfaceExcavateAnalysis from "@/secdev/spatialAnalysis/surfaceExcavateAnalysis";
+import surfaceExcavate from "@/secdev/spatialAnalysis/surfaceExcavate";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
-import { Entity } from "cesium";
 
 let excavate: surfaceExcavateAnalysis;
 let draw: drawShape;
-let entity: Entity|undefined;
+let surface: surfaceExcavate|undefined;
 let depth = ref(2000);
+let volume = ref(0);
 onMounted(() => {
     // viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
     viewer.scene.globe.depthTestAgainstTerrain = true;
@@ -39,16 +43,21 @@ onMounted(() => {
 const drawRegion = ()=>{
     draw.drawPolygon(async (positions)=>{
         clear();
-        entity = await excavate.create(positions, {
+        surface = await excavate.create(positions, {
             depth: depth.value,
             clampToGround: true
         });
+
+        // 计算方量
+        let v= surface.computeCutVolume();
+        volume.value = v;
     })
 }
 
 const clear = ()=>{
-    entity && excavate.remove(entity);
-    entity = undefined;
+    surface && excavate.remove(surface);
+    surface = undefined;
+    volume.value = 0;
 }
 </script>
 
