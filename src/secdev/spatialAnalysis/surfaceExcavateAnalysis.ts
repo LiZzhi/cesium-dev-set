@@ -73,6 +73,7 @@ export default class surfaceExcavateAnalysis {
             positions.push(positions[0]);
         }
         if (options.clampToGround) {
+            // 贴地情况对地形进行插值
             positions = await this.#computedLerp(positions, options.lerpDistance);
             if (!positions[0].equals(positions[positions.length-1])) {
                 positions.push(positions[0]);

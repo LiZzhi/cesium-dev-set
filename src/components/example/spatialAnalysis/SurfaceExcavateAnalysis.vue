@@ -34,7 +34,7 @@ let surface: surfaceExcavate|undefined;
 let depth = ref(2000);
 let volume = ref(0);
 onMounted(() => {
-    // viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+    viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
     viewer.scene.globe.depthTestAgainstTerrain = true;
     excavate = new surfaceExcavateAnalysis(viewer);
     draw = new drawShape(viewer);
@@ -45,7 +45,6 @@ const drawRegion = ()=>{
         clear();
         surface = await excavate.create(positions, {
             depth: depth.value,
-            clampToGround: true
         });
 
         // 计算方量
