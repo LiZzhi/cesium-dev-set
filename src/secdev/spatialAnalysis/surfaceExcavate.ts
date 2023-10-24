@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-10-23 10:43:57
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-10-23 11:43:49
+ * @LastEditTime: 2023-10-24 16:46:40
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\surfaceExcavate.ts
  * @Description: 地形开挖对象
  */
@@ -27,15 +27,17 @@ export default class surfaceExcavate{
      * @return {*}
      */
     computeCutVolume() {
+        let catArr: number[][][] = [[]];
+        this.positions.forEach(c => {
+            let cat = Cesium.Cartographic.fromCartesian(c);
+            catArr[0].push([Cesium.Math.toDegrees(cat.longitude), Cesium.Math.toDegrees(cat.latitude)]);
+        })
+        let area = turf.area(turf.polygon(catArr));
+        // 地下体积
+        let subsurfaceVolume = area * this.depth;
         if (!this.clampToGround) {
-            // 没不贴地情况
-            let catArr: number[][][] = [[]];
-            this.positions.forEach(c => {
-                let cat = Cesium.Cartographic.fromCartesian(c);
-                catArr[0].push([cat.longitude, cat.latitude]);
-            })
-            let area = turf.area(turf.polygon(catArr))
-            return area * this.depth;
+            // 无地形情况
+            return subsurfaceVolume;
         }
 
         let tileAvailability = this.#viewer.terrainProvider.availability;
@@ -66,15 +68,11 @@ export default class surfaceExcavate{
             }
         );
 
-        //polygon subdivision
         let geom: Geometry = Cesium.PolygonGeometry.createGeometry(polygonGeometry)!;
-
         let totalCutVolume = 0;
-        let maxHeight = 0;
 
         let i0, i1, i2;
         let height1, height2, height3;
-        let p1, p2, p3;
         let bottomP1, bottomP2, bottomP3;
         let scratchCartesian = new Cesium.Cartesian3();
         let cartographic;
@@ -97,13 +95,7 @@ export default class surfaceExcavate{
 
             height1 = this.#viewer.scene.globe.getHeight(cartographic)!;
 
-            p1 = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, height1);
             bottomP1 = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0);
-
-            if (maxHeight < height1){
-                maxHeight = height1;
-            }
-
             scratchCartesian.x = subTrianglePositions[i1 * 3];
             scratchCartesian.y = subTrianglePositions[i1 * 3 + 1];
             scratchCartesian.z = subTrianglePositions[i1 * 3 + 2];
@@ -112,13 +104,7 @@ export default class surfaceExcavate{
 
             height2 = this.#viewer.scene.globe.getHeight(cartographic)!;
 
-            p2 = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, height2);
             bottomP2 = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0);
-
-            if (maxHeight < height2){
-                maxHeight = height2;
-            }
-
             scratchCartesian.x = subTrianglePositions[i2 * 3];
             scratchCartesian.y = subTrianglePositions[i2 * 3 + 1];
             scratchCartesian.z = subTrianglePositions[i2 * 3 + 2];
@@ -127,19 +113,12 @@ export default class surfaceExcavate{
 
             height3 = this.#viewer.scene.globe.getHeight(cartographic)!;
 
-            p3 = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, height3);
             bottomP3 = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0);
-
-            if (maxHeight < height3){
-                maxHeight = height3;
-            }
-
             bottomArea = this.#computeAreaOfTriangle(bottomP1, bottomP2, bottomP3);
             totalCutVolume = totalCutVolume + bottomArea * (height1 - minHeight + height2 - minHeight + height3 - minHeight) / 3;
         }
-        // console.log(totalCutVolume);
-        // console.log(maxHeight);
-        return totalCutVolume;
+
+        return totalCutVolume + subsurfaceVolume;
     }
 
     /**
