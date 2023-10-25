@@ -282,13 +282,13 @@ const menu:menuConfigType[] = [
                 route: "eagleEyeView",
                 component: () => import("@/components/example/spatialAnalysis/EagleEyeView.vue"),
             },
-            {
-                label: "可视域分析",
-                show: true,
-                img: require("@/assets/cover/bePerfecting.png"),
-                route: "visualFieldAnalysis",
-                component: () => import("@/components/example/spatialAnalysis/VisualFieldAnalysis.vue"),
-            },
+            // {
+            //     label: "可视域分析",
+            //     show: true,
+            //     img: require("@/assets/cover/bePerfecting.png"),
+            //     route: "visualFieldAnalysis",
+            //     component: () => import("@/components/example/spatialAnalysis/VisualFieldAnalysis.vue"),
+            // },
             {
                 label: "限高分析",
                 show: true,
