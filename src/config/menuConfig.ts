@@ -69,6 +69,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/RegionLabel.vue"),
             },
             {
+                label: "城市白模",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/vectorWhiteModel.png"),
+                route: "vectorWhiteModel",
+                component: () => import("@/components/example/specialEffectPlot/VectorWhiteModel.vue"),
+            },
+            {
                 label: "雷达扫描线",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/radarScanLine.png"),
