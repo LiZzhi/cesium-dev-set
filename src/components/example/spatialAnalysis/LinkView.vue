@@ -19,6 +19,7 @@ let view: linkView;
 onMounted(() => {
     const $container = document.querySelector("#cesium-container") as HTMLDivElement;
     view = new linkView($container, viewer);
+    view.openCesiumMapLink23d();
 });
 </script>
 

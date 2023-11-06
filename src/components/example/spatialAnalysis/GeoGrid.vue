@@ -25,6 +25,7 @@ let grid: geoGrid;
 
 onMounted(() => {
     grid = new geoGrid(viewer);
+    create();
 });
 
 const create = ()=>{

@@ -42,6 +42,7 @@ onMounted(() => {
     viewer.imageryLayers.add(layer);
     leftSplit = new layerSplit(viewer, ImagerySplitDirection.LEFT);
     rightSplit = new layerSplit(viewer, ImagerySplitDirection.RIGHT);
+    start();
 });
 </script>
 
