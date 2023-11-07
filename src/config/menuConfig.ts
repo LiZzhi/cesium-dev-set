@@ -55,6 +55,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/EffectLine.vue"),
             },
             {
+                label: "动态墙体",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/dynamicWall.png"),
+                route: "dynamicWall",
+                component: () => import("@/components/example/specialEffectPlot/DynamicWall.vue"),
+            },
+            {
                 label: "区域标注",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/areaLabel.png"),
