@@ -69,11 +69,18 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/RegionLabel.vue"),
             },
             {
-                label: "城市白模",
+                label: "矢量城市白模(特效)",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/vectorWhiteModel.png"),
                 route: "vectorWhiteModel",
                 component: () => import("@/components/example/specialEffectPlot/VectorWhiteModel.vue"),
+            },
+            {
+                label: "矢量城市白模(实体)",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/vectorWhiteModel2.png"),
+                route: "vectorWhiteModel2",
+                component: () => import("@/components/example/specialEffectPlot/VectorWhiteModel2.vue"),
             },
             {
                 label: "雷达扫描线",
