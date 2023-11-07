@@ -53,6 +53,9 @@ const drawWall = (type: "vertical"|"horizontal") => {
                     material: dynamicWallMaterial({
                         type,
                         direction: type === "vertical"?false:true,
+                        image: type === "vertical"?
+                            require("./assets/img/verticalWall.png"):
+                            require("./assets/img/horizontalWall.png"),
                     }),
                 })
             })

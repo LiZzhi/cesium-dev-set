@@ -4,6 +4,7 @@ export type dynamicWallOptions = {
     type: "vertical"|"horizontal",
     color: Color;
     speed: number;
+    image: string;
     imageCount: number;
     direction: boolean;
 }
@@ -13,19 +14,16 @@ export default function dynamicWallMaterial(options: Partial<dynamicWallOptions>
         type: "vertical",
         color: Cesium.Color.CYAN,
         speed: 10,
+        image: require("../../assets/img/wall/defaultWall.png"),
         imageCount: 2,
         direction: false,
     }, options);
-
-    let image = o.type === "vertical" ?
-        require("../../assets/img/wall/verticalWall.png") :
-        require("../../assets/img/wall/horizontalWall.png");
 
     let m = new Cesium.Material({
         fabric: {
             uniforms: {
                 color: o.color,
-                image: image,
+                image: o.image,
                 time: o.speed
             },
             source: _getDirectionWallShader(o)
