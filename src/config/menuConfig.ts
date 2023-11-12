@@ -422,6 +422,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/PanoramicSkyBox.vue"),
             },
             {
+                label: "动态云层",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/dynamicCloud.png"),
+                route: "dynamicCloud",
+                component: () => import("@/components/example/sceneEffect/DynamicCloud.vue"),
+            },
+            {
                 label: "地形三角网",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/triangulationNetwork.png"),
