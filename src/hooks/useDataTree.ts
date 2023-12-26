@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-12-26 14:46:22
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-12-26 17:03:19
+ * @LastEditTime: 2023-12-26 22:00:27
  * @FilePath: \cesium-secdev-set\src\hooks\useDataTree.ts
  * @Description: 配合el-tree使用的数据树
  */
@@ -28,7 +28,7 @@ export type originDataType = {
 // 清洗后数据
 export type cleanDataType = originDataType & {
     pid: string;
-    children: cleanDataType[];
+    children?: cleanDataType[];
     father?: cleanDataType;
 };
 
@@ -70,27 +70,26 @@ export default function useDataTree (
         primitives: new Cesium.PrimitiveCollection(), // 当前树的primitive数据集合,用来存放primitive
         others: {}, // 当前树的其他类型数据集合,用来存放其他数据
     };
-
     let defaultExpandList = ref([]); // 默认展开的节点
     let defaultCheckList = ref([]); // 默认勾选的节点
     let singleChoiceList = reactive({}); // 单选节点
-    let treeData = dataClean(
-        data,
+    let treeData = ref(dataClean(
+        deepClone(data),
         defaultExpandList,
         defaultCheckList,
         singleChoiceList
-    ); // 清洗数据
+    )); // 清洗数据
     const change = eventHandler(treeDataCollection, checkCallback); // 选中触发的事件
     const click = eventHandler(treeDataCollection, clickCallback); // 点击触发的事件
 
     onMounted(() => {
-        initAddData(treeData, treeDataCollection, checkCallback); // 数据初始化
+        initAddData(treeData.value, treeDataCollection, checkCallback); // 数据初始化
         viewer.dataSources.add(treeDataCollection.dataSource);
         viewer.scene.primitives.add(treeDataCollection.primitives);
     });
 
     onBeforeUnmount(() => {
-        unmountData(treeData, treeDataCollection, checkCallback); // 数据卸载
+        unmountData(treeData.value, treeDataCollection, checkCallback); // 数据卸载
         viewer.dataSources.remove(treeDataCollection.dataSource);
         viewer.scene.primitives.remove(treeDataCollection.primitives);
     });
@@ -121,10 +120,9 @@ function dataClean(
     singleChoiceList: Record<string, string[]>,
     father?: cleanDataType
 ): cleanDataType[] {
-    let data = deepClone(originData); // 深拷贝
-    data.forEach((item: cleanDataType) => {
+    let newDataList = originData.map((item: originDataType) => {
         let pid = uuid();
-        item.pid = pid;
+        // item.pid = pid;
         if (item.itemType === "folder" && item.defaultExpand) {
             // 添加默认展开
             defaultExpandList.value.push(pid);
@@ -142,22 +140,26 @@ function dataClean(
                 singleChoiceList[item.singleSymbol!] = [pid];
             }
         }
-        if (father) {
-            // 添加父级label方便回显或其他操作
-            item.father = father;
+        // 构建新数据
+        let newData: cleanDataType = {
+            pid,
+            father, // 添加父级label方便回显或其他操作
+            ...item,
+            children: undefined,
         }
         if (item.itemType === "folder" && Array.isArray(item.children)) {
             // 递归清洗children
-            dataClean(
+            newData.children = dataClean(
                 item.children,
                 defaultExpandList,
                 defaultCheckList,
                 singleChoiceList,
-                item
+                newData
             );
         }
+        return newData;
     });
-    return data as cleanDataType[];
+    return newDataList;
 }
 
 /**
