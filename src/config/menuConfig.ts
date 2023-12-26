@@ -501,9 +501,17 @@ const menu:menuConfigType[] = [
         ]
     },
     {
-        label: "其他",
+        label: "其他功能",
         name: "other",
-        components: [],
+        components: [
+            {
+                label: "数据图层",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/sunshineShadow.png"),
+                route: "sunshineShadow",
+                component: () => import("@/components/example/other/DataTree.vue"),
+            },
+        ],
     }
 ];
 
