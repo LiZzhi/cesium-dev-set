@@ -500,6 +500,11 @@ const menu:menuConfigType[] = [
             },
         ]
     },
+    {
+        label: "其他",
+        name: "other",
+        components: [],
+    }
 ];
 
 export default menu;

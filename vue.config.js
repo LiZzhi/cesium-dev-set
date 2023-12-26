@@ -120,15 +120,21 @@ module.exports = defineConfig({
             hot: true,
             // 代理
             proxy: {
-                "https://geo.datav.aliyun.com": {
+                "/aLiYun": {
                     target: "https://geo.datav.aliyun.com",   // 后台接口域名
                     secure: true,  // 如果是https接口，需要配置这个参数
                     changeOrigin: true,  //是否跨域
+                    pathRewrite: {
+                        '^/aLiYun': '',
+                    },
                 },
-                "https://restapi.amap.com": {
+                "/aMap": {
                     target: "https://restapi.amap.com",   // 后台接口域名
                     secure: true,  // 如果是https接口，需要配置这个参数
                     changeOrigin: true,  //是否跨域
+                    pathRewrite: {
+                        '^/aMap': '',
+                    },
                 }
             }
         },

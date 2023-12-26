@@ -3,8 +3,6 @@ import App from "./App.vue";
 import router from "./router";
 import { createPinia } from "pinia";
 
-// 引入全局配置
-import ip from "~/public/config/ip.json";
 // 公共组件
 import CommComponents from "@/components/common";
 // 公共指令
@@ -20,11 +18,6 @@ import "@/secdev/assets/style"
 // 引入第三方库
 import "@/thirdParty/script";
 import "@/thirdParty/style";
-
-// 全局配置
-window.$config = {
-    ip: ip,
-};
 
 const app = createApp(App);
 

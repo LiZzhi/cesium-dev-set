@@ -1,11 +1,11 @@
 import * as C from "cesium";
 import * as T from "@turf/turf";
 import { Viewer } from "cesium";
-import ip from "~/public/config/ip.json"
 import heatmap from "@/thirdParty/heatmap/heatmap.js";
 
 type publicConfig = {
-    ip: ip;
+    ip: Record<string, string>;
+    token: Record<string, string>;
 }
 
 // 扩展全局变量
