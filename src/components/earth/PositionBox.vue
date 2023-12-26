@@ -19,9 +19,9 @@ onMounted(()=>{
     handler.setInputAction((movement)=>{
         let cartesian = viewer.camera.pickEllipsoid(movement.endPosition);
         if (cartesian) {
-            let degrees = cartographicTool.formCartesian3(cartesian);
-            lon.value = degrees.longitude;
-            lat.value = degrees.latitude;
+            let degrees = cartographicTool.formCartesian3(cartesian, false);
+            lon.value = degrees[0];
+            lat.value = degrees[1];
         } else {
             lon.value = "未知";
             lat.value = "未知";

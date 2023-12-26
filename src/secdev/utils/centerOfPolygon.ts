@@ -2,8 +2,7 @@ import { Cartesian3 } from "cesium";
 import cartographicTool from "./cartographicTool";
 
 export default function centerOfPolygon(positions: Cartesian3[]){
-    let cats = cartographicTool.formCartesian3S(positions);
-    let coordinates = cats.map(cat => [cat.longitude, cat.latitude]);
+    let coordinates = cartographicTool.formCartesian3S(positions, undefined, false);
     let start = coordinates[0];
     let end = coordinates[coordinates.length-1];
     if(start[0] !== end[0] || start[1] !== end[1]){

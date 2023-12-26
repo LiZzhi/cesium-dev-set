@@ -124,8 +124,8 @@ const chooseStartPoint = ()=>{
     startEntity = undefined;
     startPoint.value = "";
     draw.drawPoint(position => {
-        let cat = cartographicTool.formCartesian3(position);
-        startPoint.value = `${cat.longitude.toFixed(6)},${cat.latitude.toFixed(6)}`;
+        let cat = cartographicTool.formCartesian3(position, false);
+        startPoint.value = `${cat[0].toFixed(6)},${cat[1].toFixed(6)}`;
         startEntity = entityFactory.createLabelPoint(position, "起点");
         viewer.entities.add(startEntity);
     })
@@ -138,8 +138,8 @@ const chooseEndPoint = ()=>{
     endEntity = undefined;
     endPoint.value = "";
     draw.drawPoint(position => {
-        let cat = cartographicTool.formCartesian3(position);
-        endPoint.value = `${cat.longitude.toFixed(6)},${cat.latitude.toFixed(6)}`;
+        let cat = cartographicTool.formCartesian3(position, false);
+        endPoint.value = `${cat[0].toFixed(6)},${cat[1].toFixed(6)}`;
         endEntity = entityFactory.createLabelPoint(position, "终点");
         viewer.entities.add(endEntity);
     })
@@ -159,8 +159,8 @@ const approachPointNum = computed(()=>{
 })
 const chooseApproachPoint = ()=>{
     draw.drawPoint(position => {
-        let cat = cartographicTool.formCartesian3(position);
-        let point = [cat.longitude, cat.latitude];
+        let cat = cartographicTool.formCartesian3(position, false);
+        let point = [cat[0], cat[1]];
         let e = entityFactory.createLabelPoint(position, `途径点${approachEntities.length}`);
         approachPoint.value.push(point);
         approachEntities.push(e);
@@ -190,8 +190,7 @@ const avoidanceAreaNum = computed(()=>{
 
 const chooseAvoidancePoint = ()=>{
     draw.drawPolygon(positions => {
-        let cats = cartographicTool.formCartesian3S(positions);
-        let polygon = cats.map(cat => [cat.longitude, cat.latitude]);
+        let polygon = cartographicTool.formCartesian3S(positions, undefined, false);
         let e = entityFactory.createLabelPloygon(positions, `避让区${avoidanceEntities.length}`);
         avoidanceArea.value.push(polygon);
         avoidanceEntities.push(e);

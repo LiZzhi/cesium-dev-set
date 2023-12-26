@@ -41,7 +41,7 @@ const drawPoint = ()=>{
         let isLand = false;
         let cat = cartographicTool.formCartesian3(position);
         for (let index = 0; index < land.length; index++) {
-            isLand = pointInPolygon(cat.longitude, cat.latitude, land[index]);
+            isLand = pointInPolygon(cat[0], cat[1], land[index]);
             if(isLand){
                 break;
             }
