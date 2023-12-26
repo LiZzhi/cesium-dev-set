@@ -2,7 +2,7 @@
  * @Author: “Lizhi” “362042734@qq.com”
  * @Date: 2023-08-28 21:30:32
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-12-26 20:21:58
+ * @LastEditTime: 2023-12-26 20:40:51
  * @FilePath: \cesium-secdev-set\src\secdev\utils\cartographicTool.ts
  * @Description: 角度制的cartographic工具
  */
@@ -48,7 +48,8 @@ export default class cartographicTool {
             if (typeof callBack === "function") {
                 cs.push(callBack(c));
             } else {
-                cs.push(c as T);
+                // @ts-ignore
+                cs.push(c);
             }
         });
         return cs;
