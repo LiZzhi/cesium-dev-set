@@ -104,13 +104,6 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/ScanSegment.vue"),
             },
             {
-                label: "卫星态势",
-                show: true,
-                img: require("@/assets/cover/specialEffectPlot/satelliteExtension.png"),
-                route: "satelliteExtension",
-                component: () => import("@/components/example/specialEffectPlot/SatelliteExtension.vue"),
-            },
-            {
                 label: "渐变填充",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/gradientPolygon.png"),
@@ -510,6 +503,20 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/other/dataTree.png"),
                 route: "dataTree",
                 component: () => import("@/components/example/other/DataTree.vue"),
+            },
+            {
+                label: "卫星云图",
+                show: true,
+                img: require("@/assets/cover/other/cloudMap.png"),
+                route: "cloudMap",
+                component: () => import("@/components/example/other/CloudMap.vue"),
+            },
+            {
+                label: "卫星态势",
+                show: true,
+                img: require("@/assets/cover/other/satelliteExtension.png"),
+                route: "satelliteExtension",
+                component: () => import("@/components/example/other/SatelliteExtension.vue"),
             },
         ],
     }

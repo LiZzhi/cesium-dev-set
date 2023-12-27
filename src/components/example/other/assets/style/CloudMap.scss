@@ -1,0 +1,18 @@
+.cloud-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 180px;
+    .cloud-panel {
+        position: relative;
+        width: 100%;
+        .btn-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            :deep(.clear) {
+                color: $warning-color;
+            }
+        }
+    }
+}
