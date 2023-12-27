@@ -507,8 +507,8 @@ const menu:menuConfigType[] = [
             {
                 label: "数据图层",
                 show: true,
-                img: require("@/assets/cover/sceneEffect/sunshineShadow.png"),
-                route: "sunshineShadow",
+                img: require("@/assets/cover/other/dataTree.png"),
+                route: "dataTree",
                 component: () => import("@/components/example/other/DataTree.vue"),
             },
         ],
