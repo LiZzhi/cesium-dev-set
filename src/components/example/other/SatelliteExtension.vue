@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import satelliteManager from "@/secdev/specialEffectPlot/satellite/satelliteManager";
-import satelliteComponents from "@/secdev/specialEffectPlot/satellite/satelliteComponents";
+import satelliteManager from "@/secdev/other/satellite/satelliteManager";
+import satelliteComponents from "@/secdev/other/satellite/satelliteComponents";
 
 let satMana: satelliteManager;
 const file = require("./assets/file/public.txt");
