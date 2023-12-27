@@ -146,6 +146,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/cameraView/Rotation.vue"),
             },
             {
+                label: "遮罩图层",
+                show: true,
+                img: require("@/assets/cover/cameraView/maskLayer.png"),
+                route: "maskLayer",
+                component: () => import("@/components/example/cameraView/MaskLayer.vue"),
+            },
+            {
                 label: "模型部分可见",
                 show: true,
                 img: require("@/assets/cover/cameraView/modelPartlyVisible.png"),
@@ -310,13 +317,6 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/spatialAnalysis/pointIsInLand.png"),
                 route: "pointIsInLand",
                 component: () => import("@/components/example/spatialAnalysis/PointIsInLand.vue"),
-            },
-            {
-                label: "遮罩图层",
-                show: true,
-                img: require("@/assets/cover/spatialAnalysis/maskLayer.png"),
-                route: "maskLayer",
-                component: () => import("@/components/example/spatialAnalysis/MaskLayer.vue"),
             },
             {
                 label: "地形开挖",

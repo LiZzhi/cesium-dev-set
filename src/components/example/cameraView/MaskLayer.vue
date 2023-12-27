@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { Cartesian3 } from "cesium";
-import maskLayer from "@/secdev/spatialAnalysis/maskLayer";
+import maskLayer from "@/secdev/cameraView/maskLayer";
 import json from "./assets/json/QingDao.json";
 
 let coords = json.features[0].geometry.coordinates;
