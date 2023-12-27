@@ -1,24 +1,26 @@
 # cesium-secdev-set
 
-## Project setup
+## 项目简介
+一个Cesium的二次开发demo合集
+
+### 版本
 ```
-npm install
+node > 14
 ```
 
-### Compiles and hot-reloads for development
+### 启动
 ```
-npm run serve
+npm i
+npm run start
 ```
+- 注：启动时widgets.css报错参考 https://www.cnblogs.com/xt112233/p/17704543.html
 
-### Compiles and minifies for production
+### 打包
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### 联系方式
 ```
-npm run lint
+邢先生 362042734@qq.com
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
