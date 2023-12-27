@@ -182,6 +182,15 @@ function clickNode(
         // 没有勾选不触发
         return;
     }
+    if (item.data.type === "geojson") {
+        let dataId = `geojson-${item.label}-${item.pid}`;
+        let existData = collection.dataSource.entities.getById(dataId);
+        if (existData) {
+            viewer.flyTo(existData, {
+                duration: 2.0,
+            });
+        }
+    }
 }
 </script>
 
