@@ -519,6 +519,13 @@ const menu:menuConfigType[] = [
                 route: "modelPartlyVisible",
                 component: () => import("@/components/example/other/ModelPartlyVisible.vue"),
             },
+            {
+                label: "时序图层",
+                show: true,
+                img: require("@/assets/cover/other/sequentialPlay.png"),
+                route: "sequentialPlay",
+                component: () => import("@/components/example/other/SequentialPlay.vue"),
+            },
         ],
     }
 ];

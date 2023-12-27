@@ -1,0 +1,215 @@
+.sequential-play-box {
+    position: fixed;
+    width: 978px;
+    height: 106px;
+    bottom: 94px;
+    left: calc(50% - 489px);
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    border-top: 1px solid #C0DAFF;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+    .sequential-play-top {
+        position: absolute;
+        width: 948px;
+        height: 30px;
+        top: 7px;
+        left: 20px;
+        background-image: url("@/components/example/other/assets/img/sequentialPlayTopBack.png");
+        background-size: 100% 100%;
+        .top-title {
+            position: absolute;
+            top: 3px;
+            color: #FFF;
+            font-family: plt-blod;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+        }
+        .top-spread {
+            position: absolute;
+            left: 860px;
+            top: 6px;
+            display: flex;
+            gap: 7px;
+            align-items: center;
+            cursor: pointer;
+            .top-spread-label {
+                color: #FFF;
+                font-family: plt-blod;
+                font-size: 12px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+        .top-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            cursor: pointer;
+        }
+    }
+    .sequential-play-bottom {
+        position: absolute;
+        width: 948px;
+        height: 51px;
+        bottom: 10px;
+        left: 20px;
+        .quick-back {
+            position: absolute;
+            bottom: 20px;
+            cursor: pointer;
+        }
+        .quick-forward {
+            position: absolute;
+            bottom: 20px;
+            left: 720px;
+            cursor: pointer;
+        }
+        .time-line {
+            position: absolute;
+            left: 25px;
+            width: 681px;
+            height: 100%;
+            display: flex;
+            .line-item {
+                position: absolute;
+                left: 40px;
+                top: 16px;
+                height: 1px;
+                background-color: rgba($color: #fff, $alpha: 0.3);
+                &.line-active {
+                    background: linear-gradient(90deg, #07FFD2 1.32%, #0073B4 100%);
+                    height: 3px;
+                    top: 15px;
+                }
+            }
+            .node-item {
+                position: relative;
+                display: flex;
+                height: 100%;
+                .time-node-icon {
+                    position: absolute;
+                    width: 18px;
+                    height: 18px;
+                    top: -2px;
+                    left: 31px;
+                }
+                .time-node-tick {
+                    position: absolute;
+                    top: 10px;
+                    left: 40px;
+                    width: 1px;
+                    height: 6px;
+                    background-color: #fff;
+                }
+                .time-node-label {
+                    position: absolute;
+                    box-sizing: border-box;
+                    left: 0;
+                    width: 80px;
+                    height: 20px;
+                    bottom: 5px;
+                    border-radius: 100px;
+                    border: 0.5px solid rgba(255, 255, 255, 0.30);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: #FFF;
+                    text-align: center;
+                    font-family: pht-light;
+                    font-size: 12px;
+                    font-weight: 300;
+                    cursor: pointer;
+                    &.label-active{
+                        border: 1px solid #6BCAFF;
+                        color: #6BCAFF;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+        .time-line-controls {
+            position: absolute;
+            height: 20px;
+            right: 30px;
+            bottom: 17px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            .el-icon{
+                font-weight: bold;
+                font-size: 20px;
+                color: #fff;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.sequential-play-small-box {
+    position: fixed;
+    width: 287px;
+    height: 35px;
+    bottom: 163px;
+    right: calc(50% - 489px);
+    background-color: rgba($color: #000000, $alpha: 0.3);
+    border-top: 1px solid #C0DAFF;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+    .small-box-label {
+        position: absolute;
+        top: 10px;
+        left: 13px;
+        color: #FFF;
+        font-family: pht-light;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+    .small-controls-box {
+        position: absolute;
+        left: 100px;
+        top: 10px;
+        width: 70px;
+        height: 12px;
+        display: flex;
+        justify-content: space-between;
+        .el-icon{
+            font-weight: bold;
+            font-size: 18px;
+            color: #fff;
+            cursor: pointer;
+        }
+    }
+    .small-spread {
+        position: absolute;
+        left: 190px;
+        height: 16px;
+        top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        .small-spread-label {
+            color: #FFF;
+            font-family: pht-light;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+        }
+    }
+    .small-close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        .el-icon {
+            font-weight: bold;
+            font-size: 18px;
+        }
+    }
+}
