@@ -75,20 +75,7 @@ const menu:menuConfigType[] = [
                 route: "regionLabel",
                 component: () => import("@/components/example/specialEffectPlot/RegionLabel.vue"),
             },
-            {
-                label: "矢量城市白模(特效)",
-                show: true,
-                img: require("@/assets/cover/specialEffectPlot/vectorWhiteModel.png"),
-                route: "vectorWhiteModel",
-                component: () => import("@/components/example/specialEffectPlot/VectorWhiteModel.vue"),
-            },
-            {
-                label: "矢量城市白模(实体)",
-                show: true,
-                img: require("@/assets/cover/specialEffectPlot/vectorWhiteModel2.png"),
-                route: "vectorWhiteModel2",
-                component: () => import("@/components/example/specialEffectPlot/VectorWhiteModel2.vue"),
-            },
+
             {
                 label: "雷达扫描线",
                 show: true,
@@ -517,6 +504,20 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/other/satelliteExtension.png"),
                 route: "satelliteExtension",
                 component: () => import("@/components/example/other/SatelliteExtension.vue"),
+            },
+            {
+                label: "矢量城市白模(特效)",
+                show: true,
+                img: require("@/assets/cover/other/vectorWhiteModel.png"),
+                route: "vectorWhiteModel",
+                component: () => import("@/components/example/other/VectorWhiteModel.vue"),
+            },
+            {
+                label: "矢量城市白模(实体)",
+                show: true,
+                img: require("@/assets/cover/other/vectorWhiteModel2.png"),
+                route: "vectorWhiteModel2",
+                component: () => import("@/components/example/other/VectorWhiteModel2.vue"),
             },
         ],
     }
