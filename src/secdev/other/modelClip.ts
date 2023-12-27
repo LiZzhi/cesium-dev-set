@@ -2,12 +2,12 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-09-26 17:17:45
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-09-27 10:20:26
- * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\model\modelClip.ts
+ * @LastEditTime: 2023-12-27 18:33:29
+ * @FilePath: \cesium-secdev-set\src\secdev\other\modelClip.ts
  * @Description: 模型裁剪
  */
 import { Cartesian3, Cesium3DTileset, Matrix4, ClippingPlane } from "cesium";
-import booleanClockwise from "../../utils/booleanClockwise";
+import booleanClockwise from "../utils/booleanClockwise";
 
 export default class modelClip {
     clip(tileset: Cesium3DTileset, positions: Cartesian3[]){

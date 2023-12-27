@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import modelClip from "@/secdev/specialEffectPlot/model/modelClip";
+import modelClip from "@/secdev/other/modelClip";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 import { Cesium3DTileset } from "cesium";
 
