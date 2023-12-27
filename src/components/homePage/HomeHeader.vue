@@ -23,7 +23,7 @@ import { ref } from "vue";
 
 const headerMenu = ref([
     { label: "示例程序" },
-    { label: "Cesium官方文档" },
+    { label: "Cesium中文文档" },
     { label: "检测WebGL" },
 ]);
 
@@ -32,7 +32,7 @@ const headerFunc = (label: string) => {
         case "示例程序":
             window.open("/", "_blank")
             break;
-        case "Cesium官方文档":
+        case "Cesium中文文档":
             window.open("http://cesium.xin/cesium/cn/Documentation1.72/index.html", "_blank")
             break;
         case "检测WebGL":
