@@ -152,13 +152,6 @@ const menu:menuConfigType[] = [
                 route: "maskLayer",
                 component: () => import("@/components/example/cameraView/MaskLayer.vue"),
             },
-            {
-                label: "模型部分可见",
-                show: true,
-                img: require("@/assets/cover/cameraView/modelPartlyVisible.png"),
-                route: "modelPartlyVisible",
-                component: () => import("@/components/example/cameraView/ModelPartlyVisible.vue"),
-            },
         ]
     },
     {
@@ -518,6 +511,13 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/other/vectorWhiteModel2.png"),
                 route: "vectorWhiteModel2",
                 component: () => import("@/components/example/other/VectorWhiteModel2.vue"),
+            },
+            {
+                label: "模型部分可见",
+                show: true,
+                img: require("@/assets/cover/other/modelPartlyVisible.png"),
+                route: "modelPartlyVisible",
+                component: () => import("@/components/example/other/ModelPartlyVisible.vue"),
             },
         ],
     }

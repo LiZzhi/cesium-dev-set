@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import modelPartlyVisible from "@/secdev/cameraView/modelPartlyVisible";
+import modelPartlyVisible from "@/secdev/other/modelPartlyVisible";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 
 let partlyVisible: modelPartlyVisible;
