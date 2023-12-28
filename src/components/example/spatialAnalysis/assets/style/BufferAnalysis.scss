@@ -1,0 +1,36 @@
+.buffer-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 250px;
+    .buffer-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: space-around;
+        .input-group{
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            .distance-label{
+                color: white;
+                width: 150px;
+            }
+        }
+        .btn-group{
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 10;
+            :deep(.btn){
+                width: calc(50% - 5px);
+                .clear {
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+}

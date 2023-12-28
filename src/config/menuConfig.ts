@@ -284,6 +284,13 @@ const menu:menuConfigType[] = [
             //     component: () => import("@/components/example/spatialAnalysis/VisualFieldAnalysis.vue"),
             // },
             {
+                label: "缓冲区分析",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/bufferAnalysis.png"),
+                route: "bufferAnalysis",
+                component: () => import("@/components/example/spatialAnalysis/BufferAnalysis.vue"),
+            },
+            {
                 label: "限高分析",
                 show: true,
                 img: require("@/assets/cover/spatialAnalysis/heightLimitAnalysis.png"),
