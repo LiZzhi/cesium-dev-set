@@ -1,3 +1,11 @@
+/*
+ * @Author: Xingtao 362042734@qq.com
+ * @Date: 2023-12-28 21:25:34
+ * @LastEditors: Xingtao 362042734@qq.com
+ * @LastEditTime: 2024-01-02 00:19:10
+ * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawPrimitive.ts
+ * @Description: 绘制primitive
+ */
 import {
     PrimitiveCollection,
     Viewer,
@@ -11,7 +19,9 @@ import {
     GroundPrimitive,
 } from "cesium";
 import mouseMessageBox from "../../utils/mouseMessageBox";
+import mathExtend from "@/secdev/utils/mathExtend";
 import uuid from "@/utils/uuid";
+import cartographicTool from "@/secdev/utils/cartographicTool";
 
 type polylineCallBackType = (p: GroundPolylinePrimitive) => void;
 type polygonCallBackType = (p: PrimitiveCollection) => void;
@@ -65,10 +75,7 @@ export default class drawPrimitive {
      * @param {polylineCallBackType} end
      * @return {*}
      */
-    drawPolyline(
-        options: polylineOptionsType,
-        end: polylineCallBackType
-    ) {
+    drawPolyline(options: polylineOptionsType, end: polylineCallBackType) {
         const { width, loop, appearance } = options;
         // 绘图前准备并获取屏幕事件句柄
         this.#handler = this.#drawStart();
@@ -143,10 +150,13 @@ export default class drawPrimitive {
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     }
 
-    drawPolygon(
-        options: polygonOptionsType,
-        end: polygonCallBackType
-    ) {
+    /**
+     * @description: 绘制primitive多边形
+     * @param {polygonOptionsType} options
+     * @param {polygonCallBackType} end
+     * @return {*}
+     */
+    drawPolygon(options: polygonOptionsType, end: polygonCallBackType) {
         options = Object.assign(
             {
                 maxNode: Number.POSITIVE_INFINITY,
@@ -197,7 +207,9 @@ export default class drawPrimitive {
             }
             let geometryInstances = new Cesium.GeometryInstance({
                 geometry: new Cesium.PolygonGeometry({
-                    polygonHierarchy: new Cesium.PolygonHierarchy(that.#pointNodePosiArr),
+                    polygonHierarchy: new Cesium.PolygonHierarchy(
+                        that.#pointNodePosiArr
+                    ),
                     arcType: Cesium.ArcType.RHUMB,
                 }),
             });
@@ -223,7 +235,10 @@ export default class drawPrimitive {
             // 左键点击画折线
             let position = this.#viewer.scene.pickPosition(e.position);
             if (Cesium.defined(position)) {
-                if(this.#pointNodePosiArr.length >= (options.maxNode || Number.POSITIVE_INFINITY)){
+                if (
+                    this.#pointNodePosiArr.length >=
+                    (options.maxNode || Number.POSITIVE_INFINITY)
+                ) {
                     // 超出节点限制结束绘图
                     if (this.#pointNodePosiArr.length >= 3) {
                         let primitives = new Cesium.PrimitiveCollection();
@@ -279,6 +294,195 @@ export default class drawPrimitive {
                 this.#primitives.remove(polylinePrimitive);
                 this.#primitives.remove(polygonPrimitive);
             }
+            // 结束绘图
+            this.#drawEnd();
+        }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    }
+
+    drawStagingArea(end: polygonCallBackType) {
+        let maxNode = 3;
+        // 绘图前准备并获取屏幕事件句柄
+        this.#handler = this.#drawStart();
+        this.#messageBox.create("单击开始绘制");
+        let stageLinePrimitive: GroundPolylinePrimitive;
+        let stagingAreaPrimitive: GroundPrimitive;
+        let realFillNode: Cartesian3[] = [];
+        let realLineNode: Cartesian3[] = [];
+        let that = this;
+        function computeShapePoints(positions: Cartesian3[]) {
+            let coords: number[][] = [];
+            let milStdPosition: number[] = [];
+            for (let i = 0; i < positions.length; ++i) {
+                coords.push(cartographicTool.formCartesian3(positions[i], false));
+            }
+            let pb = mathExtend.lineType_3_0_0(coords);
+            if (!pb) {
+                return false;
+            }
+            let arrowCoordinates = mathExtend.computeBeizerPts(pb!);
+            arrowCoordinates.forEach((v) => {
+                milStdPosition.push(v[0]);
+                milStdPosition.push(v[1]);
+            });
+            let mainLinePositions: Cartesian3[] = [];
+            for (let i = 0; i < milStdPosition.length; i += 2) {
+                mainLinePositions.push(
+                    Cartesian3.fromDegrees(
+                        milStdPosition[i],
+                        milStdPosition[i + 1]
+                    )
+                );
+            }
+
+            let wallPositions = Cartesian3.fromDegreesArray(milStdPosition);
+            return {
+                mainLinePositions,
+                wallPositions,
+            };
+        }
+        function updatePolyline() {
+            console.log(realLineNode);
+            let geometryInstances = new Cesium.GeometryInstance({
+                geometry: new Cesium.GroundPolylineGeometry({
+                    positions: realLineNode,
+                    arcType: Cesium.ArcType.RHUMB,
+                    width: 3,
+                    loop: true,
+                }),
+            });
+            if (!stageLinePrimitive) {
+                // 临时绘图线
+                stageLinePrimitive = new Cesium.GroundPolylinePrimitive({
+                    geometryInstances: geometryInstances,
+                    appearance: new Cesium.PolylineMaterialAppearance({
+                        material: new Cesium.Material({
+                            fabric: {
+                                type: "Color",
+                                uniforms: {
+                                    color: Cesium.Color.RED,
+                                },
+                            },
+                        }),
+                    }),
+                    asynchronous: false, // 必须同步,异步会出现抖动
+                });
+                that.#primitives.add(stageLinePrimitive);
+            } else {
+                // 更新临时绘图线
+                // 此处原理为参考 https://github.com/CesiumGS/cesium/blob/1.72/Source/Scene/GroundPolylinePrimitive.js#L710
+                // 源码第710行，当_primitive为undefined时，update就会重新创建
+                // @ts-ignore
+                stageLinePrimitive._primitive = undefined;
+                // @ts-ignore
+                stageLinePrimitive.geometryInstances = [geometryInstances];
+            }
+        }
+        function updatePolygon() {
+            let geometryInstances = new Cesium.GeometryInstance({
+                geometry: new Cesium.PolygonGeometry({
+                    polygonHierarchy: new Cesium.PolygonHierarchy(realFillNode),
+                    arcType: Cesium.ArcType.RHUMB,
+                }),
+            });
+            if (!stagingAreaPrimitive) {
+                // 临时绘图线
+                stagingAreaPrimitive = new Cesium.GroundPrimitive({
+                    geometryInstances: geometryInstances,
+                    appearance: new Cesium.MaterialAppearance({
+                        material: new Cesium.Material({
+                            fabric: {
+                                type: "Color",
+                                uniforms: {
+                                    color: Cesium.Color.RED.withAlpha(0.4),
+                                },
+                            },
+                        }),
+                    }),
+                    asynchronous: false, // 必须同步,异步会出现抖动
+                });
+                that.#primitives.add(stagingAreaPrimitive);
+            } else {
+                // 更新临时绘图线
+                // 此处原理为参考 https://github.com/CesiumGS/cesium/blob/1.72/Source/Scene/GroundPolylinePrimitive.js#L710
+                // 源码第710行，当_primitive为undefined时，update就会重新创建
+                // @ts-ignore
+                stagingAreaPrimitive._primitive = undefined;
+                // @ts-ignore
+                stagingAreaPrimitive.geometryInstances = [geometryInstances];
+            }
+        }
+        this.#handler.setInputAction((e: any) => {
+            // 左键点击画折线
+            let position = this.#viewer.scene.pickPosition(e.position);
+            if (Cesium.defined(position)) {
+                if (this.#pointNodePosiArr.length >= maxNode) {
+                    // 超出节点限制结束绘图
+                    let primitives = new Cesium.PrimitiveCollection();
+                    stageLinePrimitive && primitives.add(stageLinePrimitive);
+                    stagingAreaPrimitive && primitives.add(stagingAreaPrimitive);
+                    end(primitives);
+                    this.#primitives.remove(stageLinePrimitive);
+                    this.#primitives.remove(stagingAreaPrimitive);
+                    // 结束绘图
+                    this.#drawEnd();
+                    return;
+                }
+
+                // 添加节点
+                this.#addTemporaryPoint(position);
+                this.#messageBox.changeMessage("单击继续绘制，右击结束绘制");
+                if (this.#pointNodePosiArr.length >= 2) {
+                    let posis = computeShapePoints(this.#pointNodePosiArr);
+                    if (posis) {
+                        realFillNode = posis.wallPositions;
+                        realLineNode = posis.mainLinePositions;
+                        updatePolyline();
+                        updatePolygon();
+                    }
+                }
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+        this.#handler.setInputAction((e: any) => {
+            // 鼠标移动事件
+            let position = this.#viewer.scene.pickPosition(e.endPosition);
+            // 移动点跟着光标动
+            if (Cesium.defined(position)) {
+                if (this.#pointNodePosiArr.length === 1) {
+                    this.#pointNodePosiArr.push(position);
+                    let posis = computeShapePoints(this.#pointNodePosiArr);
+                    if (posis) {
+                        realFillNode = posis.wallPositions;
+                        realLineNode = posis.mainLinePositions;
+                        updatePolyline();
+                        updatePolygon();
+                    }
+                }
+                if (this.#pointNodePosiArr.length >= 2) {
+                    // 更新最新鼠标点
+                    this.#pointNodePosiArr.pop();
+                    this.#pointNodePosiArr.push(position);
+                    let posis = computeShapePoints(this.#pointNodePosiArr);
+                    if (posis) {
+                        realFillNode = posis.wallPositions;
+                        realLineNode = posis.mainLinePositions;
+                        updatePolyline();
+                        updatePolygon();
+                    }
+                }
+            }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+        this.#handler.setInputAction((e: any) => {
+            // 结束回调
+            if (stageLinePrimitive && stagingAreaPrimitive) {
+                let primitives = new Cesium.PrimitiveCollection();
+                primitives.add(stageLinePrimitive);
+                primitives.add(stagingAreaPrimitive);
+                end(primitives);
+            }
+            this.#primitives.remove(stageLinePrimitive);
+            this.#primitives.remove(stagingAreaPrimitive);
             // 结束绘图
             this.#drawEnd();
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);

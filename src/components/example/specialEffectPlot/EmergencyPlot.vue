@@ -210,30 +210,8 @@ const drawFunc = (type: string) => {
             );
             break;
         case "集结区":
-            draw.drawPolyline((positions) => {
-                viewer.scene.primitives.add(
-                    new Cesium.GroundPolylinePrimitive({
-                        geometryInstances: new Cesium.GeometryInstance({
-                            geometry: new Cesium.GroundPolylineGeometry({
-                                positions: positions,
-                                arcType: Cesium.ArcType.RHUMB,
-                                width: 10.0,
-                            }),
-                        }),
-                        appearance: new Cesium.PolylineMaterialAppearance({
-                            material: new Cesium.Material({
-                                fabric: {
-                                    type: "PolylineArrow",
-                                    uniforms: {
-                                        color: Cesium.Color.fromCssColorString(
-                                            "rgb(12, 211, 255)"
-                                        ),
-                                    },
-                                },
-                            }),
-                        }),
-                    })
-                );
+            drawEmergency.drawStagingArea((p) => {
+                viewer.scene.primitives.add(p);
             });
             break;
         case "隔离带":
@@ -263,7 +241,7 @@ const drawFunc = (type: string) => {
                 {
                     outline: true,
                     outlineWidth: 3,
-                    outlineAppearance: new Cesium.MaterialAppearance({
+                    outlineAppearance: new Cesium.PolylineMaterialAppearance({
                         material: new Cesium.Material({
                             fabric: {
                                 type: "Color",
