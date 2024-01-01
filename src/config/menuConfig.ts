@@ -13,6 +13,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/DrawShape.vue"),
             },
             {
+                label: "应急标绘",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/drawShape.png"),
+                route: "emergencyPlot",
+                component: () => import("@/components/example/specialEffectPlot/EmergencyPlot.vue"),
+            },
+            {
                 label: "聚合标绘",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/primitiveCluster.png"),
