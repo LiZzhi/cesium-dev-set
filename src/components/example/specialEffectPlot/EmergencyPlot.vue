@@ -26,11 +26,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
-import drawEmergency from "@/secdev/specialEffectPlot/plot/drawEmergency";
+import drawPrimitive from "@/secdev/specialEffectPlot/plot/drawPrimitive";
 import { BillboardCollection } from "cesium";
 
 let draw: drawShape;
-let drawPrimitive: drawEmergency;
+let drawEmergency: drawPrimitive;
 let billboards: BillboardCollection;
 let emergencyList = ref([
     {
@@ -114,7 +114,7 @@ const drawFunc = (type: string) => {
             });
             break;
         case "引导线1":
-            drawPrimitive.drawPolyline(
+            drawEmergency.drawPolyline(
                 {
                     width: 10,
                     loop: false,
@@ -135,7 +135,7 @@ const drawFunc = (type: string) => {
             );
             break;
         case "引导线2":
-            drawPrimitive.drawPolyline(
+            drawEmergency.drawPolyline(
                 {
                     width: 10,
                     loop: false,
@@ -158,7 +158,7 @@ const drawFunc = (type: string) => {
             );
             break;
         case "引导线3":
-            drawPrimitive.drawPolyline(
+            drawEmergency.drawPolyline(
                 {
                     width: 10,
                     loop: false,
@@ -237,7 +237,7 @@ const drawFunc = (type: string) => {
             });
             break;
         case "隔离带":
-            drawPrimitive.drawPolyline(
+            drawEmergency.drawPolyline(
                 {
                     width: 10,
                     loop: false,
@@ -259,7 +259,7 @@ const drawFunc = (type: string) => {
             );
             break;
         case "危险区域":
-            drawPrimitive.drawPolygon(
+            drawEmergency.drawPolygon(
                 {
                     outline: true,
                     outlineWidth: 3,
@@ -297,7 +297,7 @@ const drawFunc = (type: string) => {
 
 onMounted(() => {
     draw = new drawShape(viewer);
-    drawPrimitive = new drawEmergency(viewer);
+    drawEmergency = new drawPrimitive(viewer);
     billboards = new Cesium.BillboardCollection({
         scene: viewer.scene,
     });

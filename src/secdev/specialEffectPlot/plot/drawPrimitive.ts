@@ -15,12 +15,12 @@ import uuid from "@/utils/uuid";
 
 type polylineCallBackType = (p: GroundPolylinePrimitive) => void;
 type polygonCallBackType = (p: PrimitiveCollection) => void;
-export type emergencyPolylineOptionsType = {
+export type polylineOptionsType = {
     width: number; // 线宽
     loop: boolean; // 是否守尾连接
     appearance: Appearance; // 外观
 };
-export type emergencyPolygonOptionsType = {
+export type polygonOptionsType = {
     outline?: boolean; // 是否有轮廓线
     outlineWidth?: number; // 轮廓线宽
     outlineAppearance?: Appearance; // 轮廓线材质
@@ -29,7 +29,7 @@ export type emergencyPolygonOptionsType = {
     maxNode?: number; // 最大节点数量
 };
 
-export default class drawEmergency {
+export default class drawPrimitive {
     #viewer: Viewer;
     #primitives: PrimitiveCollection;
     #drawNodeSource: CustomDataSource;
@@ -39,14 +39,14 @@ export default class drawEmergency {
     #messageBox: mouseMessageBox;
     constructor(viewer: Viewer) {
         this.#viewer = viewer;
-        // drawEmergency 类单独使用的 PrimitiveCollection
+        // drawPrimitive 类单独使用的 PrimitiveCollection
         this.#primitives = new Cesium.PrimitiveCollection({
             destroyPrimitives: false,
         });
         viewer.scene.primitives.add(this.#primitives);
-        // drawEmergency 类记录临时节点的 dataSource
+        // drawPrimitive 类记录临时节点的 dataSource
         this.#drawNodeSource = new Cesium.CustomDataSource(
-            "emergency-node-" + uuid()
+            "primitive-node-" + uuid()
         );
         viewer.dataSources.add(this.#drawNodeSource);
         // 绘图过程中，临时记录的节点 Cartesian3 的数组
@@ -61,12 +61,12 @@ export default class drawEmergency {
 
     /**
      * @description: 绘制primitive线
-     * @param {emergencyPolylineOptionsType} options
+     * @param {polylineOptionsType} options
      * @param {polylineCallBackType} end
      * @return {*}
      */
     drawPolyline(
-        options: emergencyPolylineOptionsType,
+        options: polylineOptionsType,
         end: polylineCallBackType
     ) {
         const { width, loop, appearance } = options;
@@ -144,7 +144,7 @@ export default class drawEmergency {
     }
 
     drawPolygon(
-        options: emergencyPolygonOptionsType,
+        options: polygonOptionsType,
         end: polygonCallBackType
     ) {
         options = Object.assign(
