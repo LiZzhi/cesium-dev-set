@@ -314,10 +314,8 @@ export default class mathExtend {
                 pts[0],
                 middle,
                 (Math.tan(Math.PI / 5) * L01) / 2
-            );
-
+            )[0];
             let ppp = [...pts, vertex];
-
             pBezier = mathExtend.computeBezierCtrPointFs(ppp as number[][]);
         } else if (pts.length == 3) {
             pBezier = mathExtend.computeBezierCtrPointFs(pts);
