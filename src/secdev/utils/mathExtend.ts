@@ -323,7 +323,6 @@ export default class mathExtend {
         return pBezier;
     }
 
-
     /**
      * @description: 由控制点计算贝塞尔曲线上的点
      * @param {number} cpt 经纬度数组
@@ -368,5 +367,361 @@ export default class mathExtend {
             }
         }
         return bzPoints;
+    }
+
+    static drawArrow(p1: number[], p2: number[], p3: number[], p4: number[]) {
+        let arrowPoints = [];
+
+        let p5 = null,
+            p6 = null,
+            p7 = null,
+            p8 = null,
+            p9 = null,
+            p10 = null,
+            p11 = null,
+            p12 = null,
+            p13 = null;
+        let flag2 = mathExtend.judgePointPos(p3, p1, p2);
+        let flag1 = mathExtend.judgePointPos(p4, p1, p2);
+
+        // //////////////////////////////
+        // 左侧箭头
+        let hAngle = 0;
+        if (flag1 < 0) {
+            hAngle = 10;
+        } else {
+            hAngle = -10;
+        }
+        let pt = mathExtend.pointRotate(p1, p4, hAngle);
+
+        let x = p4[0] - pt[0];
+        let y = p4[1] - pt[1];
+        p5 = [p4[0] - x * 0.2, p4[1] - y * 0.2];
+        // 求箭耳点
+        y = p4[0] - p5[0];
+        x = p4[1] - p5[1];
+        // 左侧点
+        p6 = [p5[0] - x * 0.322, p5[1] + y * 0.322];
+        // 右侧点
+        p7 = [p5[0] + x * 0.322, p5[1] - y * 0.322];
+
+        // 求箭颈点
+        p8 = [p5[0] + y * 0.248, p5[1] + x * 0.248];
+        // 左侧点
+        p9 = [p8[0] - x * 0.108, p8[1] + y * 0.108];
+        // 右侧点
+        p10 = [p8[0] + x * 0.108, p8[1] - y * 0.108];
+
+        p12 = p9;
+        p13 = p10;
+        // 求外侧曲线控制点
+
+        if (flag1 < 0) {
+            hAngle = 18;
+        } else {
+            hAngle = -18;
+        }
+        pt = mathExtend.pointRotate(pt, p4, hAngle);
+
+        p11 = [(pt[0] + p4[0]) * 0.5, (pt[1] + p4[1]) * 0.5];
+
+        if (flag1 > 0) {
+            let tempB = [];
+            tempB.push([p10[0], p10[1]]);
+            tempB.push([(p11[0] + p10[0]) * 0.5, (p11[1] + p10[1]) * 0.5]);
+            tempB.push([(p1[0] + p11[0]) * 0.5, (p1[1] + p11[1]) * 0.5]);
+            tempB.push([p1[0], p1[1]]);
+            tempB = mathExtend.reversePoint(tempB);
+
+            let resPts = mathExtend.calcBezierCurve(tempB, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+
+            let tempL = [p10, p7, p4, p6, p9];
+
+            for (let i = 0; i < 5; i++) {
+                arrowPoints.push([tempL[i][0], tempL[i][1]]);
+            }
+        } else {
+            let tempB = [];
+            tempB.push([p1[0], p1[1]]);
+            tempB.push([(p1[0] + p11[0]) * 0.5, (p1[1] + p11[1]) * 0.5]);
+            tempB.push([(p11[0] + p9[0]) * 0.5, (p11[1] + p9[1]) * 0.5]);
+            tempB.push([p9[0], p9[1]]);
+
+            let resPts = mathExtend.calcBezierCurve(tempB, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+
+            let tempL = [p9, p6, p4, p7, p10];
+            for (let i = 0; i < 5; i++) {
+                arrowPoints.push([tempL[i][0], tempL[i][1]]);
+            }
+        }
+
+        pt = p2;
+
+        if (flag2 < 0) {
+            hAngle = -10;
+        } else {
+            hAngle = 10;
+        }
+        pt = mathExtend.pointRotate(pt, p3, hAngle);
+
+        y = p3[0] - pt[0];
+        x = p3[1] - pt[1];
+        p5 = [p3[0] - y * 0.2, p3[1] - x * 0.2];
+        // 求箭耳点
+        y = p3[0] - p5[0];
+        x = p3[1] - p5[1];
+        // 左侧点
+        p6 = [p5[0] - x * 0.322, p5[1] + y * 0.322];
+        // 右侧点
+        p7 = [p5[0] + x * 0.322, p5[1] - y * 0.322];
+
+        // 求箭颈点
+        p8 = [p5[0] + y * 0.248, p5[1] + x * 0.248];
+        // 左侧点
+        p9 = [p8[0] - x * 0.108, p8[1] + y * 0.108];
+        // 右侧点
+        p10 = [p8[0] + x * 0.108, p8[1] - y * 0.108];
+        // 求外侧曲线控制点
+
+        if (flag2 < 0) {
+            hAngle = -18;
+        } else {
+            hAngle = 18;
+        }
+        pt = mathExtend.pointRotate(pt, p3, hAngle);
+        p11 = [(pt[0] + p3[0]) * 0.5, (pt[1] + p3[1]) * 0.5];
+
+        // 连接曲线
+        let p14 = null,
+            p15 = null;
+        x = p2[0] - p1[0];
+        y = p2[1] - p1[1];
+        let p16 = [p1[0] - 0.05 * x, p1[1] - 0.05 * y];
+        let p17 = [p2[0] + 0.05 * x, p2[1] + 0.05 * y];
+
+        x = p4[0] - p16[0];
+        y = p4[1] - p16[1];
+        let p18 = [p16[0] - 0.32 * x, p16[1] - 0.32 * y];
+        let p19 = [p4[0] + 0.32 * x, p4[1] + 0.32 * y];
+        x = p19[0] - p18[0];
+        y = p19[1] - p18[1];
+        p14 = [p18[0] + 0.25 * x, p18[1] + 0.25 * y];
+
+        x = p3[0] - p17[0];
+        y = p3[1] - p17[1];
+        p18 = [p17[0] - 0.32 * x, p17[1] - 0.32 * y];
+        p19 = [p3[0] + 0.32 * x, p3[1] + 0.32 * y];
+
+        x = p19[0] - p18[0];
+        y = p19[1] - p18[1];
+        p15 = [p18[0] + 0.25 * x, p18[1] + 0.25 * y];
+        if (flag1 > 0 && flag2 > 0) {
+            let q12 = [p12, p14, p15, p10];
+            let resPts = mathExtend.calcBezierCurve(q12, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+        } else if (flag1 < 0 && flag2 < 0) {
+            let q1 = [p13, p14, p15, p9];
+            let resPts = mathExtend.calcBezierCurve(q1, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+        } else if (flag1 > 0 && flag2 < 0) {
+            let q1 = [p12, p14, p15, p9];
+            let resPts = mathExtend.calcBezierCurve(q1, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+        } else if (flag1 < 0 && flag2 > 0) {
+            let q1 = [p13, p14, p15, p10];
+            let resPts = mathExtend.calcBezierCurve(q1, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+        }
+
+        let tempH = [p9, p6, p3, p7, p10];
+        if (flag2 > 0) {
+            tempH = mathExtend.reversePoint(tempH);
+        }
+
+        for (let i = 0; i < tempH.length; i++) {
+            arrowPoints.push([tempH[i][0], tempH[i][1]]);
+        }
+
+        if (flag2 > 0) {
+            let tempB = [];
+            tempB.push([p2[0], p2[1]]);
+            tempB.push([(p2[0] + p11[0]) * 0.5, (p2[1] + p11[1]) * 0.5]);
+            tempB.push([(p11[0] + p9[0]) * 0.5, (p11[1] + p9[1]) * 0.5]);
+            tempB.push([p9[0], p9[1]]);
+
+            tempB = mathExtend.reversePoint(tempB);
+
+            let resPts = mathExtend.calcBezierCurve(tempB, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+        } else {
+            let tempB = [];
+            tempB.push([p10[0], p10[1]]);
+            tempB.push([(p11[0] + p10[0]) * 0.5, (p11[1] + p10[1]) * 0.5]);
+            tempB.push([(p2[0] + p11[0]) * 0.5, (p2[1] + p11[1]) * 0.5]);
+            tempB.push([p2[0], p2[1]]);
+
+            let resPts = mathExtend.calcBezierCurve(tempB, 100);
+            for (let i = 0; i < resPts.length; i++) {
+                arrowPoints.push([resPts[i][0], resPts[i][1]]);
+            }
+        }
+        return arrowPoints;
+    }
+
+    static reversePoint(Rlist: number[][]) {
+        let qlist = [];
+        for (let i = Rlist.length - 1; i > -1; i--) {
+            qlist.push(Rlist[i]);
+        }
+        return qlist;
+    }
+
+    static calcBezierCurve(pts: number[][], iSection: number) {
+        let rets = [];
+
+        let a0, a1, a2, a3, b0, b1, b2, b3;
+        let cSize = pts.length;
+        for (let i = 0; i < cSize - 3; i += 3) {
+            a0 = pts[i][0];
+            a1 = -3 * pts[i][0] + 3 * pts[i + 1][0];
+            a2 = 3 * pts[i][0] - 6 * pts[i + 1][0] + 3 * pts[i + 2][0];
+            a3 =
+                -pts[i][0] +
+                3 * pts[i + 1][0] -
+                3 * pts[i + 2][0] +
+                pts[i + 3][0];
+
+            b0 = pts[i][1];
+            b1 = -3 * pts[i][1] + 3 * pts[i + 1][1];
+            b2 = 3 * pts[i][1] - 6 * pts[i + 1][1] + 3 * pts[i + 2][1];
+            b3 =
+                -pts[i][1] +
+                3 * pts[i + 1][1] -
+                3 * pts[i + 2][1] +
+                pts[i + 3][1];
+
+            // 一段贝塞尔曲线的分段数
+            if (iSection <= 0) {
+                iSection = 1;
+            }
+
+            let div = 1.0 / iSection;
+            let t = 0;
+            for (let k = 0; k < iSection + 1; k++, t += div) {
+                let pt = [
+                    a0 + a1 * t + a2 * t * t + a3 * t * t * t,
+                    b0 + b1 * t + b2 * t * t + b3 * t * t * t,
+                ];
+                if (t > 1.0) {
+                    continue; // 剔除两段贝塞尔曲线的首位重合点
+                }
+                rets.push(pt);
+            }
+        }
+        return rets;
+    }
+
+    static getRotateAngle(
+        ptAnchor: number[],
+        ptOld: number[],
+        ptNew: number[]
+    ) {
+        if (ptAnchor == ptOld || ptNew == ptAnchor || ptOld == ptNew) {
+            return 0;
+        }
+        // 公式：cosA = (AB*AC)/(|AB|*|AC|)
+        let xAB = ptOld[0] - ptAnchor[0];
+        let yAB = ptOld[1] - ptAnchor[1];
+        let xAC = ptNew[0] - ptAnchor[0];
+        let yAC = ptNew[1] - ptAnchor[1];
+        let dAB = Math.sqrt(xAB * xAB + yAB * yAB);
+        let dAC = Math.sqrt(xAC * xAC + yAC * yAC);
+        let A = Math.acos((xAB * xAC + yAB * yAC) / (dAB * dAC));
+        return A;
+    }
+
+    static computeShapePoints(tGeoAttr2D: number[][]) {
+        const mathExtend2 = require("./mathExtend2.js");
+        // 获取箭身长度，输入控制点首尾不连总长度
+        let ArrowBodyLen = mathExtend2.ComputeDistance(tGeoAttr2D);
+
+        // 处理输入的控制点
+        let OpectrlPoints = mathExtend2.OperateCtrlPts(tGeoAttr2D);
+
+        if (OpectrlPoints.length == 2) {
+            return OpectrlPoints;
+        }
+        let ctrlPointCount = OpectrlPoints.length - 1;
+
+        // 生成箭身中轴线骨架点、左右两箭身骨架点、两箭身骨架点的左右控制点
+        // 左右箭身骨架点
+        let LeftBodyPtsTemp: number[][] = [];
+        let RightBodyPtsTemp: number[][] = [];
+        // 左箭身个拐点的左右控制点
+        let LeftBodyPtsLeftCtrlPts: number[][] = [];
+        let LeftBodyPtsRightCtrlPts: number[][] = [];
+        // 右箭身个拐点的左右控制点
+        let RightBodyPtsLeftCtrlPts: number[][] = [];
+        let RightBodyPtsRightCtrlPts: number[][] = [];
+
+        let ArrowTouLen = mathExtend2.GenArrowBodyPts(
+            ArrowBodyLen,
+            OpectrlPoints,
+            LeftBodyPtsTemp,
+            RightBodyPtsTemp,
+            LeftBodyPtsLeftCtrlPts,
+            LeftBodyPtsRightCtrlPts,
+            RightBodyPtsLeftCtrlPts,
+            RightBodyPtsRightCtrlPts
+        );
+
+        // 计算箭身曲线
+        // ////////////////////////////////////////////////////////////////////////
+        // 左箭身曲线
+        let tLeftBodyPts = mathExtend2.GenArrBody(
+            ctrlPointCount,
+            LeftBodyPtsTemp,
+            LeftBodyPtsLeftCtrlPts,
+            LeftBodyPtsRightCtrlPts
+        );
+
+        // 右箭身曲线
+        let tRightBodyPts = mathExtend2.GenArrBody(
+            ctrlPointCount,
+            RightBodyPtsTemp,
+            RightBodyPtsLeftCtrlPts,
+            RightBodyPtsRightCtrlPts
+        ).reverse();
+
+        // 计算箭头点数组
+        let tArrowHeadPts = mathExtend2.GenAtPts(
+            ctrlPointCount,
+            OpectrlPoints,
+            ArrowTouLen
+        );
+        // ////////////////////////////////////////////////////////////////////
+
+        let arrowPoints2D: number[][] = [
+            ...tLeftBodyPts,
+            ...tArrowHeadPts,
+            ...tRightBodyPts,
+        ];
+        return arrowPoints2D;
     }
 }
