@@ -214,6 +214,16 @@ const drawFunc = (type: string) => {
                 viewer.scene.primitives.add(p);
             });
             break;
+        case "钳击箭头":
+            drawEmergency.drawPincerArrow((p) => {
+                viewer.scene.primitives.add(p);
+            });
+            break;
+        case "单箭头":
+            drawEmergency.drawSingleArrow((p) => {
+                viewer.scene.primitives.add(p);
+            });
+            break;
         case "隔离带":
             drawEmergency.drawPolyline(
                 {

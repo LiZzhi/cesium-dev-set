@@ -15,7 +15,7 @@ const menu:menuConfigType[] = [
             {
                 label: "应急标绘",
                 show: true,
-                img: require("@/assets/cover/specialEffectPlot/drawShape.png"),
+                img: require("@/assets/cover/specialEffectPlot/emergencyPlot.png"),
                 route: "emergencyPlot",
                 component: () => import("@/components/example/specialEffectPlot/EmergencyPlot.vue"),
             },
