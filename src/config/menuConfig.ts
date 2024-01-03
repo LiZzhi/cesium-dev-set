@@ -312,6 +312,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/spatialAnalysis/SlopeAnalysis.vue"),
             },
             {
+                label: "等高线分析",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/contourAnalysis.png"),
+                route: "contourAnalysis",
+                component: () => import("@/components/example/spatialAnalysis/ContourAnalysis.vue"),
+            },
+            {
                 label: "地理网格",
                 show: true,
                 img: require("@/assets/cover/spatialAnalysis/geoGrid.png"),
