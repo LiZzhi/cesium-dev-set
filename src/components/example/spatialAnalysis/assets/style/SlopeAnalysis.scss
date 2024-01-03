@@ -1,0 +1,75 @@
+.slope-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 270px;
+    .slope-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        .slope-slider {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .slider-label {
+                width: 80px;
+                color: white;
+            }
+        }
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            :deep(.comm-btn) {
+                width: 50%;
+                .clear {
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+}
+.slope-legend-box {
+    left: 2%;
+    top: 38%;
+    width: 160px;
+    .legend-title {
+        position: relative;
+        color: #CAFBFF;
+        font-family: pht-bold;
+        font-size: 25px;
+        font-weight: 400;
+        letter-spacing: 1.37px;
+    }
+    .legend-item-box {
+        position: relative;
+        height: 133px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .legend-item {
+            position: relative;
+            height: 14px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            // gap: 5px;
+            .color-rect {
+                position: relative;
+                width: 32px;
+                height: 100%;
+                margin-right: 5px;
+            }
+            .legend-label {
+                // width: 30px;
+                color: #fff;
+                font-family: pht-light;
+                margin: 0 5px;
+            }
+        }
+    }
+}

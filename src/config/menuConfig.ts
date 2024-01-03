@@ -305,6 +305,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/spatialAnalysis/HeightLimitAnalysis.vue"),
             },
             {
+                label: "坡度分析",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/slopeAnalysis.png"),
+                route: "slopeAnalysis",
+                component: () => import("@/components/example/spatialAnalysis/SlopeAnalysis.vue"),
+            },
+            {
                 label: "地理网格",
                 show: true,
                 img: require("@/assets/cover/spatialAnalysis/geoGrid.png"),
