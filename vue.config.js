@@ -9,6 +9,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const cesiumSource = "./node_modules/cesium/Build/Cesium";
 
 module.exports = defineConfig({
+    publicPath: './',
     transpileDependencies: true,
     // 取消eslint，太特么痛苦了，再也不折磨自己了
     lintOnSave: false,
