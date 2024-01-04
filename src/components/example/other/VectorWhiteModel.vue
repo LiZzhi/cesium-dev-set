@@ -1,6 +1,6 @@
 <template>
     <CommPanel
-        title="矢量城市白模"
+        title="矢量拉伸白模"
         class="model-panel-box"
     >
         <div class="model-panel">
