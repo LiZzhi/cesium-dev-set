@@ -32,8 +32,8 @@ module.exports = defineConfig({
                         to: "Widgets",
                     },
                     {
-                        from: path.resolve(cesiumSource, "ThirdParty/Workers"),
-                        to: "ThirdParty/Workers",
+                        from: path.resolve(cesiumSource, "ThirdParty"),
+                        to: "ThirdParty",
                     },
                 ],
             }),
