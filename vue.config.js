@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 // gz压缩
-// const CompressionPlugin = require("compression-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 // cesium配置
 const cesiumSource = "./node_modules/cesium/Build/Cesium";
 
@@ -43,7 +43,7 @@ module.exports = defineConfig({
                 CESIUM_BASE_URL: JSON.stringify("./"),
             }),
             new NodePolyfillPlugin(),
-            // new CompressionPlugin(), // gz压缩
+            new CompressionPlugin(), // gz压缩
         ],
         resolve: {
             alias: {
