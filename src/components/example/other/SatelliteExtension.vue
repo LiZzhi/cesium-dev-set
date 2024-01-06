@@ -20,7 +20,7 @@ const file = require("./assets/file/public.txt");
 
 onMounted(() => {
     viewer.clock.shouldAnimate = true;
-    // viewer.clock.multiplier = 100;
+    viewer.clock.multiplier = 1;
 
     satMana = new satelliteManager(viewer);
     add();
@@ -44,6 +44,8 @@ const add = ()=>{
                         sat.enableComponent(satelliteComponents.Label);
                         sat.enableComponent(satelliteComponents.Orbit);
                         sat.enableComponent(satelliteComponents.SensorCone);
+                        // sat.enableComponent(satelliteComponents.SensorSquareCone);
+                        sat.enableComponent(satelliteComponents.GroundTrack);
                     }
                 }
             })

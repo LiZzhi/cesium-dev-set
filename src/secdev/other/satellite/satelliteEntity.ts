@@ -13,9 +13,9 @@ export default class satelliteEntity {
         this.#viewer = viewer;
         this.#collection = collection;
 
-        this.props = new satelliteProperties(viewer, tle, options);
+        this.props = new satelliteProperties(this.#viewer, tle, options);
 
-        this.#satEntities = new satelliteEntityWrapper(this.props);
+        this.#satEntities = new satelliteEntityWrapper(this.#viewer, this.props);
 
         this.#createEntities();
 
