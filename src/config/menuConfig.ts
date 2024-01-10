@@ -82,7 +82,6 @@ const menu:menuConfigType[] = [
                 route: "regionLabel",
                 component: () => import("@/components/example/specialEffectPlot/RegionLabel.vue"),
             },
-
             {
                 label: "雷达扫描线",
                 show: true,
@@ -518,6 +517,13 @@ const menu:menuConfigType[] = [
                 img: require("@/assets/cover/other/satelliteExtension.png"),
                 route: "satelliteExtension",
                 component: () => import("@/components/example/other/SatelliteExtension.vue"),
+            },
+            {
+                label: "分割线段",
+                show: true,
+                img: require("@/assets/cover/other/splitLine.png"),
+                route: "splitLine",
+                component: () => import("@/components/example/other/SplitLine.vue"),
             },
             {
                 label: "矢量拉伸白模",
