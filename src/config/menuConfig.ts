@@ -297,6 +297,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/spatialAnalysis/BufferAnalysis.vue"),
             },
             {
+                label: "克里金插值",
+                show: true,
+                img: require("@/assets/cover/spatialAnalysis/krigingInterpolation.png"),
+                route: "krigingInterpolation",
+                component: () => import("@/components/example/spatialAnalysis/KrigingInterpolation.vue"),
+            },
+            {
                 label: "限高分析",
                 show: true,
                 img: require("@/assets/cover/spatialAnalysis/heightLimitAnalysis.png"),
