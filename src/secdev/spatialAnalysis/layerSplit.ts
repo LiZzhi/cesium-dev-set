@@ -1,22 +1,22 @@
 /*
  * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-24 18:21:26
- * @LastEditors: XingTao 362042734@qq.com
- * @LastEditTime: 2023-08-25 09:58:48
+ * @LastEditors: Xingtao 362042734@qq.com
+ * @LastEditTime: 2024-01-17 17:58:15
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\layerSplit.ts
  * @Description: 卷帘
  */
 import {
     Viewer,
     ImageryLayer,
-    ImagerySplitDirection,
+    SplitDirection,
     ScreenSpaceEventHandler,
 } from "cesium";
 
 export default class layerSplit {
     #viewer: Viewer;
     #slider: HTMLElement; // 卷帘滑动块
-    #splitDirection: ImagerySplitDirection; // 窗口方向
+    #splitDirection: SplitDirection; // 窗口方向
     #layers: ImageryLayer[]; // 当前矿口图层
     #handler: ScreenSpaceEventHandler | null;
     #isInit: boolean;
@@ -24,10 +24,10 @@ export default class layerSplit {
     /**
      * 创建卷帘图层
      * @param {Viewer} viewer
-     * @param {ImagerySplitDirection} splitDirection 卷帘窗口
+     * @param {SplitDirection} splitDirection 卷帘窗口
      * @param {ImageryProvider} baseLayer 初始图层
      */
-    constructor(viewer: Viewer, splitDirection: ImagerySplitDirection) {
+    constructor(viewer: Viewer, splitDirection: SplitDirection) {
         this.#viewer = viewer;
         this.#splitDirection = splitDirection;
         this.#layers = [];
@@ -67,7 +67,7 @@ export default class layerSplit {
         this.#slider.style.backgroundColor = "white";
         this.#registEvent(this.#slider);
 
-        this.#viewer.scene.imagerySplitPosition = 0.5;
+        this.#viewer.scene.splitPosition = 0.5;
     }
 
     /**
@@ -86,7 +86,7 @@ export default class layerSplit {
         // 清除图层
         for (let i = 0; i < this.#layers.length; i++) {
             const element = this.#layers[i];
-            element.splitDirection = ImagerySplitDirection.NONE;
+            element.splitDirection = SplitDirection.NONE;
         }
         this.#layers.length = 0;
 
@@ -113,16 +113,16 @@ export default class layerSplit {
     removeLayer(layer: ImageryLayer) {
         let index = this.#layers.findIndex((v) => v === layer);
         if(index >= 0){
-            layer.splitDirection = ImagerySplitDirection.NONE;
+            layer.splitDirection = SplitDirection.NONE;
             this.#layers.splice(index, 1);
         }
     }
 
     /**
      * 获取当前窗口方向
-     * @returns {ImagerySplitDirection} 窗口方向
+     * @returns {SplitDirection} 窗口方向
      */
-    get splitDirection(): ImagerySplitDirection {
+    get splitDirection(): SplitDirection {
         return this.#splitDirection;
     }
 
@@ -157,7 +157,7 @@ export default class layerSplit {
                 (slider.offsetLeft + e.endPosition.x) /
                 slider.parentElement!.offsetWidth;
             slider.style.left = 100.0 * splitPosition + "%";
-            this.#viewer.scene.imagerySplitPosition = splitPosition;
+            this.#viewer.scene.splitPosition = splitPosition;
         }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
 
         handler.setInputAction(() => {

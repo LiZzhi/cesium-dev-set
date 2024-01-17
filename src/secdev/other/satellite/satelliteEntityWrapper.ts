@@ -156,7 +156,7 @@ export default class satelliteEntityWrapper {
             length: new Cesium.CallbackProperty((time) => {
                 let s = this.props.sampledPosition;
                 let c3 = s.getValue(time!);
-                height = Cesium.Cartographic.fromCartesian(c3).height;
+                height = Cesium.Cartographic.fromCartesian(c3!).height;
                 return height;
             }, false),
             material: new Cesium.ColorMaterialProperty(

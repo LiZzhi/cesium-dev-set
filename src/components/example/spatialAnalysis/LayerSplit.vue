@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { ImagerySplitDirection, ImageryLayer, Viewer } from "cesium";
+import { SplitDirection, ImageryLayer, Viewer } from "cesium";
 import layerSplit from "@/secdev/spatialAnalysis/layerSplit";
 
 let leftSplit: layerSplit;
@@ -40,8 +40,8 @@ const destroy = () => {
 
 onMounted(() => {
     viewer.imageryLayers.add(layer);
-    leftSplit = new layerSplit(viewer, ImagerySplitDirection.LEFT);
-    rightSplit = new layerSplit(viewer, ImagerySplitDirection.RIGHT);
+    leftSplit = new layerSplit(viewer, SplitDirection.LEFT);
+    rightSplit = new layerSplit(viewer, SplitDirection.RIGHT);
     start();
 });
 </script>
