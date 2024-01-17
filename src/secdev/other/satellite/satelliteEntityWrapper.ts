@@ -167,7 +167,39 @@ export default class satelliteEntityWrapper {
         });
     }
 
-    #createSquareCone() {}
+    #createSquareCone() {
+        this.squareCone.polyline = new Cesium.PolylineGraphics({
+            material: new Cesium.ColorMaterialProperty(
+                Cesium.Color.ORANGE
+            ),
+            positions: new Cesium.CallbackProperty((time) => {
+                let position =this.props.position(time!);
+                let nowPositions = this.#calculateNowPosition(time!);
+                return [
+                    position,
+                    nowPositions[2],
+                    nowPositions[1],
+                    position,
+                ];
+            }, false),
+            arcType: Cesium.ArcType.NONE,
+        })
+        this.squareCone.polygon = new Cesium.PolygonGraphics({
+            material: new Cesium.ColorMaterialProperty(
+                Cesium.Color.ORANGE.withAlpha(0.3)
+            ),
+            hierarchy: new Cesium.CallbackProperty((time) => {
+                let position =this.props.position(time!);
+                let nowPositions = this.#calculateNowPosition(time!);
+                return new Cesium.PolygonHierarchy([
+                    position,
+                    nowPositions[2],
+                    nowPositions[1],
+                ]);
+            }, false),
+            perPositionHeight: true,
+        })
+    }
 
     #createGroundTrack() {
         const startTime = this.#viewer.clock.currentTime;

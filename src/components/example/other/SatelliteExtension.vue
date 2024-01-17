@@ -43,8 +43,8 @@ const add = ()=>{
                         sat.enableComponent(satelliteComponents.SatImage);
                         sat.enableComponent(satelliteComponents.Label);
                         sat.enableComponent(satelliteComponents.Orbit);
-                        sat.enableComponent(satelliteComponents.SensorCone);
-                        // sat.enableComponent(satelliteComponents.SensorSquareCone);
+                        // sat.enableComponent(satelliteComponents.SensorCone);
+                        sat.enableComponent(satelliteComponents.SensorSquareCone);
                         sat.enableComponent(satelliteComponents.GroundTrack);
                     }
                 }
