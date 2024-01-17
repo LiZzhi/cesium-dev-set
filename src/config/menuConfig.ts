@@ -443,6 +443,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/SurfaceTransparency.vue"),
             },
             {
+                label: "地形夸张",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/terrainExaggeration.png"),
+                route: "terrainExaggeration",
+                component: () => import("@/components/example/sceneEffect/TerrainExaggeration.vue"),
+            },
+            {
                 label: "泛光",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/floodlight.png"),

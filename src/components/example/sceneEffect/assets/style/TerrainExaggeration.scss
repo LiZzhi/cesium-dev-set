@@ -1,0 +1,28 @@
+.terrain-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 250px;
+    .terrain-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        .terrain-slider {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .slider-label {
+                width: 150px;
+                color: white;
+            }
+        }
+        .btn-group {
+            position: relative;
+            :deep(.comm-btn) {
+                width: 100%;
+            }
+        }
+    }
+}
