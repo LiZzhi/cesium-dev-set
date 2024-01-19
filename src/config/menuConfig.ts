@@ -62,6 +62,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/EffectLine.vue"),
             },
             {
+                label: "飞线",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/flightLine.png"),
+                route: "flightLine",
+                component: () => import("@/components/example/specialEffectPlot/FlightLine.vue"),
+            },
+            {
                 label: "动态墙体",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/dynamicWall.png"),
