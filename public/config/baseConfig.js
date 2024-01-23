@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-12-25 20:35:27
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-12-26 22:31:31
+ * @LastEditTime: 2024-01-23 10:47:22
  * @FilePath: \cesium-secdev-set\public\config\baseConfig.js
  * @Description: 配置文件
  */
@@ -20,8 +20,11 @@ const token = {
         "c12979f9caccfc2e24b822852976c264c3c33403a87bafd21b0f4eb2de4bd79e",
 };
 
+const defaultView = [101.11760950808875, 39.00441706685786, 8039618.4428313];
+
 // 全局配置
 window.$config = {
     ip,
     token,
+    defaultView,
 };

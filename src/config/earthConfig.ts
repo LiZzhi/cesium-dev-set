@@ -31,17 +31,4 @@ const viewerConfig: Viewer.ConstructorOptions = {
     },
 };
 
-const initViewConfig = {
-    destination: new Cesium.Cartesian3(
-        -4105645.963034768,
-        20892661.21772182,
-        17217927.851065105
-    ),
-    orientation: new Cesium.HeadingPitchRoll(
-        6.283185307179585,
-        -1.5707803201523163,
-        0
-    ),
-};
-
-export { viewerConfig, initViewConfig };
+export { viewerConfig };

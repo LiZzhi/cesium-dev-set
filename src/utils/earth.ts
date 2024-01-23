@@ -1,6 +1,5 @@
-import { viewerConfig, initViewConfig } from "@/config/earthConfig";
-import { Viewer } from "cesium";
-import CesiumNavigation from 'cesium-navigation-es6'
+import { viewerConfig } from "@/config/earthConfig";
+import { Viewer, Camera } from "cesium";
 
 /**
  * @description: 初始化viewer
@@ -11,8 +10,14 @@ import CesiumNavigation from 'cesium-navigation-es6'
 export function initViewer(id:string, option:Viewer.ConstructorOptions = {}) {
     const o = Object.assign(viewerConfig, option)
     const viewer = new Cesium.Viewer(id, o);
-    (viewer.cesiumWidget.creditContainer as HTMLElement).style.display = "none";
-    viewer.camera.setView(initViewConfig);
+    (<HTMLElement>viewer.cesiumWidget.creditContainer).style.display = "none";
+    viewer.camera.setView({
+        destination: Cesium.Cartesian3.fromDegrees(
+            window.$config.defaultView[0],
+            window.$config.defaultView[1],
+            window.$config.defaultView[2],
+        )
+    });
     createNavigation(viewer);
     return viewer;
 }
@@ -23,7 +28,12 @@ export function initViewer(id:string, option:Viewer.ConstructorOptions = {}) {
  */
 function createNavigation(viewer: Viewer){
     const navigation:any = new CesiumNavigation(viewer, {
-        // defaultResetView: Cesium.Cartographic.fromCartesian(initViewConfig.destination);, // 默认视图 Cartographic 或 Rectangle
+        // 可接收Rectangle 或 Cartographic, 不传则默认调用camera.flyHome
+        defaultResetView: Cesium.Cartographic.fromDegrees(
+            window.$config.defaultView[0],
+            window.$config.defaultView[1],
+            window.$config.defaultView[2],
+        ),
         enableCompass: true,    // 启用罗盘
         enableZoomControls: true,   // 启用缩放控件
         enableDistanceLegend: true, // 启用距离图例
