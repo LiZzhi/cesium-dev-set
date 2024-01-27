@@ -22,8 +22,8 @@ export default class groundSkyBox extends SkyBox{
         // 此方法只改了一个顶点着色器，主要是添加一个旋转矩阵，使近景时能看见天空盒
         // 顶点着色器有修改，主要是乘了一个旋转矩阵
         const SkyBoxVS = `
-            in vec3 position;
-            out vec3 v_texCoord;
+            attribute vec3 position;
+            varying vec3 v_texCoord;
             uniform mat3 u_rotateMatrix;
             void main(){
                 vec3 p = czm_viewRotation * u_rotateMatrix * (czm_temeToPseudoFixed * (czm_entireFrustum.y * position));
@@ -34,7 +34,7 @@ export default class groundSkyBox extends SkyBox{
         //片元着色器，直接从源码复制
         const SkyBoxFS =`
             uniform samplerCube u_cubeMap;
-            out vec3 v_texCoord;
+            varying vec3 v_texCoord;
             void main(){
                 vec4 color = textureCube(u_cubeMap, normalize(v_texCoord));
                 gl_FragColor = vec4(czm_gammaCorrect(color).rgb, czm_morphTime);
