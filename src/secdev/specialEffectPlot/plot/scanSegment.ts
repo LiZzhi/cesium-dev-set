@@ -79,7 +79,7 @@ export default class scanSegment {
             // 深度纹理
             uniform sampler2D depthTexture;
             // 纹理坐标
-            varying vec2 v_textureCoordinates;
+            out vec2 v_textureCoordinates;
             // 扫描中心
             uniform vec4 u_scanCenterEC;
             // 扫描平面法线EC

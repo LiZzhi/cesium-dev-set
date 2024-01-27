@@ -29,7 +29,7 @@ function fogSource(){
         uniform sampler2D depthTexture;
         uniform float visibility;
         uniform vec4 fogColor;
-        varying vec2 v_textureCoordinates;
+        out vec2 v_textureCoordinates;
         void main(){
             vec4 origcolor = texture2D(colorTexture, v_textureCoordinates);
             float depth = czm_readDepth(depthTexture, v_textureCoordinates);
