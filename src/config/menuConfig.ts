@@ -401,6 +401,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/WaterEffect.vue"),
             },
             {
+                label: "水面倒影",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/waterEffect.png"),
+                route: "waterInverted",
+                component: () => import("@/components/example/sceneEffect/WaterInverted.vue"),
+            },
+            {
                 label: "雨天特效",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/rainWeather.png"),
