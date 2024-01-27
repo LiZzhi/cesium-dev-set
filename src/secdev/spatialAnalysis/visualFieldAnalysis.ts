@@ -238,7 +238,7 @@ function getGLSL(){
         #define USE_CUBE_MAP_SHADOW true
         uniform sampler2D colorTexture;
         uniform sampler2D depthTexture;
-        varying vec2 v_textureCoordinates;
+        out vec2 v_textureCoordinates;
         uniform mat4 camera_projection_matrix;
         uniform mat4 camera_view_matrix;
         uniform samplerCube shadowMap_textureCube;

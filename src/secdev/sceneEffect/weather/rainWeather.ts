@@ -13,7 +13,7 @@ export default function rainWeather(viewer: Viewer){
 function rainSource(){
     return `
         uniform sampler2D colorTexture;
-        varying vec2 v_textureCoordinates;
+        out vec2 v_textureCoordinates;
         float hash(float x){
             return fract(sin(x*133.3)*13.13);
         }
