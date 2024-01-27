@@ -1,18 +1,16 @@
 import { Viewer } from "cesium";
 
 const viewerConfig: Viewer.ConstructorOptions = {
-    terrainProvider: await Cesium.createWorldTerrainAsync({
+    terrainProvider: Cesium.createWorldTerrain({
         requestWaterMask: true,
         requestVertexNormals: true,
     }),
-    baseLayer: Cesium.ImageryLayer.fromProviderAsync(
-        Cesium.ArcGisMapServerImageryProvider.fromBasemapType(
-            Cesium.ArcGisBaseMapType.SATELLITE
-        ), {}
-    ),
+    imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+        url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer',
+    }),
     animation: false, // 是否显示动画控件
     homeButton: false, // 是否显示home键
-    geocoder: false, // 是否显示地名查找控件
+    geocoder: false, // 是否显示地名查找控件        如果设置为true，则无法查询
     baseLayerPicker: false, // 是否显示图层选择控件
     timeline: false, // 是否显示时间线控件
     fullscreenButton: false, // 是否全屏显示
