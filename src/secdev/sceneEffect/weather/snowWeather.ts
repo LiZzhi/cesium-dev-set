@@ -13,7 +13,7 @@ export default function snowWeather(viewer: Viewer){
 function snowSource(){
     return `
         uniform sampler2D colorTexture;
-        out vec2 v_textureCoordinates;
+        varying vec2 v_textureCoordinates;
         float snow(vec2 uv,float scale){
             float time = czm_frameNumber / 60.0;
             float w=smoothstep(1.,0.,-uv.y*(scale/10.));if(w<.1)return 0.;

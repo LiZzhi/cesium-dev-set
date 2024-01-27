@@ -12,11 +12,11 @@ export default function gradientAppearance() {
 
 function vertexShaderSource() {
     return `
-        in vec3 position3DHigh;
-        in vec3 position3DLow;
-        in vec4 color;
-        out vec4 v_color;
-        in float batchId;
+        attribute vec3 position3DHigh;
+        attribute vec3 position3DLow;
+        attribute vec4 color;
+        varying vec4 v_color;
+        attribute float batchId;
         void main() {
             vec4 p = czm_computePosition();
             v_color =color;
@@ -29,7 +29,7 @@ function vertexShaderSource() {
 
 function fragmentShaderSource() {
     return `
-        out vec4 v_color;
+        varying vec4 v_color;
         void main() {
             float d = distance(gl_PointCoord, vec2(0.5,0.5));
             if(d < 0.5){
