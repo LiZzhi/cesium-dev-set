@@ -98,7 +98,7 @@ const data: originDataType[] = [
                 singleSymbol: "terrain",
                 data: {
                     type: "terrain",
-                    url: Cesium.IonResource.fromAssetId(1),
+                    url: Cesium.IonResource.fromAssetId(3956),
                 },
             },
             {

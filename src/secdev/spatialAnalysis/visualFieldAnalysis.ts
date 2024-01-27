@@ -79,13 +79,14 @@ export default class visualFieldAnalysis{
 
     #createShadowMap(viewer:Viewer, camera: Camera, options: visualFieldOptionsType): ShadowMap {
         const { show, distance, size, softShadows } = options;
-        // @ts-ignore
+
         return new Cesium.ShadowMap({
             // @ts-ignore
             context: viewer.scene.context,    // 此context并非 canvas.getContext，而是cesium封装的一个类
             lightCamera: camera,
             enabled: show,
             isPointLight: true,
+            // @ts-ignore
             pointLightRadius: distance, // 不知道为什么类型给的是boolean，但是实际上此处是半径
             cascadesEnabled: false,
             size: size,
@@ -238,7 +239,7 @@ function getGLSL(){
         #define USE_CUBE_MAP_SHADOW true
         uniform sampler2D colorTexture;
         uniform sampler2D depthTexture;
-        out vec2 v_textureCoordinates;
+        varying vec2 v_textureCoordinates;
         uniform mat4 camera_projection_matrix;
         uniform mat4 camera_view_matrix;
         uniform samplerCube shadowMap_textureCube;
