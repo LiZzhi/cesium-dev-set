@@ -79,14 +79,13 @@ export default class visualFieldAnalysis{
 
     #createShadowMap(viewer:Viewer, camera: Camera, options: visualFieldOptionsType): ShadowMap {
         const { show, distance, size, softShadows } = options;
-
+        // @ts-ignore
         return new Cesium.ShadowMap({
             // @ts-ignore
             context: viewer.scene.context,    // 此context并非 canvas.getContext，而是cesium封装的一个类
             lightCamera: camera,
             enabled: show,
             isPointLight: true,
-            // @ts-ignore
             pointLightRadius: distance, // 不知道为什么类型给的是boolean，但是实际上此处是半径
             cascadesEnabled: false,
             size: size,
