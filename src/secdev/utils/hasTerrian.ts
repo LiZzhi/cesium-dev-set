@@ -9,5 +9,10 @@
 import { Viewer } from "cesium";
 
 export default function(viewer:Viewer){
-    return !!viewer.terrainProvider?.availability;
+    let ready = viewer.terrainProvider?.ready;
+    if (ready) {
+        return viewer.terrainProvider?.availability;
+    } else {
+        return false;
+    }
 }

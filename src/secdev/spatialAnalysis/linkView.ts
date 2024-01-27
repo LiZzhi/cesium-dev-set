@@ -1,8 +1,8 @@
 /*
  * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-24 10:26:26
- * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-01-27 10:31:20
+ * @LastEditors: XingTao 362042734@qq.com
+ * @LastEditTime: 2023-08-24 11:29:08
  * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\linkView.ts
  * @Description: 二三维视图
  */
@@ -66,11 +66,9 @@ export default class linkView {
      */
     get defaultOptions2D(): Viewer.ConstructorOptions {
         return {
-            baseLayer: Cesium.ImageryLayer.fromProviderAsync(
-                Cesium.ArcGisMapServerImageryProvider.fromBasemapType(
-                    Cesium.ArcGisBaseMapType.SATELLITE
-                ), {}
-            ),
+            imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+                url:"https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer"
+            }),
             homeButton: false,
             fullscreenButton: false,
             sceneModePicker: false,
