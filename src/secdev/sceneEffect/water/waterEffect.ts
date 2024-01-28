@@ -2,6 +2,7 @@ import { Color, PolygonHierarchy } from "cesium";
 
 export type waterOptionType = {
     baseWaterColor?: Color,  // 水颜色
+    specularMap?: string; // 用于指示水域的单通道纹理
     normalMap?: string,   // 图像
     frequency?: number, // 波纹频率
     animationSpeed?: number,    // 波动速度
@@ -39,9 +40,7 @@ export default function waterEffect(hierarchy: PolygonHierarchy, options: waterO
 export function defaultOptions():waterOptionType {
     return {
         baseWaterColor: new Cesium.Color(0.117647, 0.564706, 1, 0.7),
-        // baseWaterColor: new Cesium.Color(0, 0.2941177, 0.2078431,0.7),
         normalMap: require("../../assets/img/waterEffect/waterNormals.jpg"),
-        // normalMap: require("../../assets/img/waterEffect/waterNormalsSmall.jpg"),
         frequency: 100,
         animationSpeed: 0.05,
         amplitude: 1,
