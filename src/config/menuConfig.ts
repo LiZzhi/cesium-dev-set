@@ -401,6 +401,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/WaterEffect.vue"),
             },
             {
+                label: "全球水体",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/worldWater.png"),
+                route: "worldWater",
+                component: () => import("@/components/example/sceneEffect/WorldWater.vue"),
+            },
+            {
                 label: "水面倒影",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/waterEffect.png"),
