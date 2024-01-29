@@ -407,13 +407,13 @@ const menu:menuConfigType[] = [
                 route: "worldWater",
                 component: () => import("@/components/example/sceneEffect/WorldWater.vue"),
             },
-            {
-                label: "水面倒影",
-                show: true,
-                img: require("@/assets/cover/sceneEffect/waterEffect.png"),
-                route: "waterInverted",
-                component: () => import("@/components/example/sceneEffect/WaterInverted.vue"),
-            },
+            // {
+            //     label: "水面倒影",
+            //     show: true,
+            //     img: require("@/assets/cover/sceneEffect/waterEffect.png"),
+            //     route: "waterInverted",
+            //     component: () => import("@/components/example/sceneEffect/WaterInverted.vue"),
+            // },
             {
                 label: "雨天特效",
                 show: true,

@@ -1,77 +1,109 @@
 import { Color, PolygonHierarchy } from "cesium";
 
-export type waterOptionType = {
-    baseWaterColor?: Color,  // 水颜色
-    normalMap?: string,   // 图像
-    frequency?: number, // 波纹频率
-    animationSpeed?: number,    // 波动速度
-    amplitude?: number, // 波动振幅
-    specularIntensity?: number, // 反射强度
-}
-
-
-export default function waterEffect(hierarchy: PolygonHierarchy, options: waterOptionType = {}){
+export default function waterEffect(
+    hierarchy: PolygonHierarchy,
+) {
     const polygon = new Cesium.PolygonGeometry({
         polygonHierarchy: hierarchy,
         perPositionHeight: true,
         vertexFormat: Cesium.EllipsoidSurfaceAppearance.VERTEX_FORMAT
     });
 
-    options = Object.assign(defaultOptions(), options)
+    let appearance = new Cesium.EllipsoidSurfaceAppearance({
+        material: new Cesium.Material({
+            fabric: {
+                type: "Water",
+                uniforms: {
+                    reflectivity: 0,
+                    color: new Cesium.Color(0.117647, 0.564706, 1, 0.7),
+                },
+            },
+        }),
+        vertexShaderSource: VS(),
+        fragmentShaderSource: FS(),
+        aboveGround: false,
+    });
 
     const primitive = new Cesium.GroundPrimitive({
         geometryInstances: new Cesium.GeometryInstance({
-            geometry: polygon
+            geometry: polygon,
         }),
-        appearance: new Cesium.EllipsoidSurfaceAppearance({
-            material: new Cesium.Material({
-                fabric: {
-                    type: 'Water',
-                    uniforms: { ...options, },
-                    source: getGLSL(),
-                }
-            }),
-            aboveGround: false,
-        }),
+        appearance: appearance,
+        classificationType: Cesium.ClassificationType.TERRAIN,
         show: true,
     });
-    return { primitive, options }
+    return { primitive };
 }
 
-function defaultOptions():waterOptionType {
-    return {
-        frequency: 10000.0,
-        animationSpeed: 0.01,
-        amplitude: 1.0,
-    }
-}
-
-function getGLSL(alpha = 0.85) {
-    return `
-        out vec3 v_positionMC;
-        out vec3 v_positionEC;
-        out vec2 v_st;
-        out vec4 fragColor;
+function VS() {
+    return /* glsl */ `
+        attribute vec3 position;
+        attribute vec2 st;
+        uniform mat4 u_modelViewMatrix;
+        uniform mat4 u_invWorldViewMatrix;
+        uniform int u_clampToGroud;
+        uniform vec3 u_camPos;
+        uniform vec3 u_scale;
+        varying vec3 vToEye;
+        varying vec2 vUv;
+        varying vec4 vCoord;
         void main() {
-            czm_materialInput materialInput;
-            vec3 normalEC = normalize(czm_normal3D * czm_geodeticSurfaceNormal(v_positionMC, vec3(0.0), vec3(1.0)));
-            #ifdef FACE_FORWARD
-            normalEC = faceforward(normalEC, vec3(0.0, 0.0, 1.0), -normalEC);
-            #endif
-            materialInput.s = v_st.s;
-            materialInput.st = v_st;
-            materialInput.str = vec3(v_st, 0.0);
-            materialInput.normalEC = normalEC;
-            materialInput.tangentToEyeMatrix = czm_eastNorthUpToEyeCoordinates(v_positionMC, materialInput.normalEC);
-            vec3 positionToEyeEC = -v_positionEC;
-            materialInput.positionToEyeEC = positionToEyeEC;
-            czm_material material = czm_getMaterial(materialInput);
-            #ifdef FLAT
-            fragColor = vec4(material.diffuse + material.emission, material.alpha);
-            #else
-            fragColor = czm_phong(normalize(positionToEyeEC), material, czm_lightDirectionEC);
-            fragColor.a=${alpha};
-            #endif
+            vec4 positionW = u_modelViewMatrix * vec4(position.xyz, 1.0);
+            vec4 eyep = czm_modelView * positionW;
+            gl_Position = czm_projection * eyep;
+            if (u_clampToGroud == 1) {
+                vToEye = (u_camPos - position.xyz) * u_scale;
+            } else {
+                vec4 pos = u_modelViewMatrix * vec4(position.xyz,1.0);
+                vToEye = vec3(u_invWorldViewMatrix*vec4(pos.xyz,0.0));
+                vCoord = gl_Position;
+            }
+            vUv = st;
         }
-    `
+    `;
+}
+
+function FS() {
+    return /* glsl */ `
+        uniform sampler2D tRefractionMap;
+        uniform sampler2D tNormalMap0;
+        uniform sampler2D tNormalMap1;
+        uniform sampler2D tFlowMap;
+        uniform vec3 color;
+        uniform float reflectivity;
+        uniform vec4 config;
+        varying vec4 vCoord;
+        varying vec2 vUv;
+        varying vec3 vToEye;
+
+        void main() {
+            float flowMapOffset0 = config.x;
+            float flowMapOffset1 = config.y;
+            float halfCycle = config.z;
+            float scale = config.w;
+            vec3 toEye = normalize( vToEye );
+            vec2 flow;
+            #ifdef USE_FLOWMAP
+                flow = texture2D( tFlowMap, vUv ).rg * 2.0 - 1.0;
+                flow = texture2D( tFlowMap, vUv ).rg;
+            #else
+                flow = flowDirection;
+            #endif
+            flow.x *= - 1.0;
+            vec4 normalColor0 = texture2D( tNormalMap0, ( vUv * scale ) + flow * flowMapOffset0 );
+            vec4 normalColor1 = texture2D( tNormalMap1, ( vUv * scale ) + flow * flowMapOffset1 );
+            float flowLerp = abs( halfCycle - flowMapOffset0 ) / halfCycle;
+            vec4 normalColor = mix( normalColor0, normalColor1, flowLerp );
+            vec3 normal = normalize( vec3( normalColor.r * 2.0 - 1.0, normalColor.b,  normalColor.g * 2.0 - 1.0 ) );
+            float theta = max( dot( toEye, normal ), 0.0 );
+            float reflectance = reflectivity + ( 1.0 - reflectivity ) * pow( ( 1.0 - theta ), 5.0 );
+            vec3 coord = vCoord.xyz / vCoord.w;
+            vec2 coord1 = gl_FragCoord.xy / czm_viewport.zw;
+            vec2 uv = coord1.xy + coord.z * normal.xz * 0.05;
+            vec4 reflectColor = texture2D( tReflectionMap, vec2( 1.0 - uv.x, uv.y ) );
+            vec4 refractColor = texture2D( tRefractionMap, uv );
+            gl_FragColor = vec4( color, 1.0 ) * mix( refractColor, reflectColor, reflectance );
+            gl_FragColor = refractColor;
+        }
+    `;
 }

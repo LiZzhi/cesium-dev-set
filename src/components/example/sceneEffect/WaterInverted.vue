@@ -11,30 +11,32 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import * as turf from "@turf/turf";
 import { GroundPrimitive } from "cesium";
 import waterInverted from "@/secdev/sceneEffect/water/waterInverted";
 
-const json = require("./assets/json/湖.json");
 let water: GroundPrimitive
+let ps = [
+    new Cesium.Cartesian3(-1715168, 4993418, 3567049),
+    new Cesium.Cartesian3(-1715625, 4993258, 3567055),
+    new Cesium.Cartesian3(-1715710, 4993546, 3566612),
+    new Cesium.Cartesian3(-1715245, 4993696, 3566619),
+]
 
 onMounted(() => {
-    const coords = processCoordinates(json);
-    const bbox = turf.bbox(turf.polygon(json.features[0].geometry.coordinates[0]));
-    const waterObj = waterInverted(new Cesium.PolygonHierarchy(coords));
+    const waterObj = waterInverted(new Cesium.PolygonHierarchy(ps));
     water = viewer.scene.primitives.add(waterObj.primitive);
-    viewer.camera.flyTo({
-        destination: Cesium.Rectangle.fromDegrees(...bbox),
-    });
+    加载3DTileset
+    viewer.flyTo(
+        viewer.scene.primitives.add(
+            new Cesium.Cesium3DTileset({
+                url: "http://earthsdk.com/v/last/Apps/assets/dayanta/tileset.json",
+            })
+        )
+    );
 });
 
 const setVisible = (visible: boolean) => {
     water.show = visible;
-}
-
-const processCoordinates = (json: any)=>{
-    const coords: number[] = json.features[0].geometry.coordinates.flat(3)
-    return Cesium.Cartesian3.fromDegreesArray(coords)
 }
 </script>
 
