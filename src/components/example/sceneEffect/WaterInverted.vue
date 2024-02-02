@@ -25,7 +25,7 @@ let ps = [
 onMounted(() => {
     const waterObj = waterInverted(new Cesium.PolygonHierarchy(ps));
     water = viewer.scene.primitives.add(waterObj.primitive);
-    加载3DTileset
+    // 加载3DTileset
     viewer.flyTo(
         viewer.scene.primitives.add(
             new Cesium.Cesium3DTileset({

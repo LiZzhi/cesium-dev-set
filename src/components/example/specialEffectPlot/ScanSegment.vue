@@ -1,13 +1,13 @@
 <template>
-    <CommPanel title="雷达扫描圈" class="scan-panel-box">
+    <CommPanel title="扩散圈" class="scan-panel-box">
         <div class="scan-panel">
             <div class="btn-group">
-                <CommButton @click="drawCircle('red')">红色扫描线</CommButton>
-                <CommButton @click="drawCircle('blue')">蓝色扫描线</CommButton>
+                <CommButton @click="drawCircle('red')">红色扩散线</CommButton>
+                <CommButton @click="drawCircle('blue')">蓝色扩散线</CommButton>
             </div>
             <div class="btn-group">
-                <CommButton @click="drawCircle('yellow')">黄色扫描线</CommButton>
-                <CommButton @click="drawCircle('green')">绿色扫描线</CommButton>
+                <CommButton @click="drawCircle('yellow')">黄色扩散线</CommButton>
+                <CommButton @click="drawCircle('green')">绿色扩散线</CommButton>
             </div>
             <div class="btn-group">
                 <CommButton @click="clear" class="clear">清空</CommButton>
@@ -18,19 +18,15 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { PostProcessStage, Color } from "cesium";
-import scanSegment from "@/secdev/specialEffectPlot/plot/scanSegment";
+import { Color } from "cesium";
+import diffusedAppearance from "@/secdev/specialEffectPlot/polygon/diffusedAppearance";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 
-let scan: scanSegment;
 let draw: drawShape;
 
-let segmentList:PostProcessStage[] = [];
+const collection = new Cesium.PrimitiveCollection();
 onMounted(() => {
-    // 开启深度
-    viewer.scene.globe.depthTestAgainstTerrain = true;
-
-    scan = new scanSegment(viewer);
+    viewer.scene.primitives.add(collection);
     draw = new drawShape(viewer);
 });
 
@@ -51,16 +47,25 @@ const drawCircle = (colorStr: string)=>{
             break;
     }
     draw.drawCircle((p, d)=>{
-        let segment = scan.create(p[0], d, color, 1000);
-        segmentList.push(segment);
+        let primitive = new Cesium.GroundPrimitive({
+			geometryInstances: new Cesium.GeometryInstance({
+				geometry: new Cesium.EllipseGeometry({
+					center: p[0],
+					semiMajorAxis: d,
+					semiMinorAxis: d,
+					vertexFormat: Cesium.VertexFormat.ALL
+				}),
+			}),
+			appearance: diffusedAppearance({
+                color
+            })
+		});
+        collection.add(primitive);
     })
 }
 
 const clear = ()=>{
-    segmentList.forEach(v=>{
-        scan.remove(v);
-    })
-    segmentList.length = 0;
+    collection.removeAll();
 }
 </script>
 
