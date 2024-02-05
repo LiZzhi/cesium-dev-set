@@ -2,7 +2,7 @@
  * @Author: XingTao 362042734@qq.com
  * @Date: 2023-08-28 10:20:04
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-12-29 09:59:25
+ * @LastEditTime: 2024-02-05 10:14:45
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawShape.ts
  * @Description: 矢量标绘
  */
@@ -90,6 +90,31 @@ export default class drawShape {
 
         this.#handler.setInputAction((e: any) => {
             // 右键点击提前结束
+            this.#drawEnd();
+        }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    }
+
+    drawMultiPoint(end: lineCallBackType) {
+        // 绘图前准备并获取屏幕事件句柄
+        this.#handler = this.#drawStart();
+        this.#messageBox.create("单击绘制点位，右击结束绘制");
+        this.#handler.setInputAction((e: any) => {
+            // 左键点击画折线
+            let position = this.#viewer.scene.pickPosition(e.position);
+
+            if (Cesium.defined(position)) {
+                // 添加节点
+                this.#addTemporaryPoint(position);
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+        this.#handler.setInputAction((e: any) => {
+            // 结束回调
+            if (this.#pointNodePosiArr.length) {
+                let position = this.#pointNodePosiArr.map(v => v.clone());
+                end(position);
+            }
+            // 结束绘图
             this.#drawEnd();
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
     }
