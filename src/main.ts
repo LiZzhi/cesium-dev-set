@@ -11,6 +11,8 @@ import CommDirectives from "@/directives";
 // element
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
+// 解决 el-table Resize 问题
+import "@/utils/resizeObserver";
 
 // sec-dev style
 import "@/secdev/assets/style"
