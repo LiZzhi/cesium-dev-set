@@ -575,6 +575,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/householdDivision/index.vue"),
             },
             {
+                label: "分层分户预览",
+                show: true,
+                img: require("@/assets/cover/other/householdPreview.png"),
+                route: "householdPreview",
+                component: () => import("@/components/example/other/HouseholdPreview.vue"),
+            },
+            {
                 label: "矢量拉伸白模",
                 show: true,
                 img: require("@/assets/cover/other/vectorWhiteModel2.png"),

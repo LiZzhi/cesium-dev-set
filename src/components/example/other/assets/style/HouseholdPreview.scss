@@ -1,0 +1,87 @@
+.household-panel-box {
+    position: absolute;
+    left: 2%;
+    top: 8%;
+    z-index: 1;
+    width: 300px;
+    .add-data-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .input-box {
+            position: relative;
+            display: flex;
+            width: 100%;
+            gap: 5px;
+            align-items: center;
+            .text-label {
+                font-size: 15px;
+                width: 80px;
+                color: #fff;
+                font-family: pht-bold;
+            }
+        }
+        .btn-box {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            .add-data-btn {
+                width: calc(50% - 5px);
+                :deep(.clear) {
+                    color: $warning-color;
+                }
+            }
+        }
+        .import-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .text-label {
+                font-size: 15px;
+                color: #fff;
+                font-family: pht-bold;
+            }
+            :deep(.household-upload) {
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-sizing: border-box;
+                border: 1px solid $dark-border-color;
+                border-radius: 4px;
+                padding: 8px 15px;
+                background-color: $dark-back-color;
+                .el-upload--text {
+                    position: relative;
+                    font-weight: 500;
+                    color: white;
+                    font-size: 13px;
+                }
+                .el-upload-list {
+                    display: none;
+                }
+                &:hover {
+                    background: $dark-gradient;
+                }
+            }
+        }
+    }
+}
+.detail-info-box {
+    position: absolute;
+    left: 2%;
+    top: 50%;
+    bottom: 8%;
+    z-index: 1;
+    width: 16%;
+    :deep(.detail-table) {
+        height: 100%;
+        overflow-y: auto;
+        .detail-label{
+            width: 80px;
+        }
+    }
+}
