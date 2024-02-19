@@ -61,13 +61,16 @@ const useHouseholdStore = defineStore("household", {
             }
             return infoArr;
         },
-        exportData(){
+        exportData(householdName: string){
             let data: Record<string, any>[] = [];
             this.dataMap.forEach((v, k) => {
                 data.push({
                     uid: k,
                     geom: v.geom,
-                    info: v.info
+                    info: {
+                        建筑名称: householdName,
+                        ...v.info
+                    }
                 })
             })
             return data;

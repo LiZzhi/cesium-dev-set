@@ -126,7 +126,7 @@ function addCloumn() {
 }
 
 function exportData() {
-    let data = householdStore.exportData();
+    let data = householdStore.exportData(householdName.value);
     let eleLink = document.createElement("a");
     eleLink.download = "data.json";
     eleLink.style.display = "none";
