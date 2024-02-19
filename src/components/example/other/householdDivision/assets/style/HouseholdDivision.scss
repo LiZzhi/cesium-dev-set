@@ -1,0 +1,49 @@
+.household-division-box {
+    position: absolute;
+    left: 2%;
+    top: 8%;
+    z-index: 1;
+    width: 500px;
+    .household-division-panel {
+        :deep(.el-steps) {
+            padding: 13px 8px;
+            background-color: transparent;
+            cursor: pointer;
+            .is-finish {
+                color: #67c23a;
+            }
+            .is-process {
+                color: #409eff;
+            }
+        }
+    }
+    .household-division-com {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .draw-bound-box, .division-box, .draw-height-box {
+            position: relative;
+            width: 100%;
+            display: flex;
+            gap: 5px;
+            .btn-item {
+                display: flex;
+                align-items: center;
+                .text-label {
+                    font-size: 15px;
+                    width: 80px;
+                    color: #fff;
+                    font-family: pht-bold;
+                }
+                .warning-label, :deep(.warning) {
+                    color: $warning-color;
+                }
+                .clear-label, :deep(.clear) {
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+}

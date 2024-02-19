@@ -568,6 +568,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/SplitLine.vue"),
             },
             {
+                label: "分层分户",
+                show: true,
+                img: require("@/assets/cover/other/householdDivision.png"),
+                route: "householdDivision",
+                component: () => import("@/components/example/other/householdDivision/index.vue"),
+            },
+            {
                 label: "矢量拉伸白模",
                 show: true,
                 img: require("@/assets/cover/other/vectorWhiteModel2.png"),

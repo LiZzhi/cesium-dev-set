@@ -1,0 +1,13 @@
+.btn-group {
+    position: absolute;
+    left: 2%;
+    top: 2%;
+    z-index: 1;
+    display: flex;
+    gap: 10px;
+    :deep(.top-btn){
+        font-family: YouSheBiaoTiHei;
+        letter-spacing: 1px;
+        font-size: 16px;
+    }
+}

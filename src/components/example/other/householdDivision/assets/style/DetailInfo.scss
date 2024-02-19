@@ -1,0 +1,15 @@
+.detail-info-box {
+    position: absolute;
+    left: 78%;
+    top: 50%;
+    bottom: 8%;
+    z-index: 1;
+    width: 16%;
+    :deep(.detail-table) {
+        height: 100%;
+        overflow-y: auto;
+        .detail-label{
+            width: 80px;
+        }
+    }
+}

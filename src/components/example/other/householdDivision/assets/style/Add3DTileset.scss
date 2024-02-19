@@ -1,0 +1,38 @@
+.add-data-box {
+    position: absolute;
+    left: 2%;
+    top: 8%;
+    z-index: 1;
+    width: 300px;
+    .add-data-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .input-box {
+            position: relative;
+            display: flex;
+            width: 100%;
+            gap: 5px;
+            align-items: center;
+            .text-label {
+                font-size: 15px;
+                width: 80px;
+                color: #fff;
+                font-family: pht-bold;
+            }
+        }
+        .btn-box {
+            position: relative;
+            display: flex;
+            gap: 10px;
+            .add-data-btn {
+                width: calc(50% - 5px);
+                :deep(.clear) {
+                    color: $warning-color;
+                }
+            }
+        }
+    }
+}
