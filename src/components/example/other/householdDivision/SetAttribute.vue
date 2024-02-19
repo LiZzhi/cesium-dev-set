@@ -15,6 +15,9 @@
                     <CommButton class="add-cloumn-btn" @click="exportData"
                         >导出</CommButton
                     >
+                    <CommButton class="add-cloumn-btn" @click="exportGeoJson"
+                        >导出geoJson</CommButton
+                    >
                 </div>
                 <el-table :data="tableData" border>
                     <el-table-column prop="uid" label="唯一ID" width="120">
@@ -127,6 +130,18 @@ function addCloumn() {
 
 function exportData() {
     let data = householdStore.exportData(householdName.value);
+    let eleLink = document.createElement("a");
+    eleLink.download = "data.json";
+    eleLink.style.display = "none";
+    let blob = new Blob([JSON.stringify(data, undefined, 4)], {
+        type: "text/json",
+    });
+    eleLink.href = URL.createObjectURL(blob);
+    eleLink.click();
+}
+
+function exportGeoJson() {
+    let data = householdStore.exportToJson(householdName.value);
     let eleLink = document.createElement("a");
     eleLink.download = "data.json";
     eleLink.style.display = "none";

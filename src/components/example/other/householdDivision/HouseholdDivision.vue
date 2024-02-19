@@ -72,6 +72,11 @@ import { Feature, MultiPolygon, Polygon } from "@turf/turf";
 import { Entity } from "cesium";
 import useHouseholdStore from "@/store/householdStore";
 
+type geometryMapType = {
+    coord: number[][][];
+    uids: string[];
+}
+
 const emits = defineEmits(["close"]);
 const householdStore = useHouseholdStore();
 const polygonDataSource = new Cesium.CustomDataSource();
@@ -218,9 +223,16 @@ function createPrimitive() {
         }
     }
     householdStore.clearDataMap();
+    let geometryMapList: geometryMapType[] = []
     coords.forEach((v, i) => {
+        let geometryMap: geometryMapType = {
+            coord: v,
+            uids: []
+        }
+        geometryMapList.push(geometryMap);
         hVal.forEach((h, j) => {
             let uid = uuid();
+            geometryMap.uids.push(uid);
             let cs = cartographicTool.toCartesian3S(v[0]);
             householdStore.setDataMap(uid, {
                 geom: {
@@ -259,6 +271,8 @@ function createPrimitive() {
             );
         });
     });
+    // 存coordinates,导出geojson时用
+    householdStore.setGeometryMap(geometryMapList);
 }
 
 onMounted(() => {
