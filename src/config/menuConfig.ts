@@ -104,6 +104,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/RadarScanLine.vue"),
             },
             {
+                label: "扇形扫描圈",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/sectorScan.png"),
+                route: "sectorScan",
+                component: () => import("@/components/example/specialEffectPlot/SectorScan.vue"),
+            },
+            {
                 label: "雷达扩散圈",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/scanSegment.png"),
