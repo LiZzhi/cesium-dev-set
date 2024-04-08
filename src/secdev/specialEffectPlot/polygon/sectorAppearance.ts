@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-04-08 10:02:09
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-04-08 10:41:24
+ * @LastEditTime: 2024-04-08 11:22:15
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\sectorAppearance.ts
  * @Description: 扇形扫描圈
  */
@@ -118,8 +118,8 @@ export default function(viewer: Viewer, option: Partial<sectorOptionType> = {}){
 
 function defaultOptions() {
     return {
-        color: Cesium.Color.fromCssColorString("rgb(0,255,50)"),
-        sectorColor: Cesium.Color.fromCssColorString("rgb(0,255,50)"),
+        color: new Cesium.Color(0.0, 0.7, 0.8),
+        sectorColor: new Cesium.Color(0.0, 0.7, 0.8),
         width: 0.002,
         radians: 0,
         offset: 0.2,
