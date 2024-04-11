@@ -6,7 +6,9 @@
                 <CommButton @click="drawCircle('blue')">蓝色扩散线</CommButton>
             </div>
             <div class="btn-group">
-                <CommButton @click="drawCircle('yellow')">黄色扩散线</CommButton>
+                <CommButton @click="drawCircle('yellow')"
+                    >黄色扩散线</CommButton
+                >
                 <CommButton @click="drawCircle('green')">绿色扩散线</CommButton>
             </div>
             <div class="btn-group">
@@ -30,7 +32,7 @@ onMounted(() => {
     draw = new drawShape(viewer);
 });
 
-const drawCircle = (colorStr: string)=>{
+const drawCircle = (colorStr: string) => {
     let color: Color;
     switch (colorStr) {
         case "yellow":
@@ -46,27 +48,28 @@ const drawCircle = (colorStr: string)=>{
             color = Cesium.Color.RED;
             break;
     }
-    draw.drawCircle((p, d)=>{
+    draw.drawCircle((p, d) => {
+        let { material } = diffusedAppearance(viewer, {
+            color,
+        });
         let primitive = new Cesium.GroundPrimitive({
-			geometryInstances: new Cesium.GeometryInstance({
-				geometry: new Cesium.EllipseGeometry({
-					center: p[0],
-					semiMajorAxis: d,
-					semiMinorAxis: d,
-					vertexFormat: Cesium.VertexFormat.ALL
-				}),
-			}),
-			appearance: diffusedAppearance({
-                color
-            })
-		});
+            geometryInstances: new Cesium.GeometryInstance({
+                geometry: new Cesium.EllipseGeometry({
+                    center: p[0],
+                    semiMajorAxis: d,
+                    semiMinorAxis: d,
+                    vertexFormat: Cesium.VertexFormat.ALL,
+                }),
+            }),
+            appearance: material,
+        });
         collection.add(primitive);
-    })
-}
+    });
+};
 
-const clear = ()=>{
+const clear = () => {
     collection.removeAll();
-}
+};
 </script>
 
 <style lang="scss" scoped>
