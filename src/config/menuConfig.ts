@@ -118,6 +118,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/ScanSegment.vue"),
             },
             {
+                label: "电弧特效",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/electricEllipsoid.png"),
+                route: "electricEllipsoid",
+                component: () => import("@/components/example/specialEffectPlot/ElectricEllipsoid.vue"),
+            },
+            {
                 label: "渐变填充",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/gradientPolygon.png"),
