@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-04-08 10:02:09
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-04-11 13:51:46
+ * @LastEditTime: 2024-04-08 11:22:15
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\sectorAppearance.ts
  * @Description: 扇形扫描圈
  */
@@ -84,7 +84,7 @@ export default function(viewer: Viewer, option: Partial<sectorOptionType> = {}){
 
                         // 扇区渐变色渲染
                         if (xy.y - xy.x < 0.0 && xy.x > 0.5 && xy.y > 0.5){
-                            material.alpha = e + 0.2;
+                            material.alpha = alpha + 0.2;
                             material.diffuse = sectorColor.rgb;
                         }
 
