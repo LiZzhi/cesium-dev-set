@@ -14,7 +14,6 @@ export type sectorOptionType = {
     color: Color;   // 背景
     sectorColor: Color; // 扇形颜色
     width: number;  // 扩散线宽度
-    radians: number;  // 扇形旋转角度
     offset: number; // 扩散颜色插值间隔
     speed: number; // 扩散速度
 }
@@ -32,7 +31,8 @@ export default function(viewer: Viewer, option: Partial<sectorOptionType> = {}){
         material: new Cesium.Material({
             fabric: {
                 uniforms: {
-                    ...o
+                    ...o,
+                    radians: 0,
                 },
                 source: `
                     uniform vec4 color;
