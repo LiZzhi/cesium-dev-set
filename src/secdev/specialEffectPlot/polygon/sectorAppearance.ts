@@ -16,6 +16,7 @@ export type sectorOptionType = {
     width: number;  // 扩散线宽度
     radians: number;  // 扇形旋转角度
     offset: number; // 扩散颜色插值间隔
+    speed: number; // 扩散速度
 }
 
 
@@ -100,7 +101,7 @@ export default function(viewer: Viewer, option: Partial<sectorOptionType> = {}){
     });
     const startTime = performance.now();
     function update() {
-        const elapsedTimeSeconds = (performance.now() - startTime) / 1000;
+        const elapsedTimeSeconds = (performance.now() - startTime) / 1000 * o.speed;
         m.material.uniforms = {
             ...o,
             radians: elapsedTimeSeconds,
@@ -123,5 +124,6 @@ function defaultOptions() {
         width: 0.002,
         radians: 0,
         offset: 0.2,
+        speed: 1.0,
     }
 }
