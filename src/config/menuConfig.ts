@@ -125,6 +125,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/ElectricEllipsoid.vue"),
             },
             {
+                label: "球体特效",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/flowEllipsoid.png"),
+                route: "flowEllipsoid",
+                component: () => import("@/components/example/specialEffectPlot/FlowEllipsoid.vue"),
+            },
+            {
                 label: "渐变填充",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/gradientPolygon.png"),
