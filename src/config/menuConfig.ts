@@ -97,6 +97,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/RegionLabel.vue"),
             },
             {
+                label: "棱柱体",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/boundingBox.png"),
+                route: "boundingBox",
+                component: () => import("@/components/example/specialEffectPlot/BoundingBox.vue"),
+            },
+            {
                 label: "雷达扫描线",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/radarScanLine.png"),
