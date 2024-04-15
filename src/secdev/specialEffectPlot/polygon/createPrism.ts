@@ -7,6 +7,7 @@
  * @Description: 创建棱柱
  */
 import { Cartesian3, Color, GeometryInstance } from "cesium";
+import deepClone from "@/utils/deepClone";
 
 export type prismOptionType = {
     lineColor: Color; // 线颜色
@@ -22,6 +23,12 @@ export default function (
     let o = defaultOptions();
     o = Object.assign(o, option);
     const collection = new Cesium.PrimitiveCollection();
+    ps = deepClone(ps);
+    let start = ps[0];
+    let end = ps[ps.length - 1];
+    if (start.x !== end.x || start.y !== end.y || start.z !== end.z) {
+        ps.push(ps[0]);
+    }
     let p1 = addPolygon(ps, height, extrudedHeight, o.backColor);
     let p2 = addLine(ps, height, extrudedHeight, o.lineColor);
     collection.add(p1);

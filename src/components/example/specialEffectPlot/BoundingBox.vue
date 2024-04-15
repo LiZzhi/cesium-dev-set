@@ -25,7 +25,6 @@ onMounted(() => {
 
 const drawPolygon = (height: number, extrudedHeight: number) => {
     draw.drawPolygon((ps) => {
-        ps.push(ps[0]);
         let c = createPrism(ps, height, extrudedHeight);
         collection.add(c);
     });
