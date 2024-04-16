@@ -2,27 +2,20 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-04-15 09:31:10
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-04-15 10:07:04
- * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\createPrism.ts
+ * @LastEditTime: 2024-04-16 11:17:57
+ * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\createGradualPrism.ts
  * @Description: 创建棱柱
  */
 import { Cartesian3, Color, GeometryInstance } from "cesium";
 import flowLineAppearance from "../lineMaterial/flowLineAppearance";
 import deepClone from "@/utils/deepClone";
 
-export type prismOptionType = {
-    lineColor: Color; // 线颜色
-    backColor: Color; // 柱面颜色
-};
-
 export default function (
     ps: Cartesian3[],
     height: number,
     extrudedHeight: number,
-    option: Partial<prismOptionType> = {}
+    color = Cesium.Color.RED
 ) {
-    let o = defaultOptions();
-    o = Object.assign(o, option);
     const collection = new Cesium.PrimitiveCollection();
     ps = deepClone(ps);
     let start = ps[0];
@@ -30,8 +23,8 @@ export default function (
     if (start.x !== end.x || start.y !== end.y || start.z !== end.z) {
         ps.push(ps[0]);
     }
-    let p1 = addPolygon(ps, height, extrudedHeight, o.backColor);
-    let p2 = addLine(ps, height, extrudedHeight, o.lineColor);
+    let p1 = addWall(ps, height, extrudedHeight, color);
+    let p2 = addLine(ps, height, extrudedHeight, color);
     collection.add(p1);
     collection.add(p2);
     return collection;
@@ -45,37 +38,29 @@ export default function (
  * @param {Color} color 颜色
  * @return {*}
  */
-function addPolygon(
+function addWall(
     ps: Cartesian3[],
     height: number,
     extrudedHeight: number,
     color: Color
 ) {
-    let primitive = new Cesium.Primitive({
-        geometryInstances: new Cesium.GeometryInstance({
-            geometry: new Cesium.PolygonGeometry({
-                polygonHierarchy: new Cesium.PolygonHierarchy(ps),
-                height: height,
-                extrudedHeight: extrudedHeight,
+    let instances: GeometryInstance[] = [];
+    for (let i = 1; i < ps.length; i++) {
+        let positions = [ps[i - 1], ps[i]];
+        let geomInstance = new Cesium.GeometryInstance({
+            geometry: new Cesium.WallGeometry({
+                positions: positions,
+                maximumHeights: positions.map((v) => extrudedHeight),
+                minimumHeights: positions.map((v) => height),
                 vertexFormat: Cesium.VertexFormat.ALL,
             }),
-        }),
-        appearance: new Cesium.MaterialAppearance({
-            material: new Cesium.Material({
-                fabric: {
-                    type: "Color",
-                    uniforms: {
-                        color: color,
-                    },
-                },
-            }),
-            flat: false,
-            faceForward: false,
-            translucent: true,
-            closed: false,
-        }),
+        });
+        instances.push(geomInstance);
+    }
+    let primitive = new Cesium.Primitive({
+        geometryInstances: instances,
+        appearance: wallAppearance(color),
     });
-
     return primitive;
 }
 
@@ -114,14 +99,34 @@ function addLine(
 
     let primitive = new Cesium.Primitive({
         geometryInstances: instances,
-        appearance: flowLineAppearance(color),
+        appearance: flowLineAppearance(color.withAlpha(0.5)),
     });
     return primitive;
 }
 
-function defaultOptions() {
-    return {
-        backColor: Cesium.Color.fromCssColorString("rgba(24, 65, 181, 0.5)"),
-        lineColor: new Cesium.Color(0, 1, 1),
-    };
+function wallAppearance(color: Color) {
+    let m = new Cesium.MaterialAppearance({
+        material: new Cesium.Material({
+            fabric: {
+                uniforms: {
+                    color: color,
+                },
+                source: `
+                    uniform vec4 color;
+
+                    czm_material czm_getMaterial(czm_materialInput materialInput){
+                        czm_material material = czm_getDefaultMaterial(materialInput);
+
+                        vec2 st = -1. + 2. * materialInput.st;
+                        float a = length(st + vec2(0., -0.25));
+
+                        material.diffuse = color.rgb * pow(a, 5.);
+                        material.alpha = a * .3;
+                        return material;
+                    }
+                `,
+            },
+        }),
+    });
+    return m;
 }
