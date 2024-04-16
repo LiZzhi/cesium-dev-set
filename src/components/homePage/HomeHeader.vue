@@ -33,7 +33,7 @@ const headerFunc = (label: string) => {
             window.open("/", "_blank")
             break;
         case "Cesium中文文档":
-            window.open("http://cesium.xin/cesium/cn/Documentation1.72/index.html", "_blank")
+            window.open("http://cesium.xin/cesium/cn/Documentation1.95/index.html", "_blank")
             break;
         case "检测WebGL":
             window.open("https://get.webgl.org/", "_blank")
