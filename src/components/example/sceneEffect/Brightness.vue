@@ -5,10 +5,6 @@
                 <span class="slider-label">亮度：</span>
                 <CommSlider v-model="light" :min="0.0" :max="5.0" :step="1.0"></CommSlider>
             </div>
-            <div class="btn-group">
-                <CommButton @click="setVisible(true)" class="comm-btn">显示</CommButton>
-                <CommButton @click="setVisible(false)" class="comm-btn" contentClass="clear">隐藏</CommButton>
-            </div>
         </div>
     </CommPanel>
 </template>

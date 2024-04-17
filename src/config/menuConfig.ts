@@ -651,6 +651,13 @@ const menu:menuConfigType[] = [
                 route: "sequentialPlay",
                 component: () => import("@/components/example/other/SequentialPlay.vue"),
             },
+            {
+                label: "影像调色",
+                show: true,
+                img: require("@/assets/cover/other/imageToning.png"),
+                route: "imageToning",
+                component: () => import("@/components/example/other/ImageToning.vue"),
+            },
         ],
     }
 ];
