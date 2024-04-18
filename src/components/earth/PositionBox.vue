@@ -16,7 +16,7 @@ const lat: Ref<"未知"|number> = ref("未知");
 let handler: ScreenSpaceEventHandler;
 onMounted(()=>{
     handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-    handler.setInputAction((movement)=>{
+    handler.setInputAction((movement: any)=>{
         let cartesian = viewer.camera.pickEllipsoid(movement.endPosition);
         if (cartesian) {
             let degrees = cartographicTool.formCartesian3(cartesian, false);
