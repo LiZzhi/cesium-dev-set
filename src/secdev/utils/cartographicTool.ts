@@ -2,11 +2,16 @@
  * @Author: “Lizhi” “362042734@qq.com”
  * @Date: 2023-08-28 21:30:32
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-12-26 20:40:51
+ * @LastEditTime: 2024-04-18 17:28:39
  * @FilePath: \cesium-secdev-set\src\secdev\utils\cartographicTool.ts
  * @Description: 角度制的cartographic工具
  */
 import { Cartesian3, Cartographic } from "cesium";
+
+export type degreesOptionType<T> = {
+    callBack: (c: number[]) => T; // 回调函数，用于修正返回值
+    z: boolean; // 是否带Z
+};
 
 export default class cartographicTool {
     /**
@@ -33,24 +38,25 @@ export default class cartographicTool {
     /**
      * @description: Cartesian3[]转经纬度(角度)
      * @param {Cartesian3[]} ps 笛卡尔坐标数组
-     * @param {*} callBack (可选)回调函数，用于修正返回值
-     * @param {boolean} z (可选)是否带Z,默认带
+     * @param {Partial<degreesOptionType<T>>} option (可选)回调函数，用于修正返回值
      * @return {any[]} 默认为[[经度, 纬度, 高]],回调函数修正后未知
      */
     static formCartesian3S<T = number[]>(
         ps: Cartesian3[],
-        callBack?: (c: number[]) => T,
-        z: boolean = true,
+        option: Partial<degreesOptionType<T>> = {}
     ) {
+        let o = Object.assign(
+            {
+                callBack: undefined,
+                z: true,
+            },
+            option
+        );
         let cs: T[] = [];
         ps.forEach((v) => {
-            let c = cartographicTool.formCartesian3(v, z);
-            if (typeof callBack === "function") {
-                cs.push(callBack(c));
-            } else {
-                // @ts-ignore
-                cs.push(c);
-            }
+            let c = cartographicTool.formCartesian3(v, o.z);
+            // @ts-ignore
+            cs.push(typeof o.callBack === "function" ? o.callBack(c) : c);
         });
         return cs;
     }

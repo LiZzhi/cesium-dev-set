@@ -75,7 +75,7 @@ import useHouseholdStore from "@/store/householdStore";
 type geometryMapType = {
     coord: number[][][];
     uids: string[];
-}
+};
 
 const emits = defineEmits(["close"]);
 const householdStore = useHouseholdStore();
@@ -99,11 +99,9 @@ let height: Ref<number[][]> = ref([]);
 function drawBound() {
     draw.drawPolygon((positions) => {
         clearBound();
-        bound.value = cartographicTool.formCartesian3S(
-            positions,
-            undefined,
-            false
-        );
+        bound.value = cartographicTool.formCartesian3S(positions, {
+            z: false,
+        });
         bound.value.push(bound.value[0]);
         let e = entityFactory.createPloygon(positions);
         polygonDataSource.entities.add(e);
@@ -120,11 +118,9 @@ function clearBound() {
 
 function drawDivision() {
     draw.drawPolyline((positions) => {
-        let line = cartographicTool.formCartesian3S(
-            positions,
-            undefined,
-            false
-        );
+        let line = cartographicTool.formCartesian3S(positions, {
+            z: false,
+        });
         lineString.value.push(line);
         let e = entityFactory.createPolyline(positions);
         polylineList.push(e);
@@ -217,18 +213,18 @@ function createPrimitive() {
         hVal = [[0, 10000]];
     } else {
         let hList = height.value.flat(Number.POSITIVE_INFINITY) as number[];
-        hList.sort((a,b) => a-b);
+        hList.sort((a, b) => a - b);
         for (let i = 1; i < hList.length; i++) {
             hVal.push([hList[i - 1], hList[i]]);
         }
     }
     householdStore.clearDataMap();
-    let geometryMapList: geometryMapType[] = []
+    let geometryMapList: geometryMapType[] = [];
     coords.forEach((v, i) => {
         let geometryMap: geometryMapType = {
             coord: v,
-            uids: []
-        }
+            uids: [],
+        };
         geometryMapList.push(geometryMap);
         hVal.forEach((h, j) => {
             let uid = uuid();
@@ -244,8 +240,8 @@ function createPrimitive() {
                     uid: uid,
                     单元: i + 1 + "单元",
                     楼层: j + 1 + "层",
-                }
-            })
+                },
+            });
             let g = new Cesium.PolygonGeometry({
                 polygonHierarchy: new Cesium.PolygonHierarchy(cs),
                 height: h[0],
