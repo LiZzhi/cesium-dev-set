@@ -1004,4 +1004,89 @@ export default class mathExtend {
         }
         return pnts;
     }
+
+    static straightArrowPositions(
+        pnts: number[][],
+        options = {
+            tailWidthFactor: 0.2,
+            neckWidthFactor: 0.25,
+            headWidthFactor: 0.3,
+            headAngle: Math.PI / 4,
+            neckAngle: Math.PI * 0.17741,
+        }
+    ) {
+        const pnt1 = pnts[0];
+        const pnt2 = pnts[1];
+        const len = mathExtend.computeDistance(pnt1, pnt2);
+        const tailWidth = len * options.tailWidthFactor;
+        const neckWidth = len * options.neckWidthFactor;
+        const headWidth = len * options.headWidthFactor;
+
+        const tailLeft = mathExtend.getThirdPoint(
+            pnt2,
+            pnt1,
+            Math.PI / 2,
+            tailWidth,
+            true
+        );
+        const tailRight = mathExtend.getThirdPoint(
+            pnt2,
+            pnt1,
+            Math.PI / 2,
+            tailWidth,
+            false
+        );
+        const headLeft = mathExtend.getThirdPoint(
+            pnt1,
+            pnt2,
+            options.headAngle,
+            headWidth,
+            false
+        );
+        const headRight = mathExtend.getThirdPoint(
+            pnt1,
+            pnt2,
+            options.headAngle,
+            headWidth,
+            true
+        );
+        const neckLeft = mathExtend.getThirdPoint(
+            pnt1,
+            pnt2,
+            options.neckAngle,
+            neckWidth,
+            false
+        );
+        const neckRight = mathExtend.getThirdPoint(
+            pnt1,
+            pnt2,
+            options.neckAngle,
+            neckWidth,
+            true
+        );
+
+        return [
+            tailLeft,
+            neckLeft,
+            headLeft,
+            pnt2,
+            headRight,
+            neckRight,
+            tailRight,
+        ];
+    }
+
+    static getThirdPoint(
+        startPnt: number[],
+        endPnt: number[],
+        angle: number,
+        distance: number,
+        clockWise: boolean
+    ): number[] {
+        const azimuth = mathExtend.getAzimuth(startPnt, endPnt);
+        const alpha = clockWise ? azimuth + angle : azimuth - angle;
+        const dx = distance * Math.cos(alpha);
+        const dy = distance * Math.sin(alpha);
+        return [endPnt[0] + dx, endPnt[1] + dy];
+    }
 }

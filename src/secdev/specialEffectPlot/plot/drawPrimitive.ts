@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-12-28 21:25:34
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-01-02 10:44:36
+ * @LastEditTime: 2024-04-19 14:33:05
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\plot\drawPrimitive.ts
  * @Description: 绘制primitive
  */
@@ -311,13 +311,10 @@ export default class drawPrimitive {
      */
     drawStagingArea(end: polygonCallBackType) {
         function computeShapePoints(positions: Cartesian3[]) {
-            let coords: number[][] = [];
+            let coords = cartographicTool.formCartesian3S(positions, {
+                z: false,
+            });
             let milStdPosition: number[] = [];
-            for (let i = 0; i < positions.length; ++i) {
-                coords.push(
-                    cartographicTool.formCartesian3(positions[i], false)
-                );
-            }
             let pb = mathExtend.lineType_3_0_0(coords);
             if (!pb) {
                 return false;
@@ -355,15 +352,11 @@ export default class drawPrimitive {
      */
     drawPincerArrow(end: polygonCallBackType) {
         function computeShapePoints(positions: Cartesian3[]) {
-            let tGeoAttr2D: number[][] = [];
+            let tGeoAttr2D = cartographicTool.formCartesian3S(positions, {
+                z: false,
+            });
             let milStdPosition: number[] = [];
             let arrowCoordinates: number[][] = [];
-            for (let i = 0; i < positions.length; ++i) {
-                tGeoAttr2D.push(
-                    cartographicTool.formCartesian3(positions[i], false)
-                );
-            }
-
             if (tGeoAttr2D.length === 2) {
                 let p3 = mathExtend.pointRotate(
                     tGeoAttr2D[1],
@@ -457,14 +450,12 @@ export default class drawPrimitive {
      */
     drawSingleArrow(end: polygonCallBackType) {
         function computeShapePoints(positions: Cartesian3[]) {
-            let coords: number[][] = [];
+            let coords = cartographicTool.formCartesian3S(positions, {
+                z: false,
+            });
             let milStdPosition: number[] = [];
-            for (let i = 0; i < positions.length; ++i) {
-                coords.push(
-                    cartographicTool.formCartesian3(positions[i], false)
-                );
-            }
-            let arrowCoordinates: number[][] = mathExtend.computeShapePoints(coords);
+            let arrowCoordinates: number[][] =
+                mathExtend.computeShapePoints(coords);
             arrowCoordinates.forEach((v) => {
                 milStdPosition.push(v[0]);
                 milStdPosition.push(v[1]);
@@ -486,6 +477,37 @@ export default class drawPrimitive {
             };
         }
         this.drawMilStd(computeShapePoints, end);
+    }
+
+    /**
+     * @description: 绘制直箭头
+     * @param {polygonCallBackType} end
+     * @return {*}
+     */
+    drawStraightArrow(end: polygonCallBackType) {
+        function computeShapePoints(positions: Cartesian3[]) {
+            let degrees = cartographicTool.formCartesian3S(positions, {
+                z: false,
+            });
+
+            let newDegrees = mathExtend.straightArrowPositions(degrees, {
+                tailWidthFactor: 0.15,
+                neckWidthFactor: 0.2,
+                headWidthFactor: 0.25,
+                headAngle: Math.PI / 8.5,
+                neckAngle: Math.PI / 13,
+            })
+
+            let ps = cartographicTool.toCartesian3S(newDegrees);
+            return {
+                mainLinePositions: ps,
+                wallPositions: ps,
+            }
+        };
+
+        this.drawMilStd(computeShapePoints, end, {
+            maxNode: 2,
+        });
     }
 
     /**

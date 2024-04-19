@@ -78,6 +78,10 @@ let emergencyList = ref([
                 label: "单箭头",
                 icon: require("./assets/img/emergency/单箭头.png"),
             },
+            {
+                label: "直箭头",
+                icon: require("./assets/img/emergency/细直箭头.png"),
+            },
         ],
     },
     {
@@ -221,6 +225,11 @@ const drawFunc = (type: string) => {
             break;
         case "单箭头":
             drawEmergency.drawSingleArrow((p) => {
+                viewer.scene.primitives.add(p);
+            });
+            break;
+        case "直箭头":
+            drawEmergency.drawStraightArrow((p) => {
                 viewer.scene.primitives.add(p);
             });
             break;
