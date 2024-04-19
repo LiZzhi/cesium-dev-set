@@ -702,12 +702,14 @@ export default class mathExtend {
         );
 
         // 右箭身曲线
-        let tRightBodyPts = mathExtend2.GenArrBody(
-            ctrlPointCount,
-            RightBodyPtsTemp,
-            RightBodyPtsLeftCtrlPts,
-            RightBodyPtsRightCtrlPts
-        ).reverse();
+        let tRightBodyPts = mathExtend2
+            .GenArrBody(
+                ctrlPointCount,
+                RightBodyPtsTemp,
+                RightBodyPtsLeftCtrlPts,
+                RightBodyPtsRightCtrlPts
+            )
+            .reverse();
 
         // 计算箭头点数组
         let tArrowHeadPts = mathExtend2.GenAtPts(
@@ -723,5 +725,283 @@ export default class mathExtend {
             ...tRightBodyPts,
         ];
         return arrowPoints2D;
+    }
+
+    static getBisectorNormals(
+        pnt1: number[],
+        pnt2: number[],
+        pnt3: number[],
+        interval: number
+    ) {
+        const normal = mathExtend.getNormal(pnt1, pnt2, pnt3);
+        const dist = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
+        const uX = normal[0] / dist;
+        const uY = normal[1] / dist;
+        const d1 = mathExtend.computeDistance(pnt1, pnt2);
+        const d2 = mathExtend.computeDistance(pnt2, pnt3);
+        let bisectorNormalRight, bisectorNormalLeft, dt, x, y;
+        if (dist > 0.0001) {
+            if (
+                (pnt3[1] - pnt1[1]) * (pnt2[0] - pnt1[0]) >
+                (pnt2[1] - pnt1[1]) * (pnt3[0] - pnt1[0])
+            ) {
+                dt = interval * d1;
+                x = pnt2[0] - dt * uY;
+                y = pnt2[1] + dt * uX;
+                bisectorNormalRight = [x, y];
+                dt = interval * d2;
+                x = pnt2[0] + dt * uY;
+                y = pnt2[1] - dt * uX;
+                bisectorNormalLeft = [x, y];
+            } else {
+                dt = interval * d1;
+                x = pnt2[0] + dt * uY;
+                y = pnt2[1] - dt * uX;
+                bisectorNormalRight = [x, y];
+                dt = interval * d2;
+                x = pnt2[0] - dt * uY;
+                y = pnt2[1] + dt * uX;
+                bisectorNormalLeft = [x, y];
+            }
+        } else {
+            x = pnt2[0] + interval * (pnt1[0] - pnt2[0]);
+            y = pnt2[1] + interval * (pnt1[1] - pnt2[1]);
+            bisectorNormalRight = [x, y];
+            x = pnt2[0] + interval * (pnt3[0] - pnt2[0]);
+            y = pnt2[1] + interval * (pnt3[1] - pnt2[1]);
+            bisectorNormalLeft = [x, y];
+        }
+        return [bisectorNormalRight, bisectorNormalLeft];
+    }
+
+    static getLeftMostControlPoint(
+        controlPoints: number[][],
+        interval: number
+    ): number[] {
+        const pnt1 = controlPoints[0];
+        const pnt2 = controlPoints[1];
+        const pnt3 = controlPoints[2];
+        const pnts = mathExtend.getBisectorNormals(pnt1, pnt2, pnt3, 0);
+        const normalRight = pnts[0];
+        const normal = mathExtend.getNormal(pnt1, pnt2, pnt3);
+        const dist = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
+        let controlX, controlY;
+        if (dist > 0.0001) {
+            const mid = mathExtend.mid(pnt1, pnt2);
+            const pX = pnt1[0] - mid[0];
+            const pY = pnt1[1] - mid[1];
+
+            const d1 = mathExtend.computeDistance(pnt1, pnt2);
+            // normal at midpoint
+            const n = 2.0 / d1;
+            const nX = -n * pY;
+            const nY = n * pX;
+
+            // upper triangle of symmetric transform matrix
+            const a11 = nX * nX - nY * nY;
+            const a12 = 2 * nX * nY;
+            const a22 = nY * nY - nX * nX;
+
+            const dX = normalRight[0] - mid[0];
+            const dY = normalRight[1] - mid[1];
+
+            // coordinates of reflected vector
+            controlX = mid[0] + a11 * dX + a12 * dY;
+            controlY = mid[1] + a12 * dX + a22 * dY;
+        } else {
+            controlX = pnt1[0] + interval * (pnt2[0] - pnt1[0]);
+            controlY = pnt1[1] + interval * (pnt2[1] - pnt1[1]);
+        }
+        return [controlX, controlY];
+    }
+
+    static getNormal(pnt1: number[], pnt2: number[], pnt3: number[]): number[] {
+        let dX1 = pnt1[0] - pnt2[0];
+        let dY1 = pnt1[1] - pnt2[1];
+        const d1 = Math.sqrt(dX1 * dX1 + dY1 * dY1);
+        dX1 /= d1;
+        dY1 /= d1;
+
+        let dX2 = pnt3[0] - pnt2[0];
+        let dY2 = pnt3[1] - pnt2[1];
+        const d2 = Math.sqrt(dX2 * dX2 + dY2 * dY2);
+        dX2 /= d2;
+        dY2 /= d2;
+
+        const uX = dX1 + dX2;
+        const uY = dY1 + dY2;
+        return [uX, uY];
+    }
+
+    static getRightMostControlPoint(
+        controlPoints: number[][],
+        interval: number
+    ): number[] {
+        const count = controlPoints.length;
+        const pnt1 = controlPoints[count - 3];
+        const pnt2 = controlPoints[count - 2];
+        const pnt3 = controlPoints[count - 1];
+        const pnts = mathExtend.getBisectorNormals(pnt1, pnt2, pnt3, 0);
+        const normalLeft = pnts[1];
+        const normal = mathExtend.getNormal(pnt1, pnt2, pnt3);
+        const dist = Math.sqrt(normal[0] * normal[0] + normal[1] * normal[1]);
+        let controlX, controlY;
+        if (dist > 0.0001) {
+            const mid = mathExtend.mid(pnt2, pnt3);
+            const pX = pnt3[0] - mid[0];
+            const pY = pnt3[1] - mid[1];
+
+            const d1 = mathExtend.computeDistance(pnt2, pnt3);
+            // normal at midpoint
+            const n = 2.0 / d1;
+            const nX = -n * pY;
+            const nY = n * pX;
+
+            // upper triangle of symmetric transform matrix
+            const a11 = nX * nX - nY * nY;
+            const a12 = 2 * nX * nY;
+            const a22 = nY * nY - nX * nX;
+
+            const dX = normalLeft[0] - mid[0];
+            const dY = normalLeft[1] - mid[1];
+
+            // coordinates of reflected vector
+            controlX = mid[0] + a11 * dX + a12 * dY;
+            controlY = mid[1] + a12 * dX + a22 * dY;
+        } else {
+            controlX = pnt3[0] + interval * (pnt2[0] - pnt3[0]);
+            controlY = pnt3[1] + interval * (pnt2[1] - pnt3[1]);
+        }
+        return [controlX, controlY];
+    }
+
+    static mid(pnt1: number[], pnt2: number[]): number[] {
+        return [(pnt1[0] + pnt2[0]) / 2, (pnt1[1] + pnt2[1]) / 2];
+    }
+
+    static getCubicValue(
+        cPnt1: number[],
+        cPnt2: number[],
+        startPnt: number[],
+        endPnt: number[],
+        interval: number
+    ): number[] {
+        interval = Math.max(Math.min(interval, 1), 0);
+        const tp = 1 - interval;
+        const t2 = interval * interval;
+        const t3 = t2 * interval;
+        const tp2 = tp * tp;
+        const tp3 = tp2 * tp;
+        const x =
+            tp3 * startPnt[0] +
+            3 * tp2 * interval * cPnt1[0] +
+            3 * tp * t2 * cPnt2[0] +
+            t3 * endPnt[0];
+        const y =
+            tp3 * startPnt[1] +
+            3 * tp2 * interval * cPnt1[1] +
+            3 * tp * t2 * cPnt2[1] +
+            t3 * endPnt[1];
+        return [x, y];
+    }
+
+    static getArcPositions(pnt1: number[], pnt2: number[], pnt3: number[]) {
+        const center = mathExtend.getCircleCenterOfThreePoints(
+            pnt1,
+            pnt2,
+            pnt3
+        );
+
+        const radius = mathExtend.computeDistance(pnt1, center);
+        const angle1 = mathExtend.getAzimuth(pnt1, center);
+        const angle2 = mathExtend.getAzimuth(pnt2, center);
+
+        let startAngle, endAngle;
+        if (
+            (pnt3[1] - pnt1[1]) * (pnt2[0] - pnt1[0]) >
+            (pnt2[1] - pnt1[1]) * (pnt3[0] - pnt1[0])
+        ) {
+            startAngle = angle2;
+            endAngle = angle1;
+        } else {
+            startAngle = angle1;
+            endAngle = angle2;
+        }
+
+        return mathExtend.getArcPoints(center, radius, startAngle, endAngle);
+    }
+
+    static getCircleCenterOfThreePoints(
+        pnt1: number[],
+        pnt2: number[],
+        pnt3: number[]
+    ): number[] {
+        const pntA = [(pnt1[0] + pnt2[0]) / 2, (pnt1[1] + pnt2[1]) / 2];
+        const pntB = [pntA[0] - pnt1[1] + pnt2[1], pntA[1] + pnt1[0] - pnt2[0]];
+        const pntC = [(pnt1[0] + pnt3[0]) / 2, (pnt1[1] + pnt3[1]) / 2];
+        const pntD = [pntC[0] - pnt1[1] + pnt3[1], pntC[1] + pnt1[0] - pnt3[0]];
+        return mathExtend.getIntersectPoint(pntA, pntB, pntC, pntD);
+    }
+
+    static getIntersectPoint(
+        pntA: number[],
+        pntB: number[],
+        pntC: number[],
+        pntD: number[]
+    ): number[] {
+        if (pntA[1] == pntB[1]) {
+            const f = (pntD[0] - pntC[0]) / (pntD[1] - pntC[1]);
+            const x = f * (pntA[1] - pntC[1]) + pntC[0];
+            const y = pntA[1];
+            return [x, y];
+        }
+        if (pntC[1] == pntD[1]) {
+            const e = (pntB[0] - pntA[0]) / (pntB[1] - pntA[1]);
+            const x = e * (pntC[1] - pntA[1]) + pntA[0];
+            const y = pntC[1];
+            return [x, y];
+        }
+        const e = (pntB[0] - pntA[0]) / (pntB[1] - pntA[1]);
+        const f = (pntD[0] - pntC[0]) / (pntD[1] - pntC[1]);
+        const y = (e * pntA[1] - pntA[0] - f * pntC[1] + pntC[0]) / (e - f);
+        const x = e * y - e * pntA[1] + pntA[0];
+        return [x, y];
+    }
+
+    static getAzimuth(startPnt: number[], endPnt: number[]): number {
+        let azimuth = 0;
+        const angle = Math.asin(
+            Math.abs(endPnt[1] - startPnt[1]) /
+                mathExtend.computeDistance(startPnt, endPnt)
+        );
+        if (endPnt[1] >= startPnt[1] && endPnt[0] >= startPnt[0])
+            azimuth = angle + Math.PI;
+        else if (endPnt[1] >= startPnt[1] && endPnt[0] < startPnt[0])
+            azimuth = Math.PI * 2 - angle;
+        else if (endPnt[1] < startPnt[1] && endPnt[0] < startPnt[0])
+            azimuth = angle;
+        else if (endPnt[1] < startPnt[1] && endPnt[0] >= startPnt[0])
+            azimuth = Math.PI - angle;
+        return azimuth;
+    }
+
+    static getArcPoints(
+        center: number[],
+        radius: number,
+        startAngle: number,
+        endAngle: number
+    ): number[][] {
+        let x,
+            y,
+            angleDiff = endAngle - startAngle;
+        angleDiff = angleDiff < 0 ? angleDiff + Math.PI * 2 : angleDiff;
+        const pnts: number[][] = [];
+        for (let i = 0; i <= 100; i++) {
+            const angle = startAngle + (angleDiff * i) / 100;
+            x = center[0] + radius * Math.cos(angle);
+            y = center[1] + radius * Math.sin(angle);
+            pnts.push([x, y]);
+        }
+        return pnts;
     }
 }

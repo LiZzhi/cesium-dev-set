@@ -7,15 +7,20 @@
             <div class="btn-group">
                 <CommButton @click="drawFunc('point')">画点</CommButton>
                 <CommButton @click="drawFunc('polyline')">画线</CommButton>
+                <CommButton @click="drawFunc('curve')">画曲线</CommButton>
+            </div>
+            <div class="btn-group">
+                <CommButton @click="drawFunc('arc')">画弧线</CommButton>
                 <CommButton @click="drawFunc('polygon')">画面</CommButton>
-            </div>
-            <div class="btn-group">
                 <CommButton @click="drawFunc('circle')">画圆</CommButton>
-                <CommButton @click="drawFunc('rectangle')">画矩形</CommButton>
-                <CommButton @click="revoke" contentClass="revoke">撤销</CommButton>
             </div>
             <div class="btn-group">
-                <CommButton @click="clear" class="clear">清空</CommButton>
+                <CommButton @click="drawFunc('free')">画自由线</CommButton>
+                <CommButton @click="drawFunc('rectangle')">画矩形</CommButton>
+            </div>
+            <div class="btn-group">
+                <CommButton @click="revoke" class="remove" contentClass="revoke">撤销</CommButton>
+                <CommButton @click="clear" class="remove" contentClass="clear">清空</CommButton>
             </div>
         </div>
     </CommPanel>
@@ -40,6 +45,27 @@ const drawFunc = (type: string)=>{
             break;
         case "polyline":
             draw.drawPolyline((positions: Cartesian3[]) => {
+                let e = entityFactory.createPolyline(positions)
+                viewer.entities.add(e);
+                entityList.push(e)
+            })
+            break;
+        case "arc":
+            draw.drawArc((positions: Cartesian3[], node: Cartesian3[]) => {
+                let e = entityFactory.createPolyline(positions)
+                viewer.entities.add(e);
+                entityList.push(e)
+            })
+            break;
+        case "curve":
+            draw.drawCurve((positions: Cartesian3[], node: Cartesian3[]) => {
+                let e = entityFactory.createPolyline(positions)
+                viewer.entities.add(e);
+                entityList.push(e)
+            })
+            break;
+        case "free":
+            draw.drawFreePolyline((positions: Cartesian3[]) => {
                 let e = entityFactory.createPolyline(positions)
                 viewer.entities.add(e);
                 entityList.push(e)

@@ -8,14 +8,13 @@
         :deep(.btn-group) {
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
             gap: 10px;
-            .revoke {
-                color: $warning-color;
-            }
-            .clear {
-                width: 100%;
-                .comm-button-content {
+            .remove {
+                width: calc(50% - 5px);
+                .revoke {
+                    color: $warning-color;
+                }
+                .clear {
                     color: $danger-color;
                 }
             }
