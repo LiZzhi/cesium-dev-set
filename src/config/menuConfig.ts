@@ -97,6 +97,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/GradientWall.vue"),
             },
             {
+                label: "动态遮罩",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/dynamicMaskPolygon.png"),
+                route: "dynamicMaskPolygon",
+                component: () => import("@/components/example/specialEffectPlot/DynamicMaskPolygon.vue"),
+            },
+            {
                 label: "区域标注",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/areaLabel.png"),
