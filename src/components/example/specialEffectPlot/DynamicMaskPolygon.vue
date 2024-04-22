@@ -1,9 +1,17 @@
 <template>
-    <CommPanel title="动态遮罩" class="gradient-panel-box">
-        <div class="gradient-panel">
+    <CommPanel title="动态遮罩" class="mask-panel-box">
+        <div class="mask-panel">
             <div class="btn-group">
-                <CommButton @click="drawPolygon">绘制</CommButton>
-                <CommButton @click="clear" contentClass="clear">清空</CommButton>
+                <CommButton @click="drawPolygon(1)">遮罩1</CommButton>
+                <CommButton @click="drawPolygon(2)">遮罩2</CommButton>
+            </div>
+            <div class="btn-group">
+                <CommButton
+                    @click="clear"
+                    class="clear"
+                    contentClass="clear-text"
+                    >清空</CommButton
+                >
             </div>
         </div>
     </CommPanel>
@@ -13,6 +21,8 @@
 import { onMounted } from "vue";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 import dynamicMaskAppearance from "@/secdev/specialEffectPlot/polygon/dynamicMaskAppearance";
+import dynamicMaskAppearance2 from "@/secdev/specialEffectPlot/polygon/dynamicMaskAppearance2";
+import { MaterialAppearance } from "cesium";
 
 let draw: drawShape;
 
@@ -22,23 +32,33 @@ onMounted(() => {
     draw = new drawShape(viewer);
 });
 
-
-const drawPolygon = ()=>{
-    let { material } = dynamicMaskAppearance(viewer);
-    draw.drawPolygon((ps)=>{
+const drawPolygon = (type: number) => {
+    let m: MaterialAppearance;
+    switch (type) {
+        case 1:
+            m = dynamicMaskAppearance(viewer).material;
+            break;
+        case 2:
+            m = dynamicMaskAppearance2(viewer).material;
+            break;
+        default:
+            return;
+            break;
+    }
+    draw.drawPolygon((ps) => {
         let p = new Cesium.GroundPrimitive({
             geometryInstances: new Cesium.GeometryInstance({
                 geometry: new Cesium.PolygonGeometry({
                     polygonHierarchy: new Cesium.PolygonHierarchy(ps),
-                    vertexFormat: Cesium.VertexFormat.ALL
-                })
+                    vertexFormat: Cesium.VertexFormat.ALL,
+                }),
             }),
-            appearance: material,
-        })
+            appearance: m,
+        });
 
         collection.add(p);
-    })
-}
+    });
+};
 
 const clear = () => {
     collection.removeAll();
@@ -46,5 +66,5 @@ const clear = () => {
 </script>
 
 <style lang="scss" scoped>
-@import "./assets/style/GradientPolygon.scss";
+@import "./assets/style/DynamicMaskPolygon.scss";
 </style>
