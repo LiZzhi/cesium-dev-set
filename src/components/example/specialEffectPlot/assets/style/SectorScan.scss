@@ -11,6 +11,7 @@
             position: relative;
             display: flex;
             justify-content: space-around;
+            gap: 5px;
             :deep(.clear) {
                 .comm-button-content{
                     color: $danger-color;

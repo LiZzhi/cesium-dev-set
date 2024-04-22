@@ -76,6 +76,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/DynamicWall.vue"),
             },
             {
+                label: "动态标记",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/dynamicMarking.png"),
+                route: "dynamicMarking",
+                component: () => import("@/components/example/specialEffectPlot/DynamicMarking.vue"),
+            },
+            {
                 label: "渐变墙体",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/gradientWall.png"),
