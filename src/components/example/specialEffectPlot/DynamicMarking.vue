@@ -25,7 +25,6 @@ onMounted(() => {
 
 const drawCircle = () => {
     draw.drawCircle((p, d) => {
-        createDynamicMarking
         let { dynamicMark } = createDynamicMarking(viewer, p[0], d);
         collection.add(dynamicMark);
     });
