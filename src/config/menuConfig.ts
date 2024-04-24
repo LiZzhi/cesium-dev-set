@@ -83,6 +83,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/DynamicMarking.vue"),
             },
             {
+                label: "静态标记",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/staticMarking.png"),
+                route: "staticMarking",
+                component: () => import("@/components/example/specialEffectPlot/StaticMarking.vue"),
+            },
+            {
                 label: "动态渐变圆",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/dynamicGradientCircle.png"),
