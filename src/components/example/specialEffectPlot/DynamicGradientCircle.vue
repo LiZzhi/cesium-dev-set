@@ -2,7 +2,8 @@
     <CommPanel title="动态渐变圆" class="sector-panel-box">
         <div class="sector-panel">
             <div class="btn-group">
-                <CommButton @click="drawCircle">绘制</CommButton>
+                <CommButton @click="drawCircle(true)">动态</CommButton>
+                <CommButton @click="drawCircle(false)">静态</CommButton>
                 <CommButton @click="clear" class="clear">清空</CommButton>
             </div>
         </div>
@@ -22,8 +23,10 @@ onMounted(() => {
     draw = new drawShape(viewer);
 });
 
-const drawCircle = () => {
-    let { material } = dynamicGradientCircleAppearance(viewer);
+const drawCircle = (isDynamic: boolean) => {
+    let { material } = dynamicGradientCircleAppearance(viewer, {
+        isDynamic,
+    });
     draw.drawCircle((p, d) => {
         let primitive = new Cesium.GroundPrimitive({
             geometryInstances: new Cesium.GeometryInstance({

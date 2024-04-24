@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-04-22 10:13:59
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-04-22 10:31:05
+ * @LastEditTime: 2024-04-24 11:04:32
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\dynamicGradientCircleAppearance.ts
  * @Description: 动态渐变圆材质
  */
@@ -14,6 +14,7 @@ export type dynamicGradientOptionType = {
     color1: Color; // 流动颜色1
     color2: Color; // 流动颜色2
     color3: Color; // 噪声颜色
+    isDynamic: boolean; // 是否动态
     innerRadius: number; // 内圈半径
     noiseScale: number; // 噪声规模
     speed: number;  // 速度
@@ -39,6 +40,7 @@ export default function(viewer: Viewer, option: Partial<dynamicGradientOptionTyp
                     uniform vec4 color1;
                     uniform vec4 color2;
                     uniform vec4 color3;
+                    uniform bool isDynamic;
                     uniform float innerRadius;
                     uniform float noiseScale;
                     uniform float time;
@@ -108,7 +110,7 @@ export default function(viewer: Viewer, option: Partial<dynamicGradientOptionTyp
 
                         // ring
                         n0 = snoise3( vec3(uv * noiseScale, time * 0.5) ) * 0.5 + 0.5;
-                        r0 = mix(mix(innerRadius, 1.0, 0.4), mix(innerRadius, 1.0, 0.6), n0);
+                        r0 = mix(mix(innerRadius, 1.0, 0.4), mix(innerRadius, 1.0, 0.6), isDynamic ? n0 : 0.5);
                         d0 = distance(uv, r0 / len * uv);
                         v0 = light1(1.0, 10.0, d0);
                         v0 *= smoothstep(r0 * 1.05, r0, len);
@@ -186,6 +188,7 @@ function defaultOptions() {
         color3: new Cesium.Color(0.062745, 0.078431, 0.600000),
         innerRadius: 0.6,
         noiseScale: 0.65,
+        isDynamic: true,
         speed: 1.0,
     }
 }
