@@ -101,7 +101,7 @@ module.exports = defineConfig({
                     type: "javascript/auto"
                 },
                 {
-                    test: /\.(txt)(\?.*)?$/,
+                    test: /\.(txt|nc|frag|vert)(\?.*)?$/,
                     loader: "url-loader",
                     include: /src/,
                     options: {

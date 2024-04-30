@@ -1,0 +1,36 @@
+.wind3d-panel-box {
+    left: 2%;
+    top: 8%;
+    width: 250px;
+    .wind3d-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        .wind3d-slider {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            .slider-label {
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            :deep(.comm-btn) {
+                width: 50%;
+                .clear {
+                    color: $danger-color;
+                }
+            }
+        }
+    }
+}

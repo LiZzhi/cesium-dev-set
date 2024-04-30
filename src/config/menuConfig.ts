@@ -457,6 +457,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/FountainParticle.vue"),
             },
             {
+                label: "风场特效",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/wind3D.png"),
+                route: "wind3D",
+                component: () => import("@/components/example/sceneEffect/Wind3D.vue"),
+            },
+            {
                 label: "水体特效",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/waterEffect.png"),
