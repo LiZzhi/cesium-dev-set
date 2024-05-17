@@ -69,6 +69,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/FlightLine.vue"),
             },
             {
+                label: "单个云层",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/singleCloud.png"),
+                route: "singleCloud",
+                component: () => import("@/components/example/specialEffectPlot/SingleCloud.vue"),
+            },
+            {
                 label: "动态墙体",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/dynamicWall.png"),
