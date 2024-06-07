@@ -117,7 +117,7 @@ export default class pathRoaming {
 
     /**
      * 开始漫游
-     * @param { Cartographic[] } ps 漫游路径
+     * @param { Cartographic[] } ps 漫游路径(角度)
      * @param { viewType } viewType (可选)漫游视角,默认为 viewType.TPP
      */
     startRoaming(
@@ -193,7 +193,7 @@ export default class pathRoaming {
 
     /**
      * 构建 CZML
-     * @param { Cartographic[] } ps 漫游路径
+     * @param { Cartographic[] } ps 漫游路径(角度)
      * @param { roamingType } roamingType (可选), 1:"行人漫游", (默认)2:"车辆漫游", 3:"飞行漫游"
      */
     #buildCZML(ps: Cartographic[], roamingType: roamingEnum = roamingEnum.CAR_ROAM): boolean {
