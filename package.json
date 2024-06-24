@@ -24,7 +24,8 @@
     "satellite.js": "^5.0.0",
     "video.js": "^8.5.2",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "wind-core": "^1.1.8"
   },
   "devDependencies": {
     "@types/latlon-geohash": "^2.0.0",

@@ -471,6 +471,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/Wind3D.vue"),
             },
             {
+                label: "风场特效2",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/wind3D2.png"),
+                route: "wind3D2",
+                component: () => import("@/components/example/sceneEffect/Wind3D2.vue"),
+            },
+            {
                 label: "水体特效",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/waterEffect.png"),
