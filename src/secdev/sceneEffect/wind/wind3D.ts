@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-04-29 09:07:47
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-04-30 09:47:02
+ * @LastEditTime: 2024-06-21 10:30:04
  * @FilePath: \cesium-secdev-set\src\secdev\sceneEffect\wind\wind3D.ts
  * @Description: 风场特效
  */
@@ -129,8 +129,6 @@ export default class wind3D {
                 this.#option[key] = option[key];
             }
         }
-        console.log(this.particleSystem);
-        console.log(this.getOption());
         if (this.particleSystem) {
             this.particleSystem.applyUserInput(this.getOption());
         }
@@ -306,7 +304,6 @@ class NCDataProcess {
 
     init(nc: any) {
         const NetCDF = new NetCDFReader(nc);
-
         const dimensions = this.arrayToMap(NetCDF.dimensions);
         let dimensionsData = {
             lon: dimensions["lon"].size,
