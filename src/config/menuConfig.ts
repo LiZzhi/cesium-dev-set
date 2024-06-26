@@ -104,6 +104,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/DynamicGradientCircle.vue"),
             },
             {
+                label: "光晕扩散圆",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/haloCircle.png"),
+                route: "haloCircle",
+                component: () => import("@/components/example/specialEffectPlot/HaloCircle.vue"),
+            },
+            {
                 label: "渐变墙体",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/gradientWall.png"),
