@@ -1,5 +1,5 @@
 <template>
-    <CommPanel title="光晕扩散圆" class="sector-panel-box">
+    <CommPanel title="光晕扩散球" class="sector-panel-box">
         <div class="sector-panel">
             <div class="btn-group">
                 <CommButton @click="drawCircle">绘制</CommButton>
@@ -25,14 +25,24 @@ onMounted(() => {
 const drawCircle = () => {
     let { material } = haloAppearance(viewer);
     draw.drawCircle((p, d) => {
-        let primitive = new Cesium.GroundPrimitive({
+        // let primitive = new Cesium.GroundPrimitive({
+        //     geometryInstances: new Cesium.GeometryInstance({
+        //         geometry: new Cesium.EllipseGeometry({
+        //             center: p[0],
+        //             semiMajorAxis: d,
+        //             semiMinorAxis: d,
+        //             vertexFormat: Cesium.VertexFormat.ALL,
+        //         }),
+        //     }),
+        //     appearance: material,
+        // });
+        let primitive = new Cesium.Primitive({
             geometryInstances: new Cesium.GeometryInstance({
-                geometry: new Cesium.EllipseGeometry({
-                    center: p[0],
-                    semiMajorAxis: d,
-                    semiMinorAxis: d,
-                    vertexFormat: Cesium.VertexFormat.ALL,
+                geometry: new Cesium.EllipsoidGeometry({
+                    radii: new Cesium.Cartesian3(d, d, d),
+                    maximumCone: Cesium.Math.PI_OVER_TWO,
                 }),
+                modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(p[0]),
             }),
             appearance: material,
         });

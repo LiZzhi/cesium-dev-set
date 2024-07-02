@@ -4,7 +4,7 @@
  * @LastEditors: Xingtao 362042734@qq.com
  * @LastEditTime: 2024-06-26 14:34:31
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\haloAppearance.ts
- * @Description: 光晕扩散圆材质
+ * @Description: 光晕扩散球体材质
  */
 
 import { Color, Viewer } from "cesium";
@@ -44,7 +44,10 @@ export default function(viewer: Viewer, option: Partial<haloOptionType> = {}){
                     uniform vec4 outColor;
 
                     vec4 drawCircle(vec2 pos, vec3 color) {
-                        float dist1 = length(pos);
+                        // 平面圆扩散可用
+                        // float dist1 = length(pos);
+                        // 半球扩散可用
+                        float dist1 = -pos.y;
                         dist1 = fract((dist1 * 5.0) - fract(time));
                         float dist2 = dist1 - radius;
                         float intensity = pow(radius / abs(dist2), width);
