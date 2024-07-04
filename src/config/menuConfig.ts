@@ -62,6 +62,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/EffectLine.vue"),
             },
             {
+                label: "穿梭道路",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/streamLine.png"),
+                route: "streamLine",
+                component: () => import("@/components/example/specialEffectPlot/StreamLine.vue"),
+            },
+            {
                 label: "飞线",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/flightLine.png"),
