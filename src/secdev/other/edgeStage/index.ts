@@ -2,13 +2,13 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-07-11 19:15:16
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-07-12 10:58:50
+ * @LastEditTime: 2024-07-12 15:19:38
  * @FilePath: \cesium-secdev-set\src\secdev\other\edgeStage\index.ts
  * @Description: 3D描边(优化版) 参考：https://zhuanlan.zhihu.com/p/407871786
  */
 import { Color, Viewer, PostProcessStageComposite } from "cesium";
-import CesiumRenderPass from "./CesiumRenderPass";
-import createBlurStage from "./createBlurStage";
+import CesiumRenderPass from "../cesiumRenderPass/CesiumRenderPass";
+import createBlurStage from "../cesiumRenderPass/createBlurStage";
 
 export type EdgeStageOptionType = {
     edgeOnly: boolean; // 清空画布，只保留选中的实体(谨慎开启)
