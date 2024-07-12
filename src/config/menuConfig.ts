@@ -694,6 +694,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/ModelHighlight.vue"),
             },
             {
+                label: "3D描边",
+                show: true,
+                img: require("@/assets/cover/other/edgeStage.png"),
+                route: "edgeStage",
+                component: () => import("@/components/example/other/EdgeStage.vue"),
+            },
+            {
                 label: "模型部分可见",
                 show: true,
                 img: require("@/assets/cover/other/modelPartlyVisible.png"),

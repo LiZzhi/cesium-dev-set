@@ -1,0 +1,10 @@
+.edge-panel-box {
+    left: 2%;
+    top: 8%;
+    .edge-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+}
