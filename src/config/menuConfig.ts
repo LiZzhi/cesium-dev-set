@@ -188,6 +188,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/ElectricEllipsoid.vue"),
             },
             {
+                label: "电光特效",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/electricLightEllipsoid.png"),
+                route: "electricLightEllipsoid",
+                component: () => import("@/components/example/specialEffectPlot/ElectricLightEllipsoid.vue"),
+            },
+            {
                 label: "球体特效",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/flowEllipsoid.png"),
