@@ -181,6 +181,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/ScanSegment.vue"),
             },
             {
+                label: "双向扩散圈",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/bidirectDiffuseCircle.png"),
+                route: "bidirectDiffuseCircle",
+                component: () => import("@/components/example/specialEffectPlot/BidirectDiffuseCircle.vue"),
+            },
+            {
                 label: "电弧特效",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/electricEllipsoid.png"),
