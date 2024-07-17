@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-07-16 16:30:01
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-07-16 17:01:21
+ * @LastEditTime: 2024-07-17 14:29:56
  * @FilePath: \cesium-secdev-set\src\secdev\specialEffectPlot\polygon\dynamicScanAppearance.ts
  * @Description: 动态扫描圈材质
  */
@@ -86,7 +86,7 @@ export default function (viewer: Viewer, option: Partial<dynamicScanOptionType> 
                         d = normalize(d);
                         float theta = 180.0*(atan(d.y,d.x)/M_PI);
                         return smoothstep(2.0, 2.1, abs(mod(theta+2.0,45.0)-2.0)) *
-                            mix( 0.5, 1.0, step(45.0, abs(mod(theta, 180.0)-90.0)) ) *
+                            mix( 0.5, 1.0, step(45.0, abs(mod(theta, 36.0)-90.0)) ) *
                             (SMOOTH(r-width/2.0,radius)-SMOOTH(r+width/2.0,radius));
                     }
 
@@ -132,7 +132,7 @@ export default function (viewer: Viewer, option: Partial<dynamicScanOptionType> 
                         finalColor += circle_result_2;
                         alpha += circle_result_2;
                         // 最外圈
-                        float circle3_result = circle3(uv, c, 320.0, 8.0);
+                        float circle3_result = circle3(uv, c, 320.0, 10.0);
                         finalColor += circle3_result * blue1;
                         alpha += circle3_result;
                         // 三角
