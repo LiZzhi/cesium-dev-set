@@ -715,6 +715,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/ModelHighlight.vue"),
             },
             {
+                label: "渐变模型效果",
+                show: true,
+                img: require("@/assets/cover/other/lightShadowModel.png"),
+                route: "lightShadowModel",
+                component: () => import("@/components/example/other/LightShadowModel.vue"),
+            },
+            {
                 label: "3D描边",
                 show: true,
                 img: require("@/assets/cover/other/edgeStage.png"),
