@@ -18,6 +18,7 @@
 import { ImageryLayer } from "cesium";
 
 let layer: ImageryLayer|undefined;
+// http://www.weather.com.cn/radar/ 云图来源
 const cloudList = [
     {
         label: "202311290859",
