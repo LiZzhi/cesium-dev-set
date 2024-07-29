@@ -659,6 +659,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/DataTree.vue"),
             },
             {
+                label: "MVT矢量瓦片",
+                show: true,
+                img: require("@/assets/cover/other/mvtLayer.png"),
+                route: "mvtLayer",
+                component: () => import("@/components/example/other/MvtLayer.vue"),
+            },
+            {
                 label: "卫星云图",
                 show: true,
                 img: require("@/assets/cover/other/cloudMap.png"),

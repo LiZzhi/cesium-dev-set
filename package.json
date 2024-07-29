@@ -18,6 +18,7 @@
     "echarts-liquidfill": "^3.1.0",
     "element-plus": "^2.3.8",
     "latlon-geohash": "^2.0.0",
+    "mvt-imagery-provider": "^1.0.3",
     "netcdfjs": "^3.0.0",
     "ol": "^8.1.0",
     "pinia": "^2.1.6",
