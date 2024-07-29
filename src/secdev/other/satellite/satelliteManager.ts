@@ -1,3 +1,14 @@
+/*
+ * @Author: Xingtao 362042734@qq.com
+ * @Date: 2024-07-29 10:35:30
+ * @LastEditors: Xingtao 362042734@qq.com
+ * @LastEditTime: 2024-07-29 11:21:41
+ * @FilePath: \cesium-secdev-set\src\secdev\other\satellite\satelliteManager.ts
+ * @Description: 卫星推演工具。
+ *               目前存在的问题：
+ *                  1.Cesium画线使用GEODESIC会一直更改路径，使用RHUMB跨越半球会出现大幅度弯曲(更换经纬线)。
+ *                  2.未实装四棱锥
+ */
 import { CustomDataSource, EntityCollection, Viewer } from "cesium";
 import satelliteEntity from "./satelliteEntity";
 import satelliteComponents from "./satelliteComponents";

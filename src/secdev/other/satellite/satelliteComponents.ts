@@ -30,7 +30,7 @@ class satComponets {
     }
 
     /**
-     * 卫星三维模型
+     * 卫星轨道
      *
      */
     static get Orbit() {

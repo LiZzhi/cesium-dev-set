@@ -1,4 +1,4 @@
-import { Entity, Viewer, Matrix4, Cartesian3, JulianDate } from "cesium";
+import { Entity, Viewer, Matrix4, Cartesian3, JulianDate, CallbackProperty } from "cesium";
 import satelliteProperties from "./satelliteProperties";
 import satelliteComponents from "./satelliteComponents";
 
@@ -13,7 +13,7 @@ export default class satelliteEntityWrapper {
     squareCone: Entity;
     groundTrack: Entity;
     props: satelliteProperties;
-
+    nowPositions: CallbackProperty;
     entities: { [propName: string]: { entity: Entity; show: boolean } };
     constructor(viewer: Viewer, props: satelliteProperties) {
         this.#viewer = viewer;
@@ -48,6 +48,8 @@ export default class satelliteEntityWrapper {
                 show: false,
             },
         };
+
+        this.nowPositions = new Cesium.CallbackProperty(()=>{}, true);
     }
 
     /**
@@ -55,6 +57,9 @@ export default class satelliteEntityWrapper {
      * @return {*}
      */
     createSatEntity() {
+        this.nowPositions = new Cesium.CallbackProperty((time)=>{
+            return this.#calculateNowPosition(time);
+        }, false);
         this.#createPoint();
         this.#createModel();
         this.#createImage();
@@ -145,17 +150,17 @@ export default class satelliteEntityWrapper {
     #createCone() {
         this.cone.position = this.props.conSampledPosition;
         this.cone.orientation = new Cesium.CallbackProperty((time) => {
-            return this.#calculateOrientation(time!);
+            return this.#calculateOrientation(time);
         }, false);
         const startTime = this.#viewer.clock.currentTime;
         let positions = this.#calculateNowPosition(startTime);
         let xDis = Cesium.Cartesian3.distance(positions[0], positions[1]);
-        let yDis = Cesium.Cartesian3.distance(positions[1], positions[2]);
+        // let yDis = Cesium.Cartesian3.distance(positions[1], positions[2]);
         let height: number;
         this.cone.cylinder = new Cesium.CylinderGraphics({
             length: new Cesium.CallbackProperty((time) => {
                 let s = this.props.sampledPosition;
-                let c3 = s.getValue(time!);
+                let c3 = s.getValue(time);
                 height = Cesium.Cartographic.fromCartesian(c3!).height;
                 return height;
             }, false),
@@ -173,8 +178,8 @@ export default class satelliteEntityWrapper {
                 Cesium.Color.ORANGE
             ),
             positions: new Cesium.CallbackProperty((time) => {
-                let position =this.props.position(time!);
-                let nowPositions = this.#calculateNowPosition(time!);
+                let position =this.props.position(time);
+                let nowPositions = this.nowPositions.getValue(time);
                 return [
                     position,
                     nowPositions[2],
@@ -189,8 +194,8 @@ export default class satelliteEntityWrapper {
                 Cesium.Color.ORANGE.withAlpha(0.3)
             ),
             hierarchy: new Cesium.CallbackProperty((time) => {
-                let position =this.props.position(time!);
-                let nowPositions = this.#calculateNowPosition(time!);
+                let position =this.props.position(time);
+                let nowPositions = this.nowPositions.getValue(time);
                 return new Cesium.PolygonHierarchy([
                     position,
                     nowPositions[2],
@@ -207,7 +212,7 @@ export default class satelliteEntityWrapper {
         this.groundTrack.polyline = new Cesium.PolylineGraphics({
             material: Cesium.Color.RED,
             positions: new Cesium.CallbackProperty((time) => {
-                let nowPositions = this.#calculateNowPosition(time!);
+                let nowPositions = this.nowPositions.getValue(time);
                 return [
                     positions[0],
                     positions[3],
@@ -218,11 +223,13 @@ export default class satelliteEntityWrapper {
             }, false),
             clampToGround: true,
             width: 2,
+            arcType: Cesium.ArcType.RHUMB,
         });
         this.groundTrack.polygon = new Cesium.PolygonGraphics({
             material: Cesium.Color.RED.withAlpha(0.2),
+            arcType: Cesium.ArcType.RHUMB,
             hierarchy: new Cesium.CallbackProperty((time) => {
-                let nowPositions = this.#calculateNowPosition(time!);
+                let nowPositions = this.nowPositions.getValue(time);
                 return new Cesium.PolygonHierarchy([
                     positions[0],
                     positions[3],
