@@ -763,6 +763,13 @@ const menu:menuConfigType[] = [
                 route: "imageToning",
                 component: () => import("@/components/example/other/ImageToning.vue"),
             },
+            {
+                label: "立体效果",
+                show: true,
+                img: require("@/assets/cover/other/stereoeffect.png"),
+                route: "stereoeffect",
+                component: () => import("@/components/example/other/Stereoeffect.vue"),
+            },
         ],
     }
 ];
