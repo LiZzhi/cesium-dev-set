@@ -2,17 +2,29 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2023-09-20 17:24:57
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2023-09-22 09:18:44
- * @FilePath: \cesium-secdev-set\src\secdev\spatialAnalysis\maskLayer.ts
+ * @LastEditTime: 2024-08-02 16:15:20
+ * @FilePath: \cesium-secdev-set\src\secdev\cameraView\maskLayer.ts
  * @Description: 遮罩图层
  */
-import { Viewer, PolygonHierarchy, GeometryInstance, CustomDataSource, Primitive } from "cesium";
+import {
+    Viewer,
+    PolygonHierarchy,
+    GeometryInstance,
+    CustomDataSource,
+    Primitive,
+} from "cesium";
 import uuid from "@/utils/uuid";
+
+export type maskLayerType = {
+    wall: boolean; // 是否启用边界墙
+    height: number; // 边界墙高度，默认为1000
+    alpha: number; // 遮罩透明度
+};
 
 export default class {
     #viewer: Viewer;
     #collection: CustomDataSource;
-    #wall: Primitive|undefined;
+    #wall: Primitive | undefined;
     constructor(viewer: Viewer) {
         this.#viewer = viewer;
         this.#collection = new Cesium.CustomDataSource(`mask-${uuid()}`);
@@ -23,24 +35,35 @@ export default class {
     /**
      * @description: 创建
      * @param {PolygonHierarchy[]} center 可视区域，类型为数组，可传入多个区域
-     * @param {number} height (可选)，边界墙高度，默认为1000
+     * @param {maskLayerType} option (可选)，
      * @return {*}
      */
-    create(center: PolygonHierarchy[], height: number=1000) {
+    create(center: PolygonHierarchy[], option: Partial<maskLayerType> = {}) {
+        let o = Object.assign(
+            {
+                wall: true,
+                height: 1000,
+                alpha: 1.0,
+            },
+            option
+        );
+
         this.remove();
 
         let [p1, p2] = this.globalMaskPosition;
         let h1 = new Cesium.PolygonHierarchy(p1, center);
         let h2 = new Cesium.PolygonHierarchy(p2);
 
-        this.#collection.entities.add(this.#createMaskPolygon(h1));
-        this.#collection.entities.add(this.#createMaskPolygon(h2));
+        this.#collection.entities.add(this.#createMaskPolygon(h1, o.alpha));
+        this.#collection.entities.add(this.#createMaskPolygon(h2, o.alpha));
 
-        this.#wall = this.#createWallPolygon(center, height);
-        this.#viewer.scene.primitives.add(this.#wall);
+        if (o.wall) {
+            this.#wall = this.#createWallPolygon(center, o.height);
+            this.#viewer.scene.primitives.add(this.#wall);
+        }
     }
 
-    remove(){
+    remove() {
         this.#collection.entities.removeAll();
         this.#viewer.scene.primitives.remove(this.#wall);
         this.#wall = undefined;
@@ -68,12 +91,12 @@ export default class {
         });
     }
 
-    #createMaskPolygon(hierarchy: PolygonHierarchy) {
+    #createMaskPolygon(hierarchy: PolygonHierarchy, alpha: number) {
         return new Cesium.Entity({
             polygon: {
                 hierarchy: hierarchy,
                 heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                material: Cesium.Color.BLACK,
+                material: Cesium.Color.BLACK.withAlpha(alpha),
             },
         });
     }
