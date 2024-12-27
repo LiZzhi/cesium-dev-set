@@ -86,7 +86,7 @@ let model: Cesium3DTileset | undefined;
 let jsonData: jsonDataType[] = [];
 let classPrimitive: ClassificationPrimitive | undefined;
 let handler: ScreenSpaceEventHandler | undefined;
-let interval: number | undefined;
+let interval: NodeJS.Timeout | undefined;
 let blingPrimitive: ClassificationPrimitive | undefined;
 
 function addModel() {
@@ -99,11 +99,11 @@ function addModel() {
             url: dataSource.value,
         })
     );
-    // if (model) {
-    //     model.readyPromise.then(() => {
-    //         viewer.flyTo(model!);
-    //     });
-    // }
+    if (model) {
+        model.readyPromise.then(() => {
+            viewer.flyTo(model!);
+        });
+    }
 }
 
 function remove() {
