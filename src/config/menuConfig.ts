@@ -104,6 +104,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/specialEffectPlot/StaticMarking.vue"),
             },
             {
+                label: "圆柱标记",
+                show: true,
+                img: require("@/assets/cover/specialEffectPlot/cylinderMarking.png"),
+                route: "cylinderMarking",
+                component: () => import("@/components/example/specialEffectPlot/CylinderMarking.vue"),
+            },
+            {
                 label: "动态渐变圆",
                 show: true,
                 img: require("@/assets/cover/specialEffectPlot/dynamicGradientCircle.png"),
