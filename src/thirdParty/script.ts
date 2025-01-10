@@ -15,3 +15,6 @@ window.h337 = heatmap;
 window.CesiumNavigation = cesiumNavigation;
 // token
 Cesium.Ion.defaultAccessToken = window.$config.token.CESIUM_TOKEN;
+// Cesium最大并发值
+Cesium.RequestScheduler.maximumRequestsPerServer = 18;
+Cesium.RequestScheduler.throttleRequests = true;
