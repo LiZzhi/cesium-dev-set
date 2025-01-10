@@ -1,0 +1,15 @@
+{
+"type": "FeatureCollection",
+"name": "point",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "name": "高新区中心" }, "geometry": { "type": "Point", "coordinates": [ 120.258038394274834, 36.261661180012986 ] } },
+{ "type": "Feature", "properties": { "id": 2, "name": "白沙河城市副中心" }, "geometry": { "type": "Point", "coordinates": [ 120.369196050859699, 36.258352916424151 ] } },
+{ "type": "Feature", "properties": { "id": 2, "name": "城阳中心" }, "geometry": { "type": "Point", "coordinates": [ 120.393346375058201, 36.308638522974455 ] } },
+{ "type": "Feature", "properties": { "id": 4, "name": "棘洪滩片区中心" }, "geometry": { "type": "Point", "coordinates": [ 120.234218896435223, 36.323856535483095 ] } },
+{ "type": "Feature", "properties": { "id": 5, "name": "河套片区中心" }, "geometry": { "type": "Point", "coordinates": [ 120.185256595320453, 36.232879286790116 ] } },
+{ "type": "Feature", "properties": { "id": 6, "name": "红岛片区中心" }, "geometry": { "type": "Point", "coordinates": [ 120.27027896955353, 36.208398136232738 ] } },
+{ "type": "Feature", "properties": { "id": 7, "name": "惜福镇片区中心" }, "geometry": { "type": "Point", "coordinates": [ 120.489616845493316, 36.306653564821154 ] } },
+{ "type": "Feature", "properties": { "id": 9, "name": "夏庄片区中心" }, "geometry": { "type": "Point", "coordinates": [ 120.445947766120696, 36.264969443601821 ] } }
+]
+}

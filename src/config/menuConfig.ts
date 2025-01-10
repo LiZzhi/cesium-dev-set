@@ -659,6 +659,13 @@ const menu:menuConfigType[] = [
         name: "other",
         components: [
             {
+                label: "城阳示范区",
+                show: true,
+                img: require("@/assets/cover/other/chenYangDemonstration.png"),
+                route: "chenYangDemonstration",
+                component: () => import("@/components/example/other/ChenYangDemonstration.vue"),
+            },
+            {
                 label: "数据图层",
                 show: true,
                 img: require("@/assets/cover/other/dataTree.png"),
