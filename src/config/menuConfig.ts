@@ -715,6 +715,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/HouseholdPreview.vue"),
             },
             {
+                label: "海量实例模型切片",
+                show: true,
+                img: require("@/assets/cover/other/manyModel.png"),
+                route: "manyModel",
+                component: () => import("@/components/example/other/ManyModel.vue"),
+            },
+            {
                 label: "矢量拉伸白模",
                 show: true,
                 img: require("@/assets/cover/other/vectorWhiteModel2.png"),
