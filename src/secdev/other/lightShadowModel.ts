@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-07-26 10:42:41
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2025-01-15 17:17:56
+ * @LastEditTime: 2025-01-15 17:27:20
  * @FilePath: \cesium-secdev-set\src\secdev\other\lightShadowModel.ts
  * @Description: 光影模型特效
  */
@@ -59,7 +59,7 @@ export default class {
                 ),
                 openDiffuse: true,
                 location: false,
-                classificationType: Cesium.ClassificationType.CESIUM_3D_TILE,
+                classificationType: Cesium.ClassificationType.TERRAIN,
             },
             option
         );
@@ -169,6 +169,7 @@ export default class {
 
         let m = diffusedAppearance(viewer, {
             color: this.option.color,
+            speed: 0.7,
         });
         let primitive = new Cesium.GroundPrimitive({
             geometryInstances: new Cesium.GeometryInstance({
