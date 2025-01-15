@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-07-26 10:42:41
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2025-01-15 17:27:20
+ * @LastEditTime: 2025-01-15 17:31:04
  * @FilePath: \cesium-secdev-set\src\secdev\other\lightShadowModel.ts
  * @Description: 光影模型特效
  */
@@ -119,6 +119,7 @@ export default class {
      * @returns
      */
     createShader() {
+        Cesium.ExperimentalFeatures.enableModelExperimental = true;
         return new Cesium.CustomShader({
             //外部传给顶点着色器或者片元着色器
             uniforms: {

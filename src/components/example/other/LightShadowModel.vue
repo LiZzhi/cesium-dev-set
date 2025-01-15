@@ -14,7 +14,6 @@ import lightShadowModel from "@/secdev/other/lightShadowModel"
 let m: lightShadowModel;
 
 onMounted(() => {
-    Cesium.ExperimentalFeatures.enableModelExperimental = true;
     viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
     m = new lightShadowModel(
         viewer,
