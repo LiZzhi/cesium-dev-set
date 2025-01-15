@@ -2,7 +2,7 @@
  * @Author: Xingtao 362042734@qq.com
  * @Date: 2024-07-26 10:42:41
  * @LastEditors: Xingtao 362042734@qq.com
- * @LastEditTime: 2024-07-26 14:06:28
+ * @LastEditTime: 2025-01-15 17:17:56
  * @FilePath: \cesium-secdev-set\src\secdev\other\lightShadowModel.ts
  * @Description: 光影模型特效
  */
@@ -13,13 +13,14 @@ import {
     PrimitiveCollection,
     MaterialAppearance,
     ClassificationType,
+    GroundPrimitive,
 } from "cesium";
 import diffusedAppearance from "../specialEffectPlot/polygon/diffusedAppearance";
 import type { voidFuncType } from "@/type/common";
 
 export type lightShadowModelOptionType = {
     maxHeight: number; // 渐变最大高度
-    offsetHeight: number; // 高度调整，用于调整模型的内置高度
+    offset: number; // 颜色纵向位移
     color: Color; // 主色
     openDiffuse: boolean; // 是否开启扩散
     location: boolean; // 是否定位
@@ -27,7 +28,7 @@ export type lightShadowModelOptionType = {
 };
 
 type diffuseType = {
-    material?: MaterialAppearance;
+    primitive?: GroundPrimitive;
     removeUpdate?: voidFuncType;
 };
 
@@ -52,8 +53,10 @@ export default class {
         this.option = Object.assign(
             {
                 maxHeight: 30,
-                offsetHeight: 0,
-                color: Cesium.Color.fromCssColorString("rgba(0, 112, 250, 0.5)"),
+                offset: 0,
+                color: Cesium.Color.fromCssColorString(
+                    "rgba(0, 112, 250, 0.5)"
+                ),
                 openDiffuse: true,
                 location: false,
                 classificationType: Cesium.ClassificationType.CESIUM_3D_TILE,
@@ -85,11 +88,9 @@ export default class {
         model.readyPromise.then(() => {
             this.tileset.customShader = this.createShader();
             if (this.option.location) {
-                this.viewer.flyTo(model)
+                this.viewer.flyTo(model);
             }
-            if (this.option.openDiffuse) {
-                this.diffuse = this.createDiffuse();
-            }
+            this.diffuse = this.createDiffuse();
         });
     }
 
@@ -105,8 +106,17 @@ export default class {
     }
 
     /**
+     * 修改扩散波显隐
+     */
+    changeDiffuseShow(show: boolean) {
+        if (this.diffuse?.primitive) {
+            this.diffuse.primitive.show = show;
+        }
+    }
+
+    /**
      * 创建customShader
-     * @returns 
+     * @returns
      */
     createShader() {
         return new Cesium.CustomShader({
@@ -118,7 +128,7 @@ export default class {
                 },
                 u_offsetHeight: {
                     type: Cesium.UniformType.FLOAT,
-                    value: this.option.offsetHeight,
+                    value: this.option.offset,
                 },
                 u_Color: {
                     type: Cesium.UniformType.VEC4,
@@ -139,7 +149,7 @@ export default class {
                     material.diffuse *= vec3(flowFactor);
 
                     float timeFactor2 = fract(czm_frameNumber / 400.0);
-                    float normalizeHeight = clamp(height / 300., 0.0, 1.0);
+                    float normalizeHeight = clamp(height / 200., 0.0, 1.0);
                     timeFactor2 = abs(timeFactor2 - 0.5) * 2.0;
                     float glowIntensity = step(0.005, abs(normalizeHeight - timeFactor2));
                     material.diffuse += material.diffuse * (1.0 - glowIntensity);
@@ -150,7 +160,7 @@ export default class {
 
     /**
      * 创建扩散波
-     * @returns 
+     * @returns
      */
     createDiffuse() {
         let boundingSphere = this.tileset.boundingSphere;
@@ -172,7 +182,11 @@ export default class {
             classificationType: this.option.classificationType,
             appearance: m.material,
         });
+        primitive.show = !!this.option.openDiffuse;
         this.collection.add(primitive);
-        return m;
+        return {
+            primitive,
+            removeUpdate: m.removeUpdate,
+        };
     }
 }
