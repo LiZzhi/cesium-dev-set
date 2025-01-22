@@ -15,6 +15,12 @@ let m: lightShadowModel;
 
 onMounted(() => {
     viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
+    viewer.imageryLayers.removeAll();
+    viewer.imageryLayers.addImageryProvider(
+        new Cesium.ArcGisMapServerImageryProvider({
+            url: "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer"
+        })
+    )
     m = new lightShadowModel(
         viewer,
         "http://192.168.131.18:8310/tiltphoto/api/v1/layers/dataset/ChengYangH23Dtiles-B3DM/tileset.json",
