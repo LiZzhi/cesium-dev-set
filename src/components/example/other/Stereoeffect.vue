@@ -45,9 +45,22 @@ let innerC3 = qingdaoInner.features
 onMounted(() => {
     viewer.scene.globe.depthTestAgainstTerrain = true;
 
-    // 调整饱和度
-    let layer = viewer.imageryLayers.get(0);
-    layer.saturation = 0.3;
+    // // 调整饱和度
+    // let layer = viewer.imageryLayers.get(0);
+    // layer.saturation = 0.3;
+
+    viewer.imageryLayers.removeAll();
+    viewer.scene.skyAtmosphere.show = false; // 大气层显示
+    viewer.scene.moon.show = false; // 月亮
+    viewer.scene.skyAtmosphere.show = false; // 大气
+    viewer.scene.fog.enabled = false; // 雾
+    viewer.scene.globe.showGroundAtmosphere = false; // 地面大气效果
+    viewer.scene.skyBox.show = false; // 天空盒
+    viewer.scene.backgroundColor = new Cesium.Color(0, 0, 0, 0);
+    viewer.scene.globe.baseColor = new Cesium.Color(0, 0, 0, 0); //修改地球体背景透明
+    let exampleDom = document.querySelector(".example-body") as HTMLDivElement;
+    exampleDom.style.backgroundImage = `url(${require("./assets/img/screen_bg2.png")})`;
+    exampleDom.style.backgroundSize = "100% 100%";
 
     // 渐变墙
     addWall(
