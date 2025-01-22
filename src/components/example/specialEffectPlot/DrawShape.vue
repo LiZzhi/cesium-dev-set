@@ -31,6 +31,7 @@ import { onMounted } from "vue";
 import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 import entityFactory from "@/secdev/utils/entityFactory"
 import { Cartesian3, Entity } from "cesium";
+import cartographicTool from "@/secdev/utils/cartographicTool";
 
 let draw: drawShape;
 let entityList: Entity[] = [];
@@ -38,6 +39,9 @@ const drawFunc = (type: string)=>{
     switch (type) {
         case "point":
             draw.drawPoint((position: Cartesian3) => {
+                let s = cartographicTool.formCartesian3(position, false);
+                console.log(position);
+                console.log(s);
                 let e = entityFactory.createPoint(position)
                 viewer.entities.add(e);
                 entityList.push(e)
@@ -45,6 +49,9 @@ const drawFunc = (type: string)=>{
             break;
         case "polyline":
             draw.drawPolyline((positions: Cartesian3[]) => {
+                let s = cartographicTool.formCartesian3S(positions, { z: false });
+                console.log(positions);
+                console.log(s);
                 let e = entityFactory.createPolyline(positions)
                 viewer.entities.add(e);
                 entityList.push(e)
