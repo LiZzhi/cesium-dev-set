@@ -5,9 +5,9 @@ const viewerConfig: Viewer.ConstructorOptions = {
         requestWaterMask: true,
         requestVertexNormals: true,
     }),
-    imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
-        url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer',
-    }),
+    // imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+    //     url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer',
+    // }),
     animation: false, // 是否显示动画控件
     homeButton: false, // 是否显示home键
     geocoder: false, // 是否显示地名查找控件        如果设置为true，则无法查询
