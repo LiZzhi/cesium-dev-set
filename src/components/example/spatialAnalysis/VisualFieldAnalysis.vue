@@ -58,6 +58,7 @@ onMounted(() => {
 
 const horizontalAngle = ref(60);
 const verticalAngle = ref(30);
+// const ViewShed = require("@/secdev/spatialAnalysis/ViewShed.js").default;
 
 const menuList = ref([
     { label: "水平张角", data: horizontalAngle, min: 0, max: 90, step: 1 },
@@ -78,6 +79,13 @@ const setVisualField = () => {
             });
             visualFields.push(v);
             v.init();
+            // let viewShed = new ViewShed(viewer, {
+            //     viewPosition: position[0],
+            //     viewPositionEnd: position[1],
+            //     horizontalViewAngle: horizontalAngle.value,
+            //     verticalViewAngle: verticalAngle.value
+            // })
+            // viewShed.add()
         },
         {
             maxNode: 2,

@@ -25,9 +25,9 @@ export default class visualFieldAnalysis{
         const o: visualFieldOptionsType = Object.assign(this.defaultOpitons, options);
         const camera = this.#createLightCamera(this.#viewer, position, o);
         const shadowMap = this.#createShadowMap(this.#viewer, camera, o);
-        const postStage = this.#createPostStage(this.#viewer, camera, shadowMap, o);
         const frustumOutline = this.#drawFrustumOutline(camera);
         const sketch = this.#drawSketch(camera, o);
+        const postStage = this.#createPostStage(this.#viewer, camera, shadowMap, o);
         const visual = new visualField(this.#viewer, camera, postStage, shadowMap, frustumOutline, sketch);
         return visual;
     }
@@ -59,7 +59,6 @@ export default class visualFieldAnalysis{
 
         const hr = Cesium.Math.toRadians(horizontalAngle);
         const vr = Cesium.Math.toRadians(verticalAngle);
-
         let frustum = new Cesium.PerspectiveFrustum ({
             near: distance * 0.001,
             far: distance,
@@ -86,8 +85,7 @@ export default class visualFieldAnalysis{
             lightCamera: camera,
             enabled: show,
             isPointLight: true,
-            // @ts-ignore
-            pointLightRadius: distance, // 不知道为什么类型给的是boolean，但是实际上此处是半径
+            pointLightRadius: distance,
             cascadesEnabled: false,
             size: size,
             softShadows: softShadows,
@@ -217,18 +215,18 @@ export default class visualFieldAnalysis{
                 )
             ),
             ellipsoid: {
-                radii: new Cesium.Cartesian3(distance, distance, distance),
-                // innerRadii: new Cesium.Cartesian3(2.0, 2.0, 2.0),
-                minimumClock: Cesium.Math.toRadians(-horizontalAngle / 2),
-                maximumClock: Cesium.Math.toRadians(horizontalAngle / 2),
-                minimumCone: Cesium.Math.toRadians(90 - verticalAngle),
-                maximumCone: Cesium.Math.toRadians(90 + verticalAngle),
-                fill: false,
-                outline: true,
-                subdivisions: 256,
-                stackPartitions: 64,
-                slicePartitions: 64,
-                outlineColor: Cesium.Color.YELLOWGREEN
+                radii: new Cesium.Cartesian3(distance, distance, distance), //椭球内部的半径
+                innerRadii: new Cesium.Cartesian3(2.0, 2.0, 2.0),
+                minimumClock: Cesium.Math.toRadians(-horizontalAngle / 2), //椭圆形的最小时钟角度
+                maximumClock: Cesium.Math.toRadians(horizontalAngle / 2), //椭球的最大时钟角度
+                minimumCone: Cesium.Math.toRadians(90 - verticalAngle), //椭圆形的最小圆锥角
+                maximumCone: Cesium.Math.toRadians(90 + verticalAngle), //椭球的最大圆锥角
+                fill: false, //椭圆是否填充所提供的的材料
+                outline: true, //是否勾勒出椭圆形
+                subdivisions: 256, //每个轮廓环的样本数,确定曲率的粒度
+                stackPartitions: 64, //堆栈数的属性
+                slicePartitions: 64, //径向切片数量的属性
+                outlineColor: Cesium.Color.YELLOWGREEN //轮廓的颜色
             }
         })
     }
@@ -250,6 +248,7 @@ function getGLSL(){
         uniform float helsing_viewDistance;
         uniform vec4 helsing_visibleAreaColor;
         uniform vec4 helsing_invisibleAreaColor;
+
         struct zx_shadowParameters
         {
             vec3 texCoords;
@@ -260,6 +259,7 @@ function getGLSL(){
             float normalShadingSmooth;
             float darkness;
         };
+
         float czm_shadowVisibility(samplerCube shadowMap, zx_shadowParameters shadowParameters)
         {
             float depthBias = shadowParameters.depthBias;
