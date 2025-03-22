@@ -773,7 +773,7 @@ const menu:menuConfigType[] = [
             {
                 label: "模型移动",
                 show: true,
-                img: require("@/assets/cover/other/modelClip.png"),
+                img: require("@/assets/cover/bePerfecting.png"),
                 route: "changeModelPosition",
                 component: () => import("@/components/example/other/ChangeModelPosition.vue"),
             },

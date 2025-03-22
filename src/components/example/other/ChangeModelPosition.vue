@@ -16,6 +16,7 @@ import {
     PrimitiveCollection,
 } from "cesium";
 import { onMounted } from "vue";
+import edgeStage from "@/secdev/other/edgeStage";
 
 let center = Cesium.Cartesian3.fromDegrees(-73.975964, 40.700657, 0);
 let modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
@@ -27,6 +28,14 @@ let model = Cesium.Model.fromGltf({
 
 let axisCollection: PrimitiveCollection;
 let axisLabels: LabelCollection;
+
+let outlineStage: edgeStage;
+let select: any[] = [];
+let allowPickedId = ["X轴", "Y轴", "Z轴"];
+
+// 鼠标按下抬起事件，用来解决鼠标事件混乱BUG
+let leftTimer: NodeJS.Timeout;
+let rightTimer: NodeJS.Timeout;
 
 onMounted(() => {
     // 添加模型
@@ -43,6 +52,14 @@ onMounted(() => {
         );
         createCoordinateAxis(center, model.boundingSphere.radius);
     });
+    // 选中
+    outlineStage = new edgeStage(viewer, "outlineEffect", {
+        visibleEdgeColor: Cesium.Color.fromCssColorString("#a8a8e0"),
+        hiddenEdgeColor: Cesium.Color.fromCssColorString("#4d4d4d"),
+        outlineWidth: 1,
+    });
+    outlineStage.init();
+    eventHandler();
     // 设置视角
     viewer.camera.setView({
         destination: new Cesium.Cartesian3(
@@ -57,6 +74,59 @@ onMounted(() => {
         ),
     });
 });
+
+// 鼠标事件
+function eventHandler() {
+    let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+    // 左键事件，用来选中轴及禁止屏幕事件
+    handler.setInputAction((e: any) => {
+        clearTimeout(leftTimer);
+        clearTimeout(rightTimer);
+        console.log(e, 1);
+        let mousePosition = e.position;
+        let picked = viewer.scene.pick(mousePosition);
+        if (picked && picked.primitive && allowPickedId.includes(picked.id)) {
+            let primitive = picked.primitive;
+            let pickIds = primitive._pickIds;
+
+            let pickId = pickIds.find((p: any) => {
+                return p.object === picked;
+            });
+
+            // 高亮选中轴
+            select = [pickId];
+            // outlineStage.clearSelect();
+            outlineStage.changeSelect(select);
+            // 禁止屏幕交互事件
+            changeInteraction(false);
+        }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    // 右键事件，用来取消选中轴及恢复屏幕事件
+    handler.setInputAction((e: any) => {
+        // 取消选中轴
+        select = [];
+        outlineStage.clearSelect();
+        // 允许屏幕交互事件
+        changeInteraction(true);
+    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+    handler.setInputAction((e: any) => {
+        leftTimer = setTimeout(() => {
+            console.log(e, 2);
+        }, 200);
+    }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+    handler.setInputAction((e: any) => {
+        rightTimer = setTimeout(() => {
+            console.log(e, 3);
+        }, 200);
+    }, Cesium.ScreenSpaceEventType.LEFT_UP);
+}
+
+// 修改交互状态
+function changeInteraction(bool: boolean) {
+    viewer.scene.screenSpaceCameraController.enableRotate = bool; // 旋转
+    viewer.scene.screenSpaceCameraController.enableTranslate = bool; // 移动
+    viewer.scene.screenSpaceCameraController.enableZoom = bool; // 缩放
+}
 
 // 创建坐标轴
 function createCoordinateAxis(center: Cartesian3, radius: number) {
@@ -107,7 +177,7 @@ function createSingleAxis(positions: Cartesian3[], id: string, color: Color) {
                 width: 10.0,
             }),
         }),
-        appearance: new Cesium.MaterialAppearance({
+        appearance: new Cesium.PolylineMaterialAppearance({
             material: new Cesium.Material({
                 fabric: {
                     type: Cesium.Material.PolylineArrowType,
