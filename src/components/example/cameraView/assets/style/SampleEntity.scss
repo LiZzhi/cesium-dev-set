@@ -1,0 +1,28 @@
+.sample-panel-box {
+    left: 2%;
+    top: 8%;
+    .sample-panel {
+        position: relative;
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        .btn-group {
+            position: relative;
+            display: flex;
+            justify-content: space-around;
+            :deep(.clear) {
+                color: $danger-color;
+            }
+        }
+    }
+}
+.sample-info-panel {
+    left: 2%;
+    top: 28%;
+    .sample-info-box {
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+}

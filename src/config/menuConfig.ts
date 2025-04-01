@@ -243,6 +243,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/cameraView/PathRoaming.vue"),
             },
             {
+                label: "实时轨迹飞行",
+                show: true,
+                img: require("@/assets/cover/cameraView/sampleEntity.png"),
+                route: "sampleEntity",
+                component: () => import("@/components/example/cameraView/SampleEntity.vue"),
+            },
+            {
                 label: "视角限制",
                 show: true,
                 img: require("@/assets/cover/cameraView/cameraLimit.png"),
