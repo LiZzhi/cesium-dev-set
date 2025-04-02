@@ -176,14 +176,9 @@ export default class {
             if (prePosition) {
                 this.position.addSample(start, prePosition);
             }
-            console.log(start, "start");
-            console.log(prePosition, "prePosition");
-
         }
         // 添加当前点位数据
         Cesium.JulianDate.addSeconds(this.lastTime, seconds, this.lastTime);
-        console.log(this.lastTime, "this.lastTime");
-        console.log(data.position, "data.position");
         stop = this.lastTime.clone();
         this.position.addSample(stop, data.position);
         this.messageData.push(data);
