@@ -1,70 +1,46 @@
-<template>
-    <CommPanel title="动态遮罩" class="mask-panel-box">
-        <div class="mask-panel">
-            <div class="btn-group">
-                <CommButton @click="drawPolygon(1)">遮罩1</CommButton>
-                <CommButton @click="drawPolygon(2)">遮罩2</CommButton>
-            </div>
-            <div class="btn-group">
-                <CommButton
-                    @click="clear"
-                    class="clear"
-                    contentClass="clear-text"
-                    >清空</CommButton
-                >
-            </div>
-        </div>
-    </CommPanel>
-</template>
-
 <script setup lang="ts">
 import { onMounted } from "vue";
-import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 import dynamicMaskAppearance from "@/secdev/specialEffectPlot/polygon/dynamicMaskAppearance";
 import dynamicMaskAppearance2 from "@/secdev/specialEffectPlot/polygon/dynamicMaskAppearance2";
-import { MaterialAppearance } from "cesium";
-
-let draw: drawShape;
 
 const collection = new Cesium.PrimitiveCollection();
 onMounted(() => {
     viewer.scene.primitives.add(collection);
-    draw = new drawShape(viewer);
-});
-
-const drawPolygon = (type: number) => {
-    let m: MaterialAppearance;
-    switch (type) {
-        case 1:
-            m = dynamicMaskAppearance(viewer).material;
-            break;
-        case 2:
-            m = dynamicMaskAppearance2(viewer).material;
-            break;
-        default:
-            return;
-            break;
-    }
-    draw.drawPolygon((ps) => {
-        let p = new Cesium.GroundPrimitive({
-            geometryInstances: new Cesium.GeometryInstance({
-                geometry: new Cesium.PolygonGeometry({
-                    polygonHierarchy: new Cesium.PolygonHierarchy(ps),
-                    vertexFormat: Cesium.VertexFormat.ALL,
-                }),
+    let ps1 = [
+        Cesium.Cartesian3.fromDegrees(120.36770123529838, 36.106542497232546),
+        Cesium.Cartesian3.fromDegrees(120.38905298566688, 36.10706023329602),
+        Cesium.Cartesian3.fromDegrees(120.39113291430132, 36.08229183810894),
+        Cesium.Cartesian3.fromDegrees(120.36985921813391, 36.08237236832596),
+        Cesium.Cartesian3.fromDegrees(120.36770123529838, 36.106542497232546),
+    ];
+    let m1 = dynamicMaskAppearance(viewer).material;
+    let p1 = new Cesium.GroundPrimitive({
+        geometryInstances: new Cesium.GeometryInstance({
+            geometry: new Cesium.PolygonGeometry({
+                polygonHierarchy: new Cesium.PolygonHierarchy(ps1),
+                vertexFormat: Cesium.VertexFormat.ALL,
             }),
-            appearance: m,
-        });
-
-        collection.add(p);
+        }),
+        appearance: m1,
     });
-};
-
-const clear = () => {
-    collection.removeAll();
-};
+    let ps2 = [
+        Cesium.Cartesian3.fromDegrees(120.40028622735746, 36.12111309438317),
+        Cesium.Cartesian3.fromDegrees(120.41587475460956, 36.09924454523713),
+        Cesium.Cartesian3.fromDegrees(120.4390738267578, 36.11804251257056),
+        Cesium.Cartesian3.fromDegrees(120.42578420416781, 36.142221040744126),
+        Cesium.Cartesian3.fromDegrees(120.40028622735746, 36.12111309438317),
+    ];
+    let m2 = dynamicMaskAppearance2(viewer).material;
+    let p2 = new Cesium.GroundPrimitive({
+        geometryInstances: new Cesium.GeometryInstance({
+            geometry: new Cesium.PolygonGeometry({
+                polygonHierarchy: new Cesium.PolygonHierarchy(ps2),
+                vertexFormat: Cesium.VertexFormat.ALL,
+            }),
+        }),
+        appearance: m2,
+    });
+    collection.add(p1);
+    collection.add(p2);
+});
 </script>
-
-<style lang="scss" scoped>
-@import "./assets/style/DynamicMaskPolygon.scss";
-</style>

@@ -1,75 +1,56 @@
-<template>
-    <CommPanel title="特效点" class="wall-panel-box">
-        <div class="wall-panel">
-            <div class="btn-group">
-                <CommButton @click="drawWall('vertical')">纵向墙体</CommButton>
-                <CommButton @click="drawWall('horizontal')">横向墙体</CommButton>
-            </div>
-            <div class="btn-group">
-                <span class="height-label">墙体高度：</span>
-                <CommInput
-                    class="height-input"
-                    v-model="height"
-                    :number="true"
-                ></CommInput>
-            </div>
-            <div class="btn-group">
-                <CommButton @click="clear" class="clear">清除</CommButton>
-            </div>
-        </div>
-    </CommPanel>
-</template>
-
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import dynamicWallMaterial from "@/secdev/specialEffectPlot/wall/dynamicWallMaterial";
-import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
+import { Cartesian3 } from "cesium";
 
-let draw: drawShape;
-let height = ref(100);
 let collection = new Cesium.PrimitiveCollection();
-
-const clear = () => {
-    collection.removeAll();
-};
-
-const drawWall = (type: "vertical"|"horizontal") => {
-    draw.drawPolygon(ps => {
-        if (!ps[0].equals(ps[ps.length-1])) {
-            ps.push(ps[0]);
-        }
-        let geo = new Cesium.WallGeometry({
-            positions : ps,
-            maximumHeights: new Array(ps.length).fill(height.value),
-            minimumHeights: new Array(ps.length).fill(0),
-        });
-
-        collection.add(
-            new Cesium.Primitive({
-                geometryInstances : new Cesium.GeometryInstance({
-                    geometry: geo
-                }),
-                appearance : new Cesium.MaterialAppearance({
-                    material: dynamicWallMaterial({
-                        type,
-                        direction: type === "vertical"?false:true,
-                        image: type === "vertical"?
-                            require("./assets/img/verticalWall.png"):
-                            require("./assets/img/horizontalWall.png"),
-                    }),
-                })
-            })
-        )
-    })
-}
-
 onMounted(() => {
     viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();
-    draw = new drawShape(viewer);
     viewer.scene.primitives.add(collection);
+    addWall(
+        "vertical",
+        [
+            Cesium.Cartesian3.fromDegrees(120.36833433066616, 36.09502956940591),
+            Cesium.Cartesian3.fromDegrees(120.38024939738007, 36.095587826881115),
+            Cesium.Cartesian3.fromDegrees(120.38017333832343, 36.0868095102888),
+            Cesium.Cartesian3.fromDegrees(120.368841624019, 36.08684209973187),
+            Cesium.Cartesian3.fromDegrees(120.36833433066616, 36.09502956940591),
+        ]
+    );
+    addWall(
+        "horizontal",
+        [
+            Cesium.Cartesian3.fromDegrees(120.38841479847824, 36.0907224384223),
+            Cesium.Cartesian3.fromDegrees(120.38489881192143, 36.09082576526032),
+            Cesium.Cartesian3.fromDegrees(120.38481528459916, 36.08683722483511),
+            Cesium.Cartesian3.fromDegrees(120.38695478736892, 36.0867731323762),
+            Cesium.Cartesian3.fromDegrees(120.38843493602117, 36.08717192399958),
+            Cesium.Cartesian3.fromDegrees(120.38841479847824, 36.0907224384223),
+        ]
+    )
 });
-</script>
 
-<style lang="scss" scoped>
-@import "./assets/style/DynamicWall.scss";
-</style>
+function addWall(type: "vertical" | "horizontal", positions: Cartesian3[]) {
+    collection.add(
+        new Cesium.Primitive({
+            geometryInstances: new Cesium.GeometryInstance({
+                geometry: new Cesium.WallGeometry({
+                    positions: positions,
+                    maximumHeights: new Array(positions.length).fill(100),
+                    minimumHeights: new Array(positions.length).fill(0),
+                }),
+            }),
+            appearance: new Cesium.MaterialAppearance({
+                material: dynamicWallMaterial({
+                    type,
+                    direction: type === "vertical" ? false : true,
+                    image:
+                        type === "vertical"
+                            ? require("./assets/img/verticalWall.png")
+                            : require("./assets/img/horizontalWall.png"),
+                }),
+            }),
+        })
+    );
+}
+</script>

@@ -1,49 +1,26 @@
-<template>
-    <CommPanel title="电弧特效" class="sector-panel-box">
-        <div class="sector-panel">
-            <div class="btn-group">
-                <CommButton @click="drawCircle">绘制</CommButton>
-                <CommButton @click="clear" class="clear">清空</CommButton>
-            </div>
-        </div>
-    </CommPanel>
-</template>
-
 <script setup lang="ts">
 import { onMounted } from "vue";
 import electricAppearance from "@/secdev/specialEffectPlot/polygon/electricAppearance";
-import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
-
-let draw: drawShape;
 
 const collection = new Cesium.PrimitiveCollection();
 onMounted(() => {
     viewer.scene.primitives.add(collection);
-    draw = new drawShape(viewer);
-});
-
-const drawCircle = () => {
     let { material } = electricAppearance(viewer);
-    draw.drawCircle((p, d) => {
-        let primitive = new Cesium.Primitive({
-            geometryInstances: new Cesium.GeometryInstance({
-                geometry: new Cesium.EllipsoidGeometry({
-                    radii: new Cesium.Cartesian3(d, d, d),
-                    maximumCone: Cesium.Math.PI_OVER_TWO,
-                }),
-                modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(p[0]),
+    let primitive = new Cesium.Primitive({
+        geometryInstances: new Cesium.GeometryInstance({
+            geometry: new Cesium.EllipsoidGeometry({
+                radii: new Cesium.Cartesian3(2000, 2000, 2000),
+                maximumCone: Cesium.Math.PI_OVER_TWO,
             }),
-            appearance: material,
-        });
-        collection.add(primitive);
+            modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(
+                Cesium.Cartesian3.fromDegrees(
+                    120.39423905810129,
+                    36.096797113152064
+                )
+            ),
+        }),
+        appearance: material,
     });
-};
-
-const clear = () => {
-    collection.removeAll();
-};
+    collection.add(primitive);
+});
 </script>
-
-<style lang="scss" scoped>
-@import "./assets/style/SectorScan.scss";
-</style>
