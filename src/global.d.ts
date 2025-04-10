@@ -7,7 +7,8 @@ import navigation from "@/thirdParty/cesiumNavigation/CesiumNavigation";
 type publicConfig = {
     ip: Record<string, string>;
     token: Record<string, string>;
-    defaultView: number[];
+    defaultDestination: number[];
+    defaultOrientation: number[];
 }
 
 // 扩展全局变量

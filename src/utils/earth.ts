@@ -1,5 +1,5 @@
 import { viewerConfig } from "@/config/earthConfig";
-import { Viewer, Camera } from "cesium";
+import { Viewer } from "cesium";
 
 /**
  * @description: 初始化viewer
@@ -13,9 +13,14 @@ export function initViewer(id:string, option:Viewer.ConstructorOptions = {}) {
     (<HTMLElement>viewer.cesiumWidget.creditContainer).style.display = "none";
     viewer.camera.setView({
         destination: Cesium.Cartesian3.fromDegrees(
-            window.$config.defaultView[0],
-            window.$config.defaultView[1],
-            window.$config.defaultView[2],
+            window.$config.defaultDestination[0],
+            window.$config.defaultDestination[1],
+            window.$config.defaultDestination[2],
+        ),
+        orientation: Cesium.HeadingPitchRoll.fromDegrees(
+            window.$config.defaultOrientation[0],
+            window.$config.defaultOrientation[1],
+            window.$config.defaultOrientation[2],
         )
     });
     createNavigation(viewer);
@@ -30,9 +35,14 @@ function createNavigation(viewer: Viewer){
     const navigation:any = new CesiumNavigation(viewer, {
         // 可接收Rectangle 或 Cartographic, 不传则默认调用camera.flyHome
         defaultResetView: Cesium.Cartographic.fromDegrees(
-            window.$config.defaultView[0],
-            window.$config.defaultView[1],
-            window.$config.defaultView[2],
+            window.$config.defaultDestination[0],
+            window.$config.defaultDestination[1],
+            window.$config.defaultDestination[2],
+        ),
+        orientation: Cesium.HeadingPitchRoll.fromDegrees(
+            window.$config.defaultOrientation[0],
+            window.$config.defaultOrientation[1],
+            window.$config.defaultOrientation[2],
         ),
         enableCompass: true,    // 启用罗盘
         enableZoomControls: true,   // 启用缩放控件

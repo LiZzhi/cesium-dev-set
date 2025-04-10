@@ -777,13 +777,13 @@ const menu:menuConfigType[] = [
                 route: "modelClip",
                 component: () => import("@/components/example/other/ModelClip.vue"),
             },
-            {
-                label: "模型移动",
-                show: true,
-                img: require("@/assets/cover/bePerfecting.png"),
-                route: "changeModelPosition",
-                component: () => import("@/components/example/other/ChangeModelPosition.vue"),
-            },
+            // {
+            //     label: "模型移动",
+            //     show: true,
+            //     img: require("@/assets/cover/bePerfecting.png"),
+            //     route: "changeModelPosition",
+            //     component: () => import("@/components/example/other/ChangeModelPosition.vue"),
+            // },
             {
                 label: "时序图层",
                 show: true,
