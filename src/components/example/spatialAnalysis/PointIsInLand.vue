@@ -34,6 +34,7 @@ for (let i = 0; i < countries.features.length; i++) {
 
 onMounted(() => {
     draw = new drawShape(viewer);
+    viewer.camera.flyHome(1);
 });
 
 const drawPoint = ()=>{
