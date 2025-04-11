@@ -31,7 +31,7 @@ import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
 let excavate: surfaceExcavateAnalysis;
 let draw: drawShape;
 let surface: surfaceExcavate|undefined;
-let depth = ref(2000);
+let depth = ref(100);
 let volume = ref(0);
 onMounted(() => {
     viewer.terrainProvider = new Cesium.EllipsoidTerrainProvider();

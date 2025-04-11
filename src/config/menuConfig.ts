@@ -467,14 +467,14 @@ const menu:menuConfigType[] = [
             {
                 label: "地形开挖",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/surfaceExcavateAnalysis.png"),
+                img: require("@/assets/cover/spatialAnalysis/surfaceExcavateAnalysis.jpg"),
                 route: "surfaceExcavateAnalysis",
                 component: () => import("@/components/example/spatialAnalysis/SurfaceExcavateAnalysis.vue"),
             },
             {
                 label: "淹没分析",
                 show: true,
-                img: require("@/assets/cover/spatialAnalysis/inundationAnalysis.png"),
+                img: require("@/assets/cover/spatialAnalysis/inundationAnalysis.jpg"),
                 route: "inundationAnalysis",
                 component: () => import("@/components/example/spatialAnalysis/InundationAnalysis.vue"),
             },
