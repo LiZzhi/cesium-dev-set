@@ -1,6 +1,7 @@
 <template>
     <CommPanel title="3D描边" class="edge-panel-box">
         <div class="edge-panel">
+            <div>点击模型描边</div>
             <CommButton @click="clear">清空</CommButton>
         </div>
     </CommPanel>
