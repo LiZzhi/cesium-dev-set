@@ -87,32 +87,32 @@ const data: originDataType[] = [
             },
         ],
     },
-    {
-        label: "地形资源",
-        itemType: "folder",
-        children: [
-            {
-                label: "默认地形",
-                itemType: "data",
-                singleChoice: true,
-                singleSymbol: "terrain",
-                data: {
-                    type: "terrain",
-                    url: Cesium.IonResource.fromAssetId(3956),
-                },
-            },
-            {
-                label: "星图地形",
-                itemType: "data",
-                singleChoice: true,
-                singleSymbol: "terrain",
-                data: {
-                    type: "terrain",
-                    url: `https://tiles.geovis.online/base/v1/terrain?token=${window.$config.token.GEOVIS_TOKEN}`,
-                },
-            },
-        ],
-    },
+    // {
+    //     label: "地形资源",
+    //     itemType: "folder",
+    //     children: [
+    //         {
+    //             label: "默认地形",
+    //             itemType: "data",
+    //             singleChoice: true,
+    //             singleSymbol: "terrain",
+    //             data: {
+    //                 type: "terrain",
+    //                 url: Cesium.IonResource.fromAssetId(3956),
+    //             },
+    //         },
+    //         {
+    //             label: "星图地形",
+    //             itemType: "data",
+    //             singleChoice: true,
+    //             singleSymbol: "terrain",
+    //             data: {
+    //                 type: "terrain",
+    //                 url: `https://tiles.geovis.online/base/v1/terrain?token=${window.$config.token.GEOVIS_TOKEN}`,
+    //             },
+    //         },
+    //     ],
+    // },
     {
         label: "凤城市区划",
         itemType: "folder",
