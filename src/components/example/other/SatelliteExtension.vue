@@ -19,6 +19,8 @@ let satMana: satelliteManager;
 const file = require("./assets/file/public.txt");
 
 onMounted(() => {
+    viewer.camera.flyHome();
+
     viewer.clock.shouldAnimate = true;
     viewer.clock.multiplier = 1;
 

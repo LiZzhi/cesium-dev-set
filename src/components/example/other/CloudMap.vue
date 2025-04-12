@@ -8,7 +8,9 @@
                     :key="item.label"
                     >{{ item.label }}</CommButton
                 >
-                <CommButton @click="clear" contentClass="clear">清除</CommButton>
+                <CommButton @click="clear" contentClass="clear"
+                    >清除</CommButton
+                >
             </div>
         </div>
     </CommPanel>
@@ -16,8 +18,9 @@
 
 <script setup lang="ts">
 import { ImageryLayer } from "cesium";
+import { onMounted } from "vue";
 
-let layer: ImageryLayer|undefined;
+let layer: ImageryLayer | undefined;
 // http://www.weather.com.cn/radar/ 云图来源
 const cloudList = [
     {
@@ -35,6 +38,11 @@ let p1 = webMercatorProjection.project(Cesium.Cartographic.fromDegrees(70, 4));
 let p2 = webMercatorProjection.project(
     Cesium.Cartographic.fromDegrees(140, 55)
 );
+
+onMounted(() => {
+    window.globalFunc.setChinaView(viewer);
+    changeLayer(cloudList[0].img);
+});
 
 function changeLayer(img: string) {
     layer && viewer.imageryLayers.remove(layer);

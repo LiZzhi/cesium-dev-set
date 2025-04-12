@@ -7,8 +7,8 @@
         class="model-panel-box"
     >
         <div class="model-panel">
-            <CommButton @click="">显示</CommButton>
-            <CommButton @click="" contentClass="clear">隐藏</CommButton>
+            <CommButton @click="layer.show = true">显示</CommButton>
+            <CommButton @click="layer.show = false" contentClass="clear">隐藏</CommButton>
         </div>
     </CommPanel>
 </template>
@@ -16,17 +16,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import MVTImageryProvider from "mvt-imagery-provider";
+import { ImageryLayer } from "cesium";
 
 const loading = ref(false);
+let layer: ImageryLayer
 
 onMounted(() => {
+    window.globalFunc.setChinaView(viewer);
     let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
     // https://github.com/hongfaqiu/MVTImageryProvider/tree/main
     MVTImageryProvider.fromUrl(
         "https://demotiles.maplibre.org/style.json"
     ).then((t) => {
         // @ts-ignore
-        viewer.imageryLayers.addImageryProvider(t);
+        layer = viewer.imageryLayers.addImageryProvider(t);
 
         handler.setInputAction((e: any) => {
             loading.value = true;

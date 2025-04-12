@@ -71,6 +71,7 @@ watch(hue, (v) => {
 })
 
 onMounted(() => {
+    window.globalFunc.setChinaView(viewer);
     layer = viewer.imageryLayers.get(0);
 });
 </script>
