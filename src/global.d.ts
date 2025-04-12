@@ -3,6 +3,7 @@ import * as T from "@turf/turf";
 import { Viewer } from "cesium";
 import heatmap from "@/thirdParty/heatmap/heatmap.js";
 import navigation from "@/thirdParty/cesiumNavigation/CesiumNavigation";
+import { globalFuncType } from "./utils/globalFunc";
 
 type publicConfig = {
     ip: Record<string, string>;
@@ -40,5 +41,6 @@ declare global {
         h337: typeof heatmap;
         CesiumNavigation: navigation;
         $config: publicConfig;
+        globalFunc: globalFuncType;
     }
 }

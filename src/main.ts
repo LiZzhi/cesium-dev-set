@@ -21,6 +21,9 @@ import "@/secdev/assets/style"
 import "@/thirdParty/script";
 import "@/thirdParty/style";
 
+// 引入全局变量
+import "@/utils/globalFunc"
+
 const app = createApp(App);
 
 app.use(router);
