@@ -1,27 +1,16 @@
-<template>
-    <CommPanel
-        title="模型部分可见"
-        class="modelpart-panel-box"
-    >
-        <div class="modelpart-panel">
-            <CommButton @click="drawRegion">绘制</CommButton>
-            <CommButton @click="partlyVisible.removeAll()" contentClass="clear">清空</CommButton>
-        </div>
-    </CommPanel>
-</template>
-
 <script setup lang="ts">
 import { onMounted } from "vue";
 import modelPartlyVisible from "@/secdev/other/modelPartlyVisible";
-import drawShape from "@/secdev/specialEffectPlot/plot/drawShape";
-
-let partlyVisible: modelPartlyVisible;
-let draw: drawShape;
 
 onMounted(() => {
-    partlyVisible = new modelPartlyVisible(viewer);
+    let partlyVisible = new modelPartlyVisible(viewer);
     partlyVisible.activate();
-    draw = new drawShape(viewer);
+    partlyVisible.addRegion([
+        new Cesium.Cartesian3(-1715407.8675213126, 4993484.191738727, 3566902.510973076),
+        new Cesium.Cartesian3(-1715469.6720405214, 4993462.806607712, 3566903.5084893424),
+        new Cesium.Cartesian3(-1715481.1135553163, 4993503.420120723, 3566843.528920003),
+        new Cesium.Cartesian3(-1715419.953447327, 4993522.282143085, 3566845.3555843113),
+    ])
 
     // 加载3DTileset
     viewer.flyTo(
@@ -32,14 +21,4 @@ onMounted(() => {
         )
     );
 });
-
-const drawRegion = ()=>{
-    draw.drawPolygon((positions)=>{
-        partlyVisible.addRegion(positions);
-    })
-}
 </script>
-
-<style lang="scss" scoped>
-@import "./assets/style/ModelPartlyVisible.scss";
-</style>
