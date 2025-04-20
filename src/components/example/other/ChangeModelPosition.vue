@@ -1,8 +1,67 @@
 <template>
     <CommPanel title="修改模型位置" class="posi-panel-box">
         <div class="posi-panel">
-            <p>左键点击模型，按提示对模型进行移动。</p>
-            <p>右键点击取消模型选中。</p>
+            <div class="btn-group">
+                <CommButton @click="nowSelect = '平移'">平移</CommButton>
+                <CommButton @click="nowSelect = '旋转'">旋转</CommButton>
+                <CommButton @click="nowSelect = '缩放'">缩放</CommButton>
+            </div>
+            <div class="status-panel">
+                <div v-if="nowSelect === '平移'">
+                    <div>当前操作：平移</div>
+                    <div class="contorl-box">
+                        <CommButton @click="changePosition('X轴', 1.0)"
+                            >X加1</CommButton
+                        >
+                        <CommButton @click="changePosition('X轴', -1.0)"
+                            >X减1</CommButton
+                        >
+                    </div>
+                    <div class="contorl-box">
+                        <CommButton @click="changePosition('Y轴', 1.0)"
+                            >Y加1</CommButton
+                        >
+                        <CommButton @click="changePosition('Y轴', -1.0)"
+                            >Y减1</CommButton
+                        >
+                    </div>
+                    <div class="contorl-box">
+                        <CommButton @click="changePosition('Z轴', 1.0)"
+                            >Z加1</CommButton
+                        >
+                        <CommButton @click="changePosition('Z轴', -1.0)"
+                            >Z减1</CommButton
+                        >
+                    </div>
+                </div>
+                <div v-if="nowSelect === '旋转'">
+                    <div>当前操作：旋转</div>
+                    <div class="contorl-box">
+                        <CommButton @click="changePosition('航向', 1.0)"
+                            >航向角度加1</CommButton
+                        >
+                        <CommButton @click="changePosition('航向', -1.0)"
+                            >航向角度减1</CommButton
+                        >
+                    </div>
+                    <div class="contorl-box">
+                        <CommButton @click="changePosition('俯仰', 1.0)"
+                            >俯仰角度加1</CommButton
+                        >
+                        <CommButton @click="changePosition('俯仰', -1.0)"
+                            >俯仰角度减1</CommButton
+                        >
+                    </div>
+                    <div class="contorl-box">
+                        <CommButton @click="changePosition('横滚', 1.0)"
+                            >横滚角度加1</CommButton
+                        >
+                        <CommButton @click="changePosition('横滚', -1.0)"
+                            >横滚角度减1</CommButton
+                        >
+                    </div>
+                </div>
+            </div>
         </div>
     </CommPanel>
 </template>
@@ -14,44 +73,45 @@ import {
     LabelCollection,
     Matrix4,
     PrimitiveCollection,
+    Geometry,
+    HeadingPitchRoll,
+    Quaternion,
+    Matrix3,
 } from "cesium";
-import { onMounted } from "vue";
+import { onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import edgeStage from "@/secdev/other/edgeStage";
+import modelEdit from "@/secdev/other/modelEdit";
 
-let center = Cesium.Cartesian3.fromDegrees(-73.975964, 40.700657, 0);
-let modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(center);
-let model = Cesium.Model.fromGltf({
-    url: require("./assets/gltf/CesiumMilkTruck.glb"),
-    scale: 50,
-    modelMatrix: modelMatrix,
-});
+let dataSources = new Cesium.CustomDataSource();
 
-let axisCollection: PrimitiveCollection;
-let axisLabels: LabelCollection;
+let me: modelEdit;
+let center = Cesium.Cartesian3.fromDegrees(-73.975964, 40.700657, 1000);
 
 let outlineStage: edgeStage;
 let select: any[] = [];
-let allowPickedId = ["X轴", "Y轴", "Z轴"];
 
-// 鼠标按下抬起事件，用来解决鼠标事件混乱BUG
-let leftTimer: NodeJS.Timeout;
-let rightTimer: NodeJS.Timeout;
+let nowSelect = ref("");
+let change = reactive({
+    transX: 0,
+    transY: 0,
+    transZ: 0,
+    heading: 0,
+    pitch: 0,
+    roll: 0,
+    scaleX: 0,
+    scaleY: 0,
+    scaleZ: 0,
+});
 
 onMounted(() => {
-    // 添加模型
-    viewer.scene.primitives.add(model);
-    // 添加坐标轴
-    axisCollection = viewer.scene.primitives.add(
-        new Cesium.PrimitiveCollection()
-    );
-    model.readyPromise.then(() => {
-        axisLabels = viewer.scene.primitives.add(
-            new Cesium.LabelCollection({
-                scene: viewer.scene,
-            })
-        );
-        createCoordinateAxis(center, model.boundingSphere.radius);
-    });
+    // 视角
+    // viewer.scene.screenSpaceCameraController.enableRotate = false; // 旋转
+    // viewer.scene.screenSpaceCameraController.enableTranslate = false; // 移动
+    // viewer.scene.screenSpaceCameraController.enableZoom = false; // 缩放
+    // 轴及其label集合
+    viewer.dataSources.add(dataSources);
+    // 创建
+    me = new modelEdit(viewer, center);
     // 选中
     outlineStage = new edgeStage(viewer, "outlineEffect", {
         visibleEdgeColor: Cesium.Color.fromCssColorString("#a8a8e0"),
@@ -59,13 +119,12 @@ onMounted(() => {
         outlineWidth: 1,
     });
     outlineStage.init();
-    eventHandler();
     // 设置视角
     viewer.camera.setView({
         destination: new Cesium.Cartesian3(
-            1337665.7691589727,
-            -4653491.511694918,
-            4139380.9028961486
+            1337953.1073636678,
+            -4654073.872827012,
+            4140358.1856669122
         ),
         orientation: new Cesium.HeadingPitchRoll(
             3.6828783162310987,
@@ -75,138 +134,246 @@ onMounted(() => {
     });
 });
 
-// 鼠标事件
-function eventHandler() {
-    let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
-    // 左键事件，用来选中轴及禁止屏幕事件
-    handler.setInputAction((e: any) => {
-        clearTimeout(leftTimer);
-        clearTimeout(rightTimer);
-        console.log(e, 1);
-        let mousePosition = e.position;
-        let picked = viewer.scene.pick(mousePosition);
-        if (picked && picked.primitive && allowPickedId.includes(picked.id)) {
-            let primitive = picked.primitive;
-            let pickIds = primitive._pickIds;
+watch(nowSelect, (v) => {
+    outlineStage.clearSelect();
+    if (v === "平移") {
+        createTransAxis(me.position, me.model.boundingSphere.radius);
+    } else if (v === "旋转") {
+        createRotateAxis(me.position, me.model.boundingSphere.radius);
+    }
+});
 
-            let pickId = pickIds.find((p: any) => {
-                return p.object === picked;
-            });
-
-            // 高亮选中轴
-            select = [pickId];
-            // outlineStage.clearSelect();
-            outlineStage.changeSelect(select);
-            // 禁止屏幕交互事件
-            changeInteraction(false);
-        }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-    // 右键事件，用来取消选中轴及恢复屏幕事件
-    handler.setInputAction((e: any) => {
-        // 取消选中轴
-        select = [];
-        outlineStage.clearSelect();
-        // 允许屏幕交互事件
-        changeInteraction(true);
-    }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
-    handler.setInputAction((e: any) => {
-        leftTimer = setTimeout(() => {
-            console.log(e, 2);
-        }, 200);
-    }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-    handler.setInputAction((e: any) => {
-        rightTimer = setTimeout(() => {
-            console.log(e, 3);
-        }, 200);
-    }, Cesium.ScreenSpaceEventType.LEFT_UP);
+function changePosition(id: string, step: number) {
+    outlineStage.clearSelect();
+    let pickPosition: Cartesian3;
+    switch (id) {
+        case "X轴":
+            change.transX += step;
+            me.transX = change.transX;
+            createTransAxis(me.position, me.model.boundingSphere.radius);
+            break;
+        case "Y轴":
+            change.transY += step;
+            me.transY = change.transY;
+            createTransAxis(me.position, me.model.boundingSphere.radius);
+            break;
+        case "Z轴":
+            change.transZ += step;
+            me.transZ = change.transZ;
+            createTransAxis(me.position, me.model.boundingSphere.radius);
+            break;
+        case "航向":
+            change.heading += step;
+            me.heading = change.heading;
+            createRotateAxis(me.position, me.model.boundingSphere.radius);
+            break;
+        case "俯仰":
+            change.pitch += step;
+            me.pitch = change.pitch;
+            createRotateAxis(me.position, me.model.boundingSphere.radius);
+            break;
+        case "横滚":
+            change.roll += step;
+            me.roll = change.roll;
+            createRotateAxis(me.position, me.model.boundingSphere.radius);
+            break;
+        default:
+            break;
+    }
+    highlightAxis(me.position, id);
+    outlineStage.changeSelect(select);
 }
 
-// 修改交互状态
-function changeInteraction(bool: boolean) {
-    viewer.scene.screenSpaceCameraController.enableRotate = bool; // 旋转
-    viewer.scene.screenSpaceCameraController.enableTranslate = bool; // 移动
-    viewer.scene.screenSpaceCameraController.enableZoom = bool; // 缩放
-}
-
-// 创建坐标轴
-function createCoordinateAxis(center: Cartesian3, radius: number) {
-    axisCollection.removeAll();
-    axisLabels.removeAll();
+function createTransAxis(position: Cartesian3, radius: number) {
+    dataSources.entities.removeAll();
     // 计算位移矩阵
-    let trans = Cesium.Transforms.eastNorthUpToFixedFrame(center);
+    let trans = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+    // 长度
+    let len = radius * 2;
     // 计算坐标轴
-    radius = radius * 2;
     let x = Cesium.Matrix4.multiplyByPoint(
         trans,
-        new Cesium.Cartesian3(radius, 0, 0),
+        new Cesium.Cartesian3(len, 0, 0),
         new Cesium.Cartesian3()
     );
     let y = Cesium.Matrix4.multiplyByPoint(
         trans,
-        new Cesium.Cartesian3(0, radius, 0),
+        new Cesium.Cartesian3(0, len, 0),
         new Cesium.Cartesian3()
     );
     let z = Cesium.Matrix4.multiplyByPoint(
         trans,
-        new Cesium.Cartesian3(0, 0, radius),
+        new Cesium.Cartesian3(0, 0, len),
         new Cesium.Cartesian3()
     );
     // X轴
-    const xAxis = createSingleAxis([center, x], "X轴", Cesium.Color.RED);
-    const xLabel = createSingleAxisLabel(x, "X轴", Cesium.Color.RED);
+    createSingleAxis([position, x], "X轴", Cesium.Color.RED);
     // Y轴
-    const yAxis = createSingleAxis([center, y], "Y轴", Cesium.Color.GREEN);
-    const yLabel = createSingleAxisLabel(y, "Y轴", Cesium.Color.GREEN);
+    createSingleAxis([position, y], "Y轴", Cesium.Color.GREEN);
     // Z轴
-    const zAxis = createSingleAxis([center, z], "Z轴", Cesium.Color.BLUE);
-    const zLabel = createSingleAxisLabel(z, "Z轴", Cesium.Color.BLUE);
-    axisCollection.add(xAxis);
-    axisCollection.add(yAxis);
-    axisCollection.add(zAxis);
-    axisLabels.add(xLabel);
-    axisLabels.add(yLabel);
-    axisLabels.add(zLabel);
+    createSingleAxis([position, z], "Z轴", Cesium.Color.BLUE);
 }
-// 创建单个坐标轴
+
+/**
+ * @description: 创建平移轴
+ * @param {Cartesian3} positions
+ * @param {string} id
+ * @param {Color} color
+ * @return {*}
+ */
 function createSingleAxis(positions: Cartesian3[], id: string, color: Color) {
-    return new Cesium.Primitive({
-        geometryInstances: new Cesium.GeometryInstance({
-            id: id,
-            geometry: new Cesium.PolylineGeometry({
-                positions: positions,
-                width: 10.0,
-            }),
-        }),
-        appearance: new Cesium.PolylineMaterialAppearance({
-            material: new Cesium.Material({
-                fabric: {
-                    type: Cesium.Material.PolylineArrowType,
-                    uniforms: {
-                        color: color,
-                    },
-                },
-            }),
-        }),
-    });
+    dataSources.entities.add({
+        id: id,
+        position: positions[1],
+        label: {
+            text: id,
+            font: "24px Helvetica",
+            fillColor: Cesium.Color.WHITE,
+            outlineColor: color,
+            outlineWidth: 1.0,
+            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            scale: 1.0,
+            style: Cesium.LabelStyle.FILL,
+        },
+        polyline : {
+            positions: positions,
+            width: 10.0,
+            material: new Cesium.PolylineArrowMaterialProperty(color)
+        }
+    })
 }
-// 创建坐标轴文本
-function createSingleAxisLabel(
+
+function createRotateAxis(position: Cartesian3, radius: number) {
+    axisCollection.removeAll();
+    axisLabels.removeAll();
+    // 创建局部ENU坐标系（用于获取方向向量）
+    let enuMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+    // 直径
+    let diameter = radius * 2;
+    // 获取局部坐标系基向量（单位向量）
+    const enuRotation = new Cesium.Matrix3();
+    Cesium.Matrix4.getRotation(enuMatrix, enuRotation);
+    const east = Cesium.Matrix3.getColumn(
+        enuRotation,
+        0,
+        new Cesium.Cartesian3()
+    ); // 东方向（X轴）
+    const north = Cesium.Matrix3.getColumn(
+        enuRotation,
+        1,
+        new Cesium.Cartesian3()
+    ); // 北方向（Y轴）
+    const up = Cesium.Matrix3.getColumn(
+        enuRotation,
+        2,
+        new Cesium.Cartesian3()
+    ); // 天顶方向（Z轴）
+
+    // createSingleRotate(
+    //     position,
+    //     diameter,
+    //     Cesium.Cartesian3.subtract(x, position, new Cesium.Cartesian3()),
+    //     "航向",
+    //     Cesium.Color.RED
+    // );
+    createSingleRotate(position, diameter, north, "俯仰", Cesium.Color.GREEN);
+    // createSingleRotate(
+    //     position,
+    //     diameter,
+    //     Cesium.Cartesian3.subtract(z, position, new Cesium.Cartesian3()),
+    //     "横滚",
+    //     Cesium.Color.BLUE
+    // );
+}
+
+/**
+ * @description: 创建旋转轴
+ * @param {*} position 圆心
+ * @param {*} diameter 直径
+ * @param {*} axis 旋转轴
+ * @param {*} id
+ * @param {*} color
+ * @return {*}
+ */
+function createSingleRotate(
     position: Cartesian3,
-    text: string,
+    diameter: number,
+    axis: Cartesian3,
+    id: string,
     color: Color
 ) {
-    return axisLabels.add({
-        text: text,
-        font: "24px Helvetica",
-        position: position,
-        fillColor: Cesium.Color.WHITE,
-        outlineColor: color,
-        outlineWidth: 1.0,
-        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        scale: 1.0,
-        style: Cesium.LabelStyle.FILL,
+    // 3. 创建旋转矩阵（
+    const rotationMatrix = Cesium.Matrix4.fromRotationTranslation(
+        Cesium.Matrix3.fromQuaternion(
+            Cesium.Quaternion.fromAxisAngle(axis, Cesium.Math.toRadians(90))
+        )
+    );
+
+    let p = axisCollection.add(
+        new Cesium.Primitive({
+            geometryInstances: new Cesium.GeometryInstance({
+                id: id,
+                geometry: Cesium.EllipseOutlineGeometry.createGeometry(
+                    new Cesium.EllipseOutlineGeometry({
+                        center: position,
+                        semiMajorAxis: diameter,
+                        semiMinorAxis: diameter,
+                        height: Cesium.Cartographic.fromCartesian(position)
+                            .height,
+                    })
+                ) as Geometry,
+                attributes: {
+                    color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+                        color
+                    ),
+                },
+                modelMatrix: rotationMatrix,
+            }),
+            asynchronous: false,
+            appearance: new Cesium.PerInstanceColorAppearance({
+                flat: true,
+                faceForward: true,
+                translucent: true,
+                closed: false,
+            }),
+        })
+    );
+    p.readyPromise.then(() => {
+        // @ts-ignore
+        let x = p._boundingSpheres[0];
+        console.log(x);
+
+        let e = viewer.entities.add({
+            position: x.center,
+            ellipsoid: {
+                radii: new Cesium.Cartesian3(x.radius, x.radius, x.radius),
+                material: Cesium.Color.RED.withAlpha(0.5),
+            },
+        });
+        console.log(e);
+        viewer.flyTo(e);
+        // @ts-ignore
+        window.e = e
     });
+
+    // @ts-ignore
+    window.p = p;
+}
+
+function highlightAxis(p: Cartesian3, id: string) {
+    // 必须 pick 了才能获取到 _pickIds
+    let pick = viewer.scene.drillPick(viewer.scene.cartesianToCanvasCoordinates(p));
+    console.log(pick);
+    if (pick?.length) {
+        for (let i = 0; i < pick.length; i++) {
+            const e = pick[i];
+            if (e.id?.id === id) {
+                console.log(e);
+                break;
+            }
+        }
+    }
 }
 </script>
 

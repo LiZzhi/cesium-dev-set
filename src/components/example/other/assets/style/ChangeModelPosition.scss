@@ -5,5 +5,21 @@
         position: relative;
         width: 100%;
         color: #fff;
+        .btn-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .status-panel {
+            position: relative;
+            margin-top: 10px;
+            .contorl-box {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                margin-top: 10px;
+            }
+        }
     }
 }
