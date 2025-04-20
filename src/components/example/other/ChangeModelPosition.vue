@@ -139,7 +139,7 @@ watch(nowSelect, (v) => {
     if (v === "平移") {
         createTransAxis(me.position, me.model.boundingSphere.radius);
     } else if (v === "旋转") {
-        createRotateAxis(me.position, me.model.boundingSphere.radius);
+        // createRotateAxis(me.position, me.model.boundingSphere.radius);
     }
 });
 
@@ -162,21 +162,21 @@ function changePosition(id: string, step: number) {
             me.transZ = change.transZ;
             createTransAxis(me.position, me.model.boundingSphere.radius);
             break;
-        case "航向":
-            change.heading += step;
-            me.heading = change.heading;
-            createRotateAxis(me.position, me.model.boundingSphere.radius);
-            break;
-        case "俯仰":
-            change.pitch += step;
-            me.pitch = change.pitch;
-            createRotateAxis(me.position, me.model.boundingSphere.radius);
-            break;
-        case "横滚":
-            change.roll += step;
-            me.roll = change.roll;
-            createRotateAxis(me.position, me.model.boundingSphere.radius);
-            break;
+        // case "航向":
+        //     change.heading += step;
+        //     me.heading = change.heading;
+        //     createRotateAxis(me.position, me.model.boundingSphere.radius);
+        //     break;
+        // case "俯仰":
+        //     change.pitch += step;
+        //     me.pitch = change.pitch;
+        //     createRotateAxis(me.position, me.model.boundingSphere.radius);
+        //     break;
+        // case "横滚":
+        //     change.roll += step;
+        //     me.roll = change.roll;
+        //     createRotateAxis(me.position, me.model.boundingSphere.radius);
+        //     break;
         default:
             break;
     }
@@ -244,132 +244,132 @@ function createSingleAxis(positions: Cartesian3[], id: string, color: Color) {
     })
 }
 
-function createRotateAxis(position: Cartesian3, radius: number) {
-    axisCollection.removeAll();
-    axisLabels.removeAll();
-    // 创建局部ENU坐标系（用于获取方向向量）
-    let enuMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
-    // 直径
-    let diameter = radius * 2;
-    // 获取局部坐标系基向量（单位向量）
-    const enuRotation = new Cesium.Matrix3();
-    Cesium.Matrix4.getRotation(enuMatrix, enuRotation);
-    const east = Cesium.Matrix3.getColumn(
-        enuRotation,
-        0,
-        new Cesium.Cartesian3()
-    ); // 东方向（X轴）
-    const north = Cesium.Matrix3.getColumn(
-        enuRotation,
-        1,
-        new Cesium.Cartesian3()
-    ); // 北方向（Y轴）
-    const up = Cesium.Matrix3.getColumn(
-        enuRotation,
-        2,
-        new Cesium.Cartesian3()
-    ); // 天顶方向（Z轴）
+// function createRotateAxis(position: Cartesian3, radius: number) {
+//     axisCollection.removeAll();
+//     axisLabels.removeAll();
+//     // 创建局部ENU坐标系（用于获取方向向量）
+//     let enuMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position);
+//     // 直径
+//     let diameter = radius * 2;
+//     // 获取局部坐标系基向量（单位向量）
+//     const enuRotation = new Cesium.Matrix3();
+//     Cesium.Matrix4.getRotation(enuMatrix, enuRotation);
+//     const east = Cesium.Matrix3.getColumn(
+//         enuRotation,
+//         0,
+//         new Cesium.Cartesian3()
+//     ); // 东方向（X轴）
+//     const north = Cesium.Matrix3.getColumn(
+//         enuRotation,
+//         1,
+//         new Cesium.Cartesian3()
+//     ); // 北方向（Y轴）
+//     const up = Cesium.Matrix3.getColumn(
+//         enuRotation,
+//         2,
+//         new Cesium.Cartesian3()
+//     ); // 天顶方向（Z轴）
 
-    // createSingleRotate(
-    //     position,
-    //     diameter,
-    //     Cesium.Cartesian3.subtract(x, position, new Cesium.Cartesian3()),
-    //     "航向",
-    //     Cesium.Color.RED
-    // );
-    createSingleRotate(position, diameter, north, "俯仰", Cesium.Color.GREEN);
-    // createSingleRotate(
-    //     position,
-    //     diameter,
-    //     Cesium.Cartesian3.subtract(z, position, new Cesium.Cartesian3()),
-    //     "横滚",
-    //     Cesium.Color.BLUE
-    // );
-}
+//     // createSingleRotate(
+//     //     position,
+//     //     diameter,
+//     //     Cesium.Cartesian3.subtract(x, position, new Cesium.Cartesian3()),
+//     //     "航向",
+//     //     Cesium.Color.RED
+//     // );
+//     createSingleRotate(position, diameter, north, "俯仰", Cesium.Color.GREEN);
+//     // createSingleRotate(
+//     //     position,
+//     //     diameter,
+//     //     Cesium.Cartesian3.subtract(z, position, new Cesium.Cartesian3()),
+//     //     "横滚",
+//     //     Cesium.Color.BLUE
+//     // );
+// }
 
-/**
- * @description: 创建旋转轴
- * @param {*} position 圆心
- * @param {*} diameter 直径
- * @param {*} axis 旋转轴
- * @param {*} id
- * @param {*} color
- * @return {*}
- */
-function createSingleRotate(
-    position: Cartesian3,
-    diameter: number,
-    axis: Cartesian3,
-    id: string,
-    color: Color
-) {
-    // 3. 创建旋转矩阵（
-    const rotationMatrix = Cesium.Matrix4.fromRotationTranslation(
-        Cesium.Matrix3.fromQuaternion(
-            Cesium.Quaternion.fromAxisAngle(axis, Cesium.Math.toRadians(90))
-        )
-    );
+// /**
+//  * @description: 创建旋转轴
+//  * @param {*} position 圆心
+//  * @param {*} diameter 直径
+//  * @param {*} axis 旋转轴
+//  * @param {*} id
+//  * @param {*} color
+//  * @return {*}
+//  */
+// function createSingleRotate(
+//     position: Cartesian3,
+//     diameter: number,
+//     axis: Cartesian3,
+//     id: string,
+//     color: Color
+// ) {
+//     // 3. 创建旋转矩阵（
+//     const rotationMatrix = Cesium.Matrix4.fromRotationTranslation(
+//         Cesium.Matrix3.fromQuaternion(
+//             Cesium.Quaternion.fromAxisAngle(axis, Cesium.Math.toRadians(90))
+//         )
+//     );
 
-    let p = axisCollection.add(
-        new Cesium.Primitive({
-            geometryInstances: new Cesium.GeometryInstance({
-                id: id,
-                geometry: Cesium.EllipseOutlineGeometry.createGeometry(
-                    new Cesium.EllipseOutlineGeometry({
-                        center: position,
-                        semiMajorAxis: diameter,
-                        semiMinorAxis: diameter,
-                        height: Cesium.Cartographic.fromCartesian(position)
-                            .height,
-                    })
-                ) as Geometry,
-                attributes: {
-                    color: Cesium.ColorGeometryInstanceAttribute.fromColor(
-                        color
-                    ),
-                },
-                modelMatrix: rotationMatrix,
-            }),
-            asynchronous: false,
-            appearance: new Cesium.PerInstanceColorAppearance({
-                flat: true,
-                faceForward: true,
-                translucent: true,
-                closed: false,
-            }),
-        })
-    );
-    p.readyPromise.then(() => {
-        // @ts-ignore
-        let x = p._boundingSpheres[0];
-        console.log(x);
+//     let p = axisCollection.add(
+//         new Cesium.Primitive({
+//             geometryInstances: new Cesium.GeometryInstance({
+//                 id: id,
+//                 geometry: Cesium.EllipseOutlineGeometry.createGeometry(
+//                     new Cesium.EllipseOutlineGeometry({
+//                         center: position,
+//                         semiMajorAxis: diameter,
+//                         semiMinorAxis: diameter,
+//                         height: Cesium.Cartographic.fromCartesian(position)
+//                             .height,
+//                     })
+//                 ) as Geometry,
+//                 attributes: {
+//                     color: Cesium.ColorGeometryInstanceAttribute.fromColor(
+//                         color
+//                     ),
+//                 },
+//                 modelMatrix: rotationMatrix,
+//             }),
+//             asynchronous: false,
+//             appearance: new Cesium.PerInstanceColorAppearance({
+//                 flat: true,
+//                 faceForward: true,
+//                 translucent: true,
+//                 closed: false,
+//             }),
+//         })
+//     );
+//     p.readyPromise.then(() => {
+//         // @ts-ignore
+//         let x = p._boundingSpheres[0];
+//         console.log(x);
 
-        let e = viewer.entities.add({
-            position: x.center,
-            ellipsoid: {
-                radii: new Cesium.Cartesian3(x.radius, x.radius, x.radius),
-                material: Cesium.Color.RED.withAlpha(0.5),
-            },
-        });
-        console.log(e);
-        viewer.flyTo(e);
-        // @ts-ignore
-        window.e = e
-    });
+//         let e = viewer.entities.add({
+//             position: x.center,
+//             ellipsoid: {
+//                 radii: new Cesium.Cartesian3(x.radius, x.radius, x.radius),
+//                 material: Cesium.Color.RED.withAlpha(0.5),
+//             },
+//         });
+//         console.log(e);
+//         viewer.flyTo(e);
+//         // @ts-ignore
+//         window.e = e
+//     });
 
-    // @ts-ignore
-    window.p = p;
-}
+//     // @ts-ignore
+//     window.p = p;
+// }
 
 function highlightAxis(p: Cartesian3, id: string) {
-    // 必须 pick 了才能获取到 _pickIds
     let pick = viewer.scene.drillPick(viewer.scene.cartesianToCanvasCoordinates(p));
-    console.log(pick);
     if (pick?.length) {
         for (let i = 0; i < pick.length; i++) {
             const e = pick[i];
             if (e.id?.id === id) {
-                console.log(e);
+                select.length = 0;
+                console.log(e.primitive._pickIds);
+                select = e.primitive._pickIds;
                 break;
             }
         }
