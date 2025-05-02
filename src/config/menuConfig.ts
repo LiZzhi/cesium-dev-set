@@ -687,6 +687,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/MvtLayer.vue"),
             },
             {
+                label: "ArcGISRest服务(4490)",
+                show: true,
+                img: require("@/assets/cover/other/arcgisMapServer4490.jpg"),
+                route: "ArcgisMapServer4490",
+                component: () => import("@/components/example/other/ArcgisMapServer4490.vue"),
+            },
+            {
                 label: "卫星云图",
                 show: true,
                 img: require("@/assets/cover/other/cloudMap.png"),

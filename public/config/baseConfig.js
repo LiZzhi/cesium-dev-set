@@ -20,6 +20,7 @@ const token = {
         "c12979f9caccfc2e24b822852976c264c3c33403a87bafd21b0f4eb2de4bd79e",
     MAPBOX_TOKEN:
         "pk.eyJ1IjoiMTg5NDY2NTY3MTIiLCJhIjoiY2t5YmMzc2NtMGRwbzJubjB4MTZxaW9xeSJ9.wOm82Obrzb9T375N7cSjdQ",
+    NANNING_TOKEN: "7d761ec5021f46238b81de9bb00dfb73",
 };
 
 const defaultDestination = [120.41574749368507, 36.01753343729183, 7000];
