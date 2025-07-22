@@ -6,6 +6,7 @@ import heatmap from "@/thirdParty/heatmap/heatmap.js";
 import echartsLayer from "@/thirdParty/echartsLayer/echartsLayer.js";
 import cesiumNavigation from "@/thirdParty/cesiumNavigation/CesiumNavigation"
 import CesiumResourceCacheExtend from "@/secdev/utils/CesiumResourceCacheExtend";
+import extendWindowConfig from "@/config/extendWindowConfig";
 
 window.Cesium = Cesium;
 window.mapv = mapv;
@@ -14,6 +15,8 @@ window.EchartsLayer = echartsLayer;
 window.turf = turf;
 window.h337 = heatmap;
 window.CesiumNavigation = cesiumNavigation;
+// 扩展全局配置
+extendWindowConfig();
 // 开启缓存扩展
 let cacheExtend = new CesiumResourceCacheExtend();
 cacheExtend.rules = ["*"];
