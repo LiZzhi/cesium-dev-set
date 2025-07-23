@@ -1,5 +1,5 @@
 import { viewerConfig } from "@/config/earthConfig";
-import { Viewer } from "cesium";
+import { Viewer, ScreenSpaceEventHandler } from "cesium";
 
 /**
  * @description: 初始化viewer
@@ -24,6 +24,7 @@ export function initViewer(id:string, option:Viewer.ConstructorOptions = {}) {
         )
     });
     createNavigation(viewer);
+    pickPosition(viewer);
     return viewer;
 }
 
@@ -52,4 +53,40 @@ function createNavigation(viewer: Viewer){
     const distanceDiv = navigation.distanceLegendDiv.querySelector(".distance-legend") as HTMLElement;
     distanceDiv.style.right = "20px";
     distanceDiv.style.backgroundColor = "black";
+}
+
+/**
+ * @description: 拾取坐标打印在控制台
+ * @param {Viewer} viewer
+ * @return {*}
+ */
+function pickPosition(viewer: Viewer) {
+    let handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    handler.setInputAction((e: any) => {
+        let depth = viewer.scene.globe.depthTestAgainstTerrain
+        viewer.scene.globe.depthTestAgainstTerrain = true;
+        let ray = viewer.camera.getPickRay(e.position);//获取一条射线
+        if (ray) {
+            let position = viewer.scene.globe.pick(ray, viewer.scene);
+            if (position) {
+                let radians = Cesium.Cartographic.fromCartesian(position);
+                let degrees = [
+                    Cesium.Math.toDegrees(radians.longitude),
+                    Cesium.Math.toDegrees(radians.latitude),
+                    radians.height
+                ];
+                console.log("笛卡尔坐标:", position);
+                console.log("经纬度坐标:", degrees);
+            }
+            console.log("当前视角", {
+                destination: viewer.camera.position,
+                orientation: new Cesium.HeadingPitchRoll(
+                    viewer.camera.heading,
+                    viewer.camera.pitch,
+                    viewer.camera.roll
+                )
+            });
+        viewer.scene.globe.depthTestAgainstTerrain = depth;
+        }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
