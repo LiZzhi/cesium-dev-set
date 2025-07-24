@@ -28,15 +28,12 @@ onMounted(() => {
             lightRadius: 1000,
         },
     ];
-    console.log(lightDataList);
     let option = modelPointLightSource(lightDataList);
     let tileset = new Cesium.Cesium3DTileset({
         url: window.$config.ip.BASE + "/data/baimo/tileset.json",
         maximumScreenSpaceError: 16,
     });
-    tileset.readyPromise.then(() => {
-        tileset.customShader = new Cesium.CustomShader(option!);
-    });
+    tileset.customShader = new Cesium.CustomShader(option!);
     let tileset2 = new Cesium.Cesium3DTileset({
         url: window.$config.ip.BASE + "/data/baimo/tileset.json",
         maximumScreenSpaceError: 16,

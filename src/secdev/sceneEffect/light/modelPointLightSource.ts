@@ -79,6 +79,4 @@ function createLightGlsl(p: string, c: string, r: string) {
             finalColor= mix(finalColor, a*${c}*b , 0.5);
         }\n
     `;
-
-
 }
