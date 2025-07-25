@@ -499,6 +499,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/sceneEffect/PointLightSource.vue"),
             },
             {
+                label: "点光源2",
+                show: true,
+                img: require("@/assets/cover/sceneEffect/pointLightSource2.png"),
+                route: "pointLightSource2",
+                component: () => import("@/components/example/sceneEffect/PointLightSource2.vue"),
+            },
+            {
                 label: "火焰特效",
                 show: true,
                 img: require("@/assets/cover/sceneEffect/fireParticle.png"),
