@@ -1,0 +1,20 @@
+.geojson-panel {
+    position: absolute;
+    left: 2%;
+    top: 2%;
+    z-index: 1;
+    display: flex;
+    gap: 10px;
+    width: 300px;
+    .title {
+        font-family: YouSheBiaoTiHei;
+        letter-spacing: 1px;
+        font-size: 16px;
+        color: #fff;
+        margin: 15px 0 5px 0;
+    }
+    .geojson-btns {
+        display: flex;
+        gap: 5px;
+    }
+}

@@ -729,6 +729,13 @@ const menu:menuConfigType[] = [
                 component: () => import("@/components/example/other/SplitLine.vue"),
             },
             {
+                label: "geojson编辑器",
+                show: true,
+                img: require("@/assets/cover/other/geojsonEdit.png"),
+                route: "geojsonEdit",
+                component: () => import("@/components/example/other/geojsonEdit/Index.vue"),
+            },
+            {
                 label: "分层分户",
                 show: true,
                 img: require("@/assets/cover/other/householdDivision.png"),

@@ -54,6 +54,7 @@ export default function loadJsonFile({ errFunc, endFunc }: loadParamsType) {
                 typeof errFunc === "function" && errFunc("文件损坏！");
             }
         };
+        $input.remove()
     };
     $input.click();
 }
